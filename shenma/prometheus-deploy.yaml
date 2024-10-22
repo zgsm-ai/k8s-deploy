@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: shenma
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+      - name: prometheus
+        image: quay.io/prometheus/prometheus:v2.54.0
+        args:
+          - --config.file=/etc/prometheus/prometheus.yml
+          - --storage.tsdb.path=/prometheus
+          - --storage.tsdb.retention.time=30d
+          - --storage.tsdb.retention.size=10GB
+          - --storage.tsdb.wal-compression
+          - --storage.tsdb.max-block-duration=2h
+        env:
+        - name: TZ
+          value: "Asia/Shanghai"
+        ports:
+        - containerPort: 9090
+        volumeMounts:
+        - name: prometheus-config
+          mountPath: /etc/prometheus/prometheus.yml
+          subPath: prometheus.yml
+        - name: prometheus-pvc
+          mountPath: /prometheus
+      volumes:
+      - name: prometheus-config
+        configMap:
+          name: prometheus-config
+      - name: prometheus-pvc
+        persistentVolumeClaim:
+          claimName: prometheus-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prometheus-pvc
+  namespace: shenma
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: shenma
+spec:
+  ports:
+  - port: 9090
+    targetPort: 9090
+  selector:
+    app: prometheus
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: shenma
+data:
+  prometheus.yml: |
+    global:
+      # By default, scrape targets every 15 seconds.
+      scrape_interval: 15s
+      # Attach these labels to any time series or alerts when communicating with
+      # external systems (federation, remote storage, Alertmanager).
+      external_labels:
+        stack: "apisix"
+
+    # A scrape configuration containing exactly one endpoint to scrape:
+    # Here it's Prometheus itself.
+    scrape_configs:
+      # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+      - job_name: "prometheus"
+        # Override the global default and scrape targets from this job every 5 seconds.
+        scrape_interval: 5s
+        static_configs:
+          - targets: ["localhost:9090"]
+      - job_name: "apisix"
+        scrape_interval: 5s
+        metrics_path: "/apisix/prometheus/metrics"
+        static_configs:
+          - targets: ["apisix:9091"]

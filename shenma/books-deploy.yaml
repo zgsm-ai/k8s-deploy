@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: books
+  namespace: shenma
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: books
+  template:
+    metadata:
+      labels:
+        app: books
+    spec:
+      containers:
+      - name: books
+        image: docker.io/nginx:1.27.1
+        env:
+        - name: TZ
+          value: "Asia/Shanghai"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: books-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        - name: books-pvc
+          mountPath: /var/www
+      volumes:
+      - name: books-config
+        configMap:
+          name: books-config
+      - name: books-pvc
+        persistentVolumeClaim:
+          claimName: books-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: books
+  namespace: shenma
+spec:
+  ports:
+  - port: 8080
+    targetPort: 80
+  selector:
+    app: books
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: books-pvc
+  namespace: shenma
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: books-config
+  namespace: shenma
+data:
+  nginx.conf: |
+    worker_processes 1;
+    error_log stderr notice;
+    events {
+        worker_connections 1024;
+    }
+
+    http {
+        variables_hash_max_size 1024;
+        access_log off;
+        real_ip_header X-Real-IP;
+        charset utf-8;
+
+        server {
+            listen 80;
+
+            root /var/www;
+            index index.html;
+
+            location / {
+                try_files $uri $uri/ =404;
+            }
+            
+            location /static/ {
+                alias static/;
+            }
+        }
+    }

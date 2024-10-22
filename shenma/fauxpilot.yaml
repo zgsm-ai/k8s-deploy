@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fauxpilot
+  namespace: shenma
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fauxpilot
+  template:
+    metadata:
+      labels:
+        app: fauxpilot
+    spec:
+      containers:
+      - name: fauxpilot
+        image: docker.sangfor.com/moyix/copilot_proxy:1.5.9
+        imagePullPolicy: IfNotPresent
+        command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5000"]
+        ports:
+        - containerPort: 5000
+        env:
+        - name: TZ
+          value: "Asia/Shanghai"
+        - name: THRESHOLD_SCORE
+          value: "0.3"
+        - name: STR_PATTERN
+          value: "import +.*|from +.*|from +.* import *.*"
+        - name: USER_CODE_UPLOAD_DELAY
+          value: "30"
+        - name: MAX_MODEL_COST_TIME
+          value: "3000"
+        - name: CONTEXT_LINES_LIMIT
+          value: "1000"
+        - name: SNIPPET_TOP_N
+          value: "0"
+        - name: MAX_MODEL_LEN
+          value: "4000,2000"
+        - name: MAX_TOKENS
+          value: "500"
+        - name: MULTI_LINE_STREAM_K
+          value: "6"
+        - name: ENABLE_REDIS
+          value: "False"
+        - name: REDIS_HOST
+          value: ""
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_DB
+          value: "0"
+        - name: REDIS_PWD
+          value: ""
+        - name: MAIN_MODEL_TYPE
+          value: "openai"
+        - name: OPENAI_MODEL_HOST
+          value: "http://172.16.254.5:32080/v1/completions"
+        - name: OPENAI_MODEL
+          value: "DeepSeek-Coder-V2-Lite-Base"
+        volumeMounts:
+        - name: fauxpilot-logs
+          mountPath: /python-docker/logs
+        - name: fauxpilot-common-py
+          mountPath: /python-docker/utils/common.py
+          subPath: fauxpilot-common.py
+      volumes:
+      - name: fauxpilot-logs
+        persistentVolumeClaim:
+          claimName: fauxpilot-logs
+      - name: fauxpilot-common-py
+        configMap:
+          name: fauxpilot-common-py
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fauxpilot
+  namespace: shenma
+spec:
+  ports:
+  - port: 5000
+    targetPort: 5000
+  selector:
+    app: fauxpilot
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fauxpilot-logs
+  namespace: shenma
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

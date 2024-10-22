@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: shenma
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: docker.io/postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: TZ
+          value: "Asia/Shanghai"
+        - name: POSTGRES_DB
+          value: "keycloak"
+        - name: POSTGRES_USER
+          value: "keycloak"
+        - name: POSTGRES_PASSWORD
+          value: "password"
+        volumeMounts:
+        - name: pgsql-storage
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: pgsql-storage
+        persistentVolumeClaim:
+          claimName: pgsql-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: shenma
+spec:
+  type: NodePort
+  ports:
+  - port: 5432
+    targetPort: 5432
+    nodePort: 20432    
+  selector:
+    app: postgres
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pgsql-pvc
+  namespace: shenma
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

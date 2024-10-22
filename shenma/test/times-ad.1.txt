@@ -1,0 +1,459 @@
+FILES: testdata/completion-ad.sh testdata/completion-aip.sh testdata/completion-auth.sh testdata/completion-cmp.sh testdata/completion-diff.sh testdata/completion-faux.sh testdata/completion-stress.sh testdata/ntc_sms_send.py testdata/send-sms.sh testdata/set-apisix.sh testdata/test-websocket.py testdata/websocket.py testdata/ws-cli.py
+PORTS: 32326
+testdata/completion-ad.sh
+sh completion-ad.sh 32326 testdata/completion-ad.sh
+ADDR: http://172.16.254.5:32326/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nTYPE=\"Content-Type: application/json\"\nHOST=\"172.16.254.5\"\nPORT=\"32080\"\nDATA='{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"#!/usr/bin/env python\\n# coding: utf-8\\n# author：钱锴19648(感谢大佬分享)\\nimport time\\nimport base64\\nfrom Crypto.Cipher import AES\\nimport requests\\ndef trace(rsp):\\n print\"\n}'\n\nif [ X\"$1\" != X\"\" ]; then\n PORT=\"$1\"\nfi\n\nif [ X\"$2\" != X\"\" ]; then\n DATA=`jq --arg newValue \"$(cat $2)\" '.prompt = $newValue' <<< '{\"model\": \"DeepSeek-Coder-V2-Lite-Base\",\"prompt\": \"\"}'`\nfi\n\necho ADDR: http://$HOST:$PORT/v1/completions\necho DATA: $DATA\n\ncurl -i http://$HOST:$PORT/v1/completions -H \"$TYPE\" -X POST -d \"$DATA\"\n\n# '{\n# \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n# \"prompt\": \"#!/usr/bin/env python\\n# coding: utf-8\\n# author：钱锴19648(感谢大佬分享)\\nimport time\\nimport base64\\nfrom Crypto.Cipher import AES\\nimport requests\\ndef trace(rsp):\\n print\"\n# }'" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  1365  100   295  100  1070   2630   9539 --:--:-- --:--:-- --:--:--  9553
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:16 GMT
+server: uvicorn
+content-length: 295
+content-type: application/json
+
+{"id":"cmpl-10c138c5c7e2488dbedacb97948c6a90","object":"text_completion","created":1729047436,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":365,"total_tokens":366,"completion_tokens":1}}
+real	0m0.124s
+user	0m0.004s
+sys	0m0.009s
+sh completion-ad.sh 32329 testdata/completion-ad.sh
+ADDR: http://172.16.254.5:32329/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nTYPE=\"Content-Type: application/json\"\nHOST=\"172.16.254.5\"\nPORT=\"32080\"\nDATA='{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"#!/usr/bin/env python\\n# coding: utf-8\\n# author：钱锴19648(感谢大佬分享)\\nimport time\\nimport base64\\nfrom Crypto.Cipher import AES\\nimport requests\\ndef trace(rsp):\\n print\"\n}'\n\nif [ X\"$1\" != X\"\" ]; then\n PORT=\"$1\"\nfi\n\nif [ X\"$2\" != X\"\" ]; then\n DATA=`jq --arg newValue \"$(cat $2)\" '.prompt = $newValue' <<< '{\"model\": \"DeepSeek-Coder-V2-Lite-Base\",\"prompt\": \"\"}'`\nfi\n\necho ADDR: http://$HOST:$PORT/v1/completions\necho DATA: $DATA\n\ncurl -i http://$HOST:$PORT/v1/completions -H \"$TYPE\" -X POST -d \"$DATA\"\n\n# '{\n# \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n# \"prompt\": \"#!/usr/bin/env python\\n# coding: utf-8\\n# author：钱锴19648(感谢大佬分享)\\nimport time\\nimport base64\\nfrom Crypto.Cipher import AES\\nimport requests\\ndef trace(rsp):\\n print\"\n# }'" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  1367  100   297  100  1070   2304   8303 --:--:-- --:--:-- --:--:--  8359
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:15 GMT
+server: uvicorn
+content-length: 297
+content-type: application/json
+
+{"id":"cmpl-8a143237b9414e4c8d7b3c12842695a2","object":"text_completion","created":1729047436,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\n","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":365,"total_tokens":367,"completion_tokens":2}}
+real	0m0.141s
+user	0m0.007s
+sys	0m0.006s
+testdata/completion-aip.sh
+sh completion-ad.sh 32326 testdata/completion-aip.sh
+ADDR: http://172.16.254.5:32326/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nTYPE=\"Content-Type: application/json\"\nHOST=\"10.72.1.16\"\nPORT=\"32322\"\n\nif [ X\"$1\" != X\"\" ]; then\n PORT=\"$1\"\nfi\n\necho ADDR: http://$HOST:$PORT/v1/completions\n\ncurl -i http://$HOST:$PORT/v1/completions -H \"$TYPE\" -X POST -d '{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"#!/usr/bin/env python\\n# coding: utf-8\\n# author：钱锴19648(感谢大佬分享)\\nimport time\\nimport base64\\nfrom Crypto.Cipher import AES\\nimport requests\\ndef trace(rsp):\\n print\"\n}'" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   884  100   297  100   587   2743   5423 --:--:-- --:--:-- --:--:--  5435
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:16 GMT
+server: uvicorn
+content-length: 297
+content-type: application/json
+
+{"id":"cmpl-4d9ece2e9af14a54a742ecc33c09b53b","object":"text_completion","created":1729047436,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\n","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":196,"total_tokens":198,"completion_tokens":2}}
+real	0m0.120s
+user	0m0.005s
+sys	0m0.008s
+sh completion-ad.sh 32329 testdata/completion-aip.sh
+ADDR: http://172.16.254.5:32329/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nTYPE=\"Content-Type: application/json\"\nHOST=\"10.72.1.16\"\nPORT=\"32322\"\n\nif [ X\"$1\" != X\"\" ]; then\n PORT=\"$1\"\nfi\n\necho ADDR: http://$HOST:$PORT/v1/completions\n\ncurl -i http://$HOST:$PORT/v1/completions -H \"$TYPE\" -X POST -d '{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"#!/usr/bin/env python\\n# coding: utf-8\\n# author：钱锴19648(感谢大佬分享)\\nimport time\\nimport base64\\nfrom Crypto.Cipher import AES\\nimport requests\\ndef trace(rsp):\\n print\"\n}'" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   884  100   297  100   587   2583   5106 --:--:-- --:--:-- --:--:--  5149
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:15 GMT
+server: uvicorn
+content-length: 297
+content-type: application/json
+
+{"id":"cmpl-14dee8b8975645839d5a09415a9510bc","object":"text_completion","created":1729047436,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\n","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":196,"total_tokens":198,"completion_tokens":2}}
+real	0m0.127s
+user	0m0.005s
+sys	0m0.008s
+testdata/completion-auth.sh
+sh completion-ad.sh 32326 testdata/completion-auth.sh
+ADDR: http://172.16.254.5:32326/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\n# 获取访问令牌\nCLIENT_ID=\"vscode\"\nCLIENT_SECRET=\"jFWyVy9wUKKSkX55TDBt2SuQWl7fDM1l\"\nTOKEN_ENDPOINT=\"https://zgsm.sangfor.com/realms/gw/protocol/openid-connect/token\"\nAUTHORIZATION_ENDPOINT=\"https://zgsm.sangfor.com/realms/gw/protocol/openid-connect/auth\"\nINFERENCE_ENDPOINT=\"https://zgsm.sangfor.com/v2/completions\"\nREDIRECT_URI=\"https://zgsm.sangfor.com/callback\"\nSCOPE=\"openid profile email\"\nSTATE=\"012345678\"\nFILE=\"./access_token\"\n\nACCESS_TOKEN=\"\"\nif [ -f \"$FILE\" ]; then\n # 读取文件内容到变量ACCESS_TOKEN中\n ACCESS_TOKEN=$(cat \"$FILE\")\nelse\n # 步骤1：获取授权码\n echo \"请在浏览器中打开以下URL并授权：\"\n AUTH_URL=\"${AUTHORIZATION_ENDPOINT}?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}&state=${STATE}\"\n echo $AUTH_URL\n\n # 提示用户输入授权码\n read -p \"请输入从重定向URL中获取的授权码: \" AUTH_CODE\n\n # 步骤2：使用授权码获取访问令牌\n RESPONSE=$(curl -k -s -X POST $TOKEN_ENDPOINT \\\n -H \"Content-Type: application/x-www-form-urlencoded\" \\\n -d \"grant_type=authorization_code\" \\\n -d \"client_id=$CLIENT_ID\" \\\n -d \"client_secret=$CLIENT_SECRET\" \\\n -d \"code=$AUTH_CODE\" \\\n -d \"redirect_uri=$REDIRECT_URI\")\n\n # 解析访问令牌\n ACCESS_TOKEN=$(echo $RESPONSE | jq -r '.access_token')\n\n # 检查是否成功获取访问令牌\n if [ \"$ACCESS_TOKEN\" == \"null\" ]; then\n echo \"获取访问令牌失败：$RESPONSE\"\n exit 1\n fi\n echo $ACCESS_TOKEN > ./access_token\nfi\n\necho \"访问令牌: $ACCESS_TOKEN\"\n\n# 使用访问令牌访问受保护的资源\n# 使用令牌发送请求\nRSP=`curl -k -i -X POST -H \"Authorization: Bearer $ACCESS_TOKEN\" -H \"Content-Type: application/json\" $INFERENCE_ENDPOINT -d '{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"def hello\"\n }'`\n\necho $RSP\necho $RSP | grep 'HTTP/1.1 401 Unauthorized' && echo Unauthorized, please remove ./access_token and retry it && exit 1\necho $RSP | grep 'HTTP/1.1 200' && echo Succeeded && exit 0" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  2561  100   350  100  2211    920   5814 --:--:-- --:--:-- --:--:--  5803100  2561  100   350  100  2211    919   5811 --:--:-- --:--:-- --:--:--  5803
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:16 GMT
+server: uvicorn
+content-length: 350
+content-type: application/json
+
+{"id":"cmpl-80883d3c9cc246b48be6be2f3b72bc28","object":"text_completion","created":1729047436,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\necho $RSP | grep 'Content-Type':'application/json;","logprobs":null,"finish_reason":"length","stop_reason":null}],"usage":{"prompt_tokens":738,"total_tokens":754,"completion_tokens":16}}
+real	0m0.393s
+user	0m0.008s
+sys	0m0.006s
+sh completion-ad.sh 32329 testdata/completion-auth.sh
+ADDR: http://172.16.254.5:32329/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\n# 获取访问令牌\nCLIENT_ID=\"vscode\"\nCLIENT_SECRET=\"jFWyVy9wUKKSkX55TDBt2SuQWl7fDM1l\"\nTOKEN_ENDPOINT=\"https://zgsm.sangfor.com/realms/gw/protocol/openid-connect/token\"\nAUTHORIZATION_ENDPOINT=\"https://zgsm.sangfor.com/realms/gw/protocol/openid-connect/auth\"\nINFERENCE_ENDPOINT=\"https://zgsm.sangfor.com/v2/completions\"\nREDIRECT_URI=\"https://zgsm.sangfor.com/callback\"\nSCOPE=\"openid profile email\"\nSTATE=\"012345678\"\nFILE=\"./access_token\"\n\nACCESS_TOKEN=\"\"\nif [ -f \"$FILE\" ]; then\n # 读取文件内容到变量ACCESS_TOKEN中\n ACCESS_TOKEN=$(cat \"$FILE\")\nelse\n # 步骤1：获取授权码\n echo \"请在浏览器中打开以下URL并授权：\"\n AUTH_URL=\"${AUTHORIZATION_ENDPOINT}?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}&state=${STATE}\"\n echo $AUTH_URL\n\n # 提示用户输入授权码\n read -p \"请输入从重定向URL中获取的授权码: \" AUTH_CODE\n\n # 步骤2：使用授权码获取访问令牌\n RESPONSE=$(curl -k -s -X POST $TOKEN_ENDPOINT \\\n -H \"Content-Type: application/x-www-form-urlencoded\" \\\n -d \"grant_type=authorization_code\" \\\n -d \"client_id=$CLIENT_ID\" \\\n -d \"client_secret=$CLIENT_SECRET\" \\\n -d \"code=$AUTH_CODE\" \\\n -d \"redirect_uri=$REDIRECT_URI\")\n\n # 解析访问令牌\n ACCESS_TOKEN=$(echo $RESPONSE | jq -r '.access_token')\n\n # 检查是否成功获取访问令牌\n if [ \"$ACCESS_TOKEN\" == \"null\" ]; then\n echo \"获取访问令牌失败：$RESPONSE\"\n exit 1\n fi\n echo $ACCESS_TOKEN > ./access_token\nfi\n\necho \"访问令牌: $ACCESS_TOKEN\"\n\n# 使用访问令牌访问受保护的资源\n# 使用令牌发送请求\nRSP=`curl -k -i -X POST -H \"Authorization: Bearer $ACCESS_TOKEN\" -H \"Content-Type: application/json\" $INFERENCE_ENDPOINT -d '{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"def hello\"\n }'`\n\necho $RSP\necho $RSP | grep 'HTTP/1.1 401 Unauthorized' && echo Unauthorized, please remove ./access_token and retry it && exit 1\necho $RSP | grep 'HTTP/1.1 200' && echo Succeeded && exit 0" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  2532  100   321  100  2211   1547  10656 --:--:-- --:--:-- --:--:-- 10681
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:16 GMT
+server: uvicorn
+content-length: 321
+content-type: application/json
+
+{"id":"cmpl-cde069f3e77c47c9acb40bffc6b971f9","object":"text_completion","created":1729047437,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\n\n# 显示请求结果\n","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":738,"total_tokens":747,"completion_tokens":9}}
+real	0m0.220s
+user	0m0.006s
+sys	0m0.008s
+testdata/completion-cmp.sh
+sh completion-ad.sh 32326 testdata/completion-cmp.sh
+ADDR: http://172.16.254.5:32326/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nFILES=`ls *.*`\nPORTS=(32326 32329)\n\necho FILES: $FILES\necho PORTS: $PORTS\n\nfor file in $FILES; do\n if [[ -f \"$file\" ]]; then\n echo $file\n for port in \"${PORTS[@]}\"; do\n echo sh completion-ad.sh $port $file\n time sh completion-ad.sh $port $file\n done\n fi\ndone" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   682  100   312  100   370    800    949 --:--:-- --:--:-- --:--:--   951
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:17 GMT
+server: uvicorn
+content-length: 312
+content-type: application/json
+
+{"id":"cmpl-3af28ab1c3d442eab5f93c574ec808b1","object":"text_completion","created":1729047437,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\n\n### EOF ###\n","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":113,"total_tokens":120,"completion_tokens":7}}
+real	0m0.403s
+user	0m0.006s
+sys	0m0.008s
+sh completion-ad.sh 32329 testdata/completion-cmp.sh
+ADDR: http://172.16.254.5:32329/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nFILES=`ls *.*`\nPORTS=(32326 32329)\n\necho FILES: $FILES\necho PORTS: $PORTS\n\nfor file in $FILES; do\n if [[ -f \"$file\" ]]; then\n echo $file\n for port in \"${PORTS[@]}\"; do\n echo sh completion-ad.sh $port $file\n time sh completion-ad.sh $port $file\n done\n fi\ndone" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   671  100   301  100   370   1376   1691 --:--:-- --:--:-- --:--:--  1697
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:17 GMT
+server: uvicorn
+content-length: 301
+content-type: application/json
+
+{"id":"cmpl-9d8164d2fd5c442b89c1b863d56456fb","object":"text_completion","created":1729047437,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\n\n\n","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":113,"total_tokens":117,"completion_tokens":4}}
+real	0m0.231s
+user	0m0.006s
+sys	0m0.007s
+testdata/completion-diff.sh
+sh completion-ad.sh 32326 testdata/completion-diff.sh
+ADDR: http://172.16.254.5:32326/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nFAUX_ADDR=\"http://10.200.101.5:30080/v2/completions\"\nAD_ADDR=\"http://172.16.254.5:32080/v1/completions\"\nAIP_ADDR=\"http://172.16.254.1:32322/v1/completions\"\nFILE=\"./access_token\"\n\nACCESS_TOKEN=\"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJCVS1HUWZvdjk5WnBXckhYbjRGMlZ3U1hXMzBqbTNaY3JFRFVEM1BiaGhBIn0.eyJleHAiOjE3MjY3OTkwNjQsImlhdCI6MTcyNjc5Nzg2NCwiYXV0aF90aW1lIjoxNzI2Nzk1MTU3LCJqdGkiOiI1ZTNmNThkNS0zYTg5LTQzYWEtYWQ2ZS00MWM2ZTI4ZGRlYmMiLCJpc3MiOiJodHRwczovL3pnc20uc2FuZ2Zvci5jb20vcmVhbG1zL2d3IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjMwYTA3NGE3LTM4ZTktNGY0Ny1iZWMwLTRlYjBlYmY3MjE2YSIsInR5cCI6IkJlYXJlciIsImF6cCI6InZzY29kZSIsInNlc3Npb25fc3RhdGUiOiIxNzIwZmI2NS03ZmRlLTQ0OGQtYTRmNC03MDQwOTdlNzE3NmEiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHBzOi8vemdzbS5zYW5nZm9yLmNvbSJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtZ3ciXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwaG9uZSBlbWFpbCBwcm9maWxlIiwic2lkIjoiMTcyMGZiNjUtN2ZkZS00NDhkLWE0ZjQtNzA0MDk3ZTcxNzZhIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ6YmMiLCJnaXZlbl9uYW1lIjoiIiwiZmFtaWx5X25hbWUiOiIiLCJlbWFpbCI6InpiY0BzYW5nZm9yLmNvbS5jbiJ9.HgOpfYXNlACy_AYwLp1ztVjMoYtojLwnkpwTpvb1j2KWJpzmRYNCJhkbNmA4MTmPfuZkEJUFX0tMnDP0zmSKCvoYrssVLZiA49xIz7N2kU-zXnwb5vOBjkb_cN4zr2vVve1Wc2zBenNicJkdXBRAYYkyTQ4KkqamchhZ_aDoqGuDxzVMcojMT5sJnPka2XU8Gv-2vtfab2xpIOF9CWaAbd44wBrNeyOwNOa4k3vDcjMsTBPt7hB4kmJIl55XqCLU6S9K7kCDP05J3EpogYSjU4vEtsT5rFP-NUo5RI7eiLN8v4fgCGFWX9Nv4O9PxyRCqVoa2NdhPYk24GptfZtNZQ\"\nif [ -f \"$FILE\" ]; then\n # 读取文件内容到变量ACCESS_TOKEN中\n ACCESS_TOKEN=$(cat \"$FILE\")\nfi\n\nAUTH=\"Authorization: Bearer $ACCESS_TOKEN\"\nTYPE=\"Content-Type: application/json\"\n\nRANDS=`< /dev/urandom tr -dc 'A-Za-z' | head -c 10`\nPROMPT=\"#!/usr/bin/env python\\n# coding: utf-8\\n\\nimport time\\nimport base64\\nfrom Crypto.Cipher import AES\\nimport requests\\n$RANDS=rsp\\ndef trace(rsp):\\n print\"\n\necho FAUXPILOT: $FAUX_ADDR\necho AD: $AD_ADDR\necho AUTH: $AUTH\necho PROMPT: \"$PROMPT\"\n\necho ------------------------------------------------------------------------------\ntime curl -i $FAUX_ADDR -H \"$AUTH\" -H \"$TYPE\" -X POST -d '{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"'\"$PROMPT\"'\"\n}'\n\necho ------------------------------------------------------------------------------\ntime curl -i $AD_ADDR -H \"$TYPE\" -X POST -d '{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"'\"$PROMPT\"'\"\n}'\n\n# time curl -i $AIP_ADDR -H \"$TYPE\" -X POST -d '{\n# \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n# \"prompt\": \"'\"$PROMPT\"'\"\n# }'" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  3130  100   299  100  2831   2643  25027 --:--:-- --:--:-- --:--:-- 25053100  3130  100   299  100  2831   2639  24987 --:--:-- --:--:-- --:--:-- 24833
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:18 GMT
+server: uvicorn
+content-length: 299
+content-type: application/json
+
+{"id":"cmpl-174bd4b647de42e2b82628cfb6f7a857","object":"text_completion","created":1729047438,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\n","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":1554,"total_tokens":1556,"completion_tokens":2}}
+real	0m0.126s
+user	0m0.009s
+sys	0m0.006s
+sh completion-ad.sh 32329 testdata/completion-diff.sh
+ADDR: http://172.16.254.5:32329/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nFAUX_ADDR=\"http://10.200.101.5:30080/v2/completions\"\nAD_ADDR=\"http://172.16.254.5:32080/v1/completions\"\nAIP_ADDR=\"http://172.16.254.1:32322/v1/completions\"\nFILE=\"./access_token\"\n\nACCESS_TOKEN=\"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJCVS1HUWZvdjk5WnBXckhYbjRGMlZ3U1hXMzBqbTNaY3JFRFVEM1BiaGhBIn0.eyJleHAiOjE3MjY3OTkwNjQsImlhdCI6MTcyNjc5Nzg2NCwiYXV0aF90aW1lIjoxNzI2Nzk1MTU3LCJqdGkiOiI1ZTNmNThkNS0zYTg5LTQzYWEtYWQ2ZS00MWM2ZTI4ZGRlYmMiLCJpc3MiOiJodHRwczovL3pnc20uc2FuZ2Zvci5jb20vcmVhbG1zL2d3IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjMwYTA3NGE3LTM4ZTktNGY0Ny1iZWMwLTRlYjBlYmY3MjE2YSIsInR5cCI6IkJlYXJlciIsImF6cCI6InZzY29kZSIsInNlc3Npb25fc3RhdGUiOiIxNzIwZmI2NS03ZmRlLTQ0OGQtYTRmNC03MDQwOTdlNzE3NmEiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHBzOi8vemdzbS5zYW5nZm9yLmNvbSJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtZ3ciXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwaG9uZSBlbWFpbCBwcm9maWxlIiwic2lkIjoiMTcyMGZiNjUtN2ZkZS00NDhkLWE0ZjQtNzA0MDk3ZTcxNzZhIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ6YmMiLCJnaXZlbl9uYW1lIjoiIiwiZmFtaWx5X25hbWUiOiIiLCJlbWFpbCI6InpiY0BzYW5nZm9yLmNvbS5jbiJ9.HgOpfYXNlACy_AYwLp1ztVjMoYtojLwnkpwTpvb1j2KWJpzmRYNCJhkbNmA4MTmPfuZkEJUFX0tMnDP0zmSKCvoYrssVLZiA49xIz7N2kU-zXnwb5vOBjkb_cN4zr2vVve1Wc2zBenNicJkdXBRAYYkyTQ4KkqamchhZ_aDoqGuDxzVMcojMT5sJnPka2XU8Gv-2vtfab2xpIOF9CWaAbd44wBrNeyOwNOa4k3vDcjMsTBPt7hB4kmJIl55XqCLU6S9K7kCDP05J3EpogYSjU4vEtsT5rFP-NUo5RI7eiLN8v4fgCGFWX9Nv4O9PxyRCqVoa2NdhPYk24GptfZtNZQ\"\nif [ -f \"$FILE\" ]; then\n # 读取文件内容到变量ACCESS_TOKEN中\n ACCESS_TOKEN=$(cat \"$FILE\")\nfi\n\nAUTH=\"Authorization: Bearer $ACCESS_TOKEN\"\nTYPE=\"Content-Type: application/json\"\n\nRANDS=`< /dev/urandom tr -dc 'A-Za-z' | head -c 10`\nPROMPT=\"#!/usr/bin/env python\\n# coding: utf-8\\n\\nimport time\\nimport base64\\nfrom Crypto.Cipher import AES\\nimport requests\\n$RANDS=rsp\\ndef trace(rsp):\\n print\"\n\necho FAUXPILOT: $FAUX_ADDR\necho AD: $AD_ADDR\necho AUTH: $AUTH\necho PROMPT: \"$PROMPT\"\n\necho ------------------------------------------------------------------------------\ntime curl -i $FAUX_ADDR -H \"$AUTH\" -H \"$TYPE\" -X POST -d '{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"'\"$PROMPT\"'\"\n}'\n\necho ------------------------------------------------------------------------------\ntime curl -i $AD_ADDR -H \"$TYPE\" -X POST -d '{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"'\"$PROMPT\"'\"\n}'\n\n# time curl -i $AIP_ADDR -H \"$TYPE\" -X POST -d '{\n# \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n# \"prompt\": \"'\"$PROMPT\"'\"\n# }'" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  3128  100   297  100  2831   2588  24669 --:--:-- --:--:-- --:--:-- 24833
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:17 GMT
+server: uvicorn
+content-length: 297
+content-type: application/json
+
+{"id":"cmpl-029eba6d0bb9468aa0591ded7d64e7c0","object":"text_completion","created":1729047438,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":1554,"total_tokens":1555,"completion_tokens":1}}
+real	0m0.127s
+user	0m0.004s
+sys	0m0.010s
+testdata/completion-faux.sh
+sh completion-ad.sh 32326 testdata/completion-faux.sh
+ADDR: http://172.16.254.5:32326/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nFAUX_ADDR=\"http://zgsm.sangfor.com/v2/completions\"\nFILE=\"./access_token\"\n\nACCESS_TOKEN=\"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJCVS1HUWZvdjk5WnBXckhYbjRGMlZ3U1hXMzBqbTNaY3JFRFVEM1BiaGhBIn0.eyJleHAiOjE3MjY3OTkwNjQsImlhdCI6MTcyNjc5Nzg2NCwiYXV0aF90aW1lIjoxNzI2Nzk1MTU3LCJqdGkiOiI1ZTNmNThkNS0zYTg5LTQzYWEtYWQ2ZS00MWM2ZTI4ZGRlYmMiLCJpc3MiOiJodHRwczovL3pnc20uc2FuZ2Zvci5jb20vcmVhbG1zL2d3IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjMwYTA3NGE3LTM4ZTktNGY0Ny1iZWMwLTRlYjBlYmY3MjE2YSIsInR5cCI6IkJlYXJlciIsImF6cCI6InZzY29kZSIsInNlc3Npb25fc3RhdGUiOiIxNzIwZmI2NS03ZmRlLTQ0OGQtYTRmNC03MDQwOTdlNzE3NmEiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHBzOi8vemdzbS5zYW5nZm9yLmNvbSJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtZ3ciXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwaG9uZSBlbWFpbCBwcm9maWxlIiwic2lkIjoiMTcyMGZiNjUtN2ZkZS00NDhkLWE0ZjQtNzA0MDk3ZTcxNzZhIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ6YmMiLCJnaXZlbl9uYW1lIjoiIiwiZmFtaWx5X25hbWUiOiIiLCJlbWFpbCI6InpiY0BzYW5nZm9yLmNvbS5jbiJ9.HgOpfYXNlACy_AYwLp1ztVjMoYtojLwnkpwTpvb1j2KWJpzmRYNCJhkbNmA4MTmPfuZkEJUFX0tMnDP0zmSKCvoYrssVLZiA49xIz7N2kU-zXnwb5vOBjkb_cN4zr2vVve1Wc2zBenNicJkdXBRAYYkyTQ4KkqamchhZ_aDoqGuDxzVMcojMT5sJnPka2XU8Gv-2vtfab2xpIOF9CWaAbd44wBrNeyOwNOa4k3vDcjMsTBPt7hB4kmJIl55XqCLU6S9K7kCDP05J3EpogYSjU4vEtsT5rFP-NUo5RI7eiLN8v4fgCGFWX9Nv4O9PxyRCqVoa2NdhPYk24GptfZtNZQ\"\nif [ -f \"$FILE\" ]; then\n # 读取文件内容到变量ACCESS_TOKEN中\n ACCESS_TOKEN=$(cat \"$FILE\")\nfi\n\nAUTH=\"Authorization: Bearer $ACCESS_TOKEN\"\nTYPE=\"Content-Type: application/json\"\nDATA='{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"def \"\n}'\n\nif [ X\"$1\" != X\"\" ]; then\n DATA=`jq --arg newValue \"$(cat $1)\" '.prompt = $newValue' <<< '{\"model\": \"DeepSeek-Coder-V2-Lite-Base\",\"prompt\": \"\"}'`\nfi\n\necho FAUXPILOT: $FAUX_ADDR\necho AUTH: $AUTH\necho DATA: \"$DATA\"\n\ncurl -k -i $FAUX_ADDR -H \"$AUTH\" -H \"$TYPE\" -X POST -d \"$DATA\"" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  2486  100   299  100  2187   2655  19425 --:--:-- --:--:-- --:--:-- 19526
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:18 GMT
+server: uvicorn
+content-length: 299
+content-type: application/json
+
+{"id":"cmpl-3e5b6e4aaddb4ffcb12d7463ca4ee961","object":"text_completion","created":1729047438,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\n","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":1320,"total_tokens":1322,"completion_tokens":2}}
+real	0m0.125s
+user	0m0.001s
+sys	0m0.013s
+sh completion-ad.sh 32329 testdata/completion-faux.sh
+ADDR: http://172.16.254.5:32329/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nFAUX_ADDR=\"http://zgsm.sangfor.com/v2/completions\"\nFILE=\"./access_token\"\n\nACCESS_TOKEN=\"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJCVS1HUWZvdjk5WnBXckhYbjRGMlZ3U1hXMzBqbTNaY3JFRFVEM1BiaGhBIn0.eyJleHAiOjE3MjY3OTkwNjQsImlhdCI6MTcyNjc5Nzg2NCwiYXV0aF90aW1lIjoxNzI2Nzk1MTU3LCJqdGkiOiI1ZTNmNThkNS0zYTg5LTQzYWEtYWQ2ZS00MWM2ZTI4ZGRlYmMiLCJpc3MiOiJodHRwczovL3pnc20uc2FuZ2Zvci5jb20vcmVhbG1zL2d3IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjMwYTA3NGE3LTM4ZTktNGY0Ny1iZWMwLTRlYjBlYmY3MjE2YSIsInR5cCI6IkJlYXJlciIsImF6cCI6InZzY29kZSIsInNlc3Npb25fc3RhdGUiOiIxNzIwZmI2NS03ZmRlLTQ0OGQtYTRmNC03MDQwOTdlNzE3NmEiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHBzOi8vemdzbS5zYW5nZm9yLmNvbSJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtZ3ciXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwaG9uZSBlbWFpbCBwcm9maWxlIiwic2lkIjoiMTcyMGZiNjUtN2ZkZS00NDhkLWE0ZjQtNzA0MDk3ZTcxNzZhIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ6YmMiLCJnaXZlbl9uYW1lIjoiIiwiZmFtaWx5X25hbWUiOiIiLCJlbWFpbCI6InpiY0BzYW5nZm9yLmNvbS5jbiJ9.HgOpfYXNlACy_AYwLp1ztVjMoYtojLwnkpwTpvb1j2KWJpzmRYNCJhkbNmA4MTmPfuZkEJUFX0tMnDP0zmSKCvoYrssVLZiA49xIz7N2kU-zXnwb5vOBjkb_cN4zr2vVve1Wc2zBenNicJkdXBRAYYkyTQ4KkqamchhZ_aDoqGuDxzVMcojMT5sJnPka2XU8Gv-2vtfab2xpIOF9CWaAbd44wBrNeyOwNOa4k3vDcjMsTBPt7hB4kmJIl55XqCLU6S9K7kCDP05J3EpogYSjU4vEtsT5rFP-NUo5RI7eiLN8v4fgCGFWX9Nv4O9PxyRCqVoa2NdhPYk24GptfZtNZQ\"\nif [ -f \"$FILE\" ]; then\n # 读取文件内容到变量ACCESS_TOKEN中\n ACCESS_TOKEN=$(cat \"$FILE\")\nfi\n\nAUTH=\"Authorization: Bearer $ACCESS_TOKEN\"\nTYPE=\"Content-Type: application/json\"\nDATA='{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"def \"\n}'\n\nif [ X\"$1\" != X\"\" ]; then\n DATA=`jq --arg newValue \"$(cat $1)\" '.prompt = $newValue' <<< '{\"model\": \"DeepSeek-Coder-V2-Lite-Base\",\"prompt\": \"\"}'`\nfi\n\necho FAUXPILOT: $FAUX_ADDR\necho AUTH: $AUTH\necho DATA: \"$DATA\"\n\ncurl -k -i $FAUX_ADDR -H \"$AUTH\" -H \"$TYPE\" -X POST -d \"$DATA\"" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  2486  100   299  100  2187   2168  15857 --:--:-- --:--:-- --:--:-- 15963
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:17 GMT
+server: uvicorn
+content-length: 299
+content-type: application/json
+
+{"id":"cmpl-88f70767d29c4810ada3c7a46b98fa09","object":"text_completion","created":1729047438,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\n","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":1320,"total_tokens":1322,"completion_tokens":2}}
+real	0m0.150s
+user	0m0.008s
+sys	0m0.006s
+testdata/completion-stress.sh
+sh completion-ad.sh 32326 testdata/completion-stress.sh
+ADDR: http://172.16.254.5:32326/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nAUTH=\"Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJCVS1HUWZvdjk5WnBXckhYbjRGMlZ3U1hXMzBqbTNaY3JFRFVEM1BiaGhBIn0.eyJleHAiOjE3MjY4MTQzNTksImlhdCI6MTcyNjgxMzE1OSwiYXV0aF90aW1lIjoxNzI2ODEzMTUzLCJqdGkiOiJhZGVmZGYxOS0xZjJkLTRiOTgtODI4MS1hOTU3ZjkzNGFjMGEiLCJpc3MiOiJodHRwczovL3pnc20uc2FuZ2Zvci5jb20vcmVhbG1zL2d3IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjMwYTA3NGE3LTM4ZTktNGY0Ny1iZWMwLTRlYjBlYmY3MjE2YSIsInR5cCI6IkJlYXJlciIsImF6cCI6InZzY29kZSIsInNlc3Npb25fc3RhdGUiOiJkYzBjZWNkMi0zZDI1LTQ1NzYtYTYwNC0zNDZjZTg1OTAwMzEiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHBzOi8vemdzbS5zYW5nZm9yLmNvbSJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtZ3ciXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwaG9uZSBlbWFpbCBwcm9maWxlIiwic2lkIjoiZGMwY2VjZDItM2QyNS00NTc2LWE2MDQtMzQ2Y2U4NTkwMDMxIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ6YmMiLCJnaXZlbl9uYW1lIjoiIiwiZmFtaWx5X25hbWUiOiIiLCJlbWFpbCI6InpiY0BzYW5nZm9yLmNvbS5jbiJ9.WjSda_CNkoeMG8EoLtM1RCbc4uyO13ez_Yvy3XngQeuUJTAvgEohM2Dgh1n5PVOiZCp37J7HWDOjYY131i1PcB3_MkBDjQl1j2bCwpuSx70S8-uPt3vhhrFRf6aCNCfV__GjXblBOfjsOO1OJrEQVDRCZFhNso3XUYx5HUerf-Ye2RRP17NlgeIVJ04tIBn_VHHQkKjWOiGAQ71oHsXpslpulTbs8l-ZeoNni99RgFO_maV9LHXy7JVmj3ksg1X9N53Kw3JnWE-do3UCPoaEP9awnYh3QLkkVPUzBy9QPh-FiKaHGJxwJkCpQ-AuqzAopfEqRreBb3OFYjKrcxHhLw\"\nTYPE=\"Content-Type: application/json\"\n\nFAUX_ADDR=\"http://10.200.101.5:30080/v1/completions\"\n\nfor i in {1..10}\ndo\n curl -i $FAUX_ADDR -H \"$AUTH\" -H \"$TYPE\" -X POST -d '{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"#!/bin/sh\\n\\nAUTH=\\\"Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJCVS1HUWZvdjk5WnBXckhYbjRGMlZ3U1hXMzBqbTNaY3JFRFVEM1BiaGhBIn0.eyJleHAiOjE3MjY3OTkwNjQsImlhdCI6MTcyNjc5Nzg2NCwiYXV0aF90aW1lIjoxNzI2Nzk1MTU3LCJqdGkiOiI1ZTNmNThkNS0zYTg5LTQzYWEtYWQ2ZS00MWM2ZTI4ZGRlYmMiLCJpc3MiOiJodHRwczovL3pnc20uc2FuZ2Zvci5jb20vcmVhbG1zL2d3IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjMwYTA3NGE3LTM4ZTktNGY0Ny1iZWMwLTRlYjBlYmY3MjE2YSIsInR5cCI6IkJlYXJlciIsImF6cCI6InZzY29kZSIsInNlc3Npb25fc3RhdGUiOiIxNzIwZmI2NS03ZmRlLTQ0OGQtYTRmNC03MDQwOTdlNzE3NmEiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHBzOi8vemdzbS5zYW5nZm9yLmNvbSJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtZ3ciXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwaG9uZSBlbWFpbCBwcm9maWxlIiwic2lkIjoiMTcyMGZiNjUtN2ZkZS00NDhkLWE0ZjQtNzA0MDk3ZTcxNzZhIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ6YmMiLCJnaXZlbl9uYW1lIjoiIiwiZmFtaWx5X25hbWUiOiIiLCJlbWFpbCI6InpiY0BzYW5nZm9yLmNvbS5jbiJ9.HgOpfYXNlACy_AYwLp1ztVjMoYtojLwnkpwTpvb1j2KWJpzmRYNCJhkbNmA4MTmPfuZkEJUFX0tMnDP0zmSKCvoYrssVLZiA49xIz7N2kU-zXnwb5vOBjkb_cN4zr2vVve1Wc2zBenNicJkdXBRAYYkyTQ4KkqamchhZ_aDoqGuDxzVMcojMT5sJnPka2XU8Gv-2vtfab2xpIOF9CWaAbd44wBrNeyOwNOa4k3vDcjMsTBPt7hB4kmJIl55XqCLU6S9K7kCDP05J3EpogYSjU4vEtsT5rFP-NUo5RI7eiLN8v4fgCGFWX9Nv4O9PxyRCqVoa2NdhPYk24GptfZtNZQ\\\"\\nTYPE=\\\"Content-Type: application/json\\\"\\n\\nFAUX_ADDR=\\\"http://10.200.101.5:30080/v1/completions\\\"\\nAD_ADDR=\\\"http://172.16.254.5:32322/v1/completions\\\"\\nAIP_ADDR=\\\"http://172.16.254.1:32322/v1/completions\\\"\\n\\ntime curl -i $FAUX_ADDR -H \\\"$AUTH\\\" -H \\\"$TYPE\\\" -X POST \"\n }' &\ndone\n\nwait" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  3870  100   297  100  3573   1968  23680 --:--:-- --:--:-- --:--:-- 23820
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:18 GMT
+server: uvicorn
+content-length: 297
+content-type: application/json
+
+{"id":"cmpl-8b9e59dd83b847d79607e7d8f2a96ee5","object":"text_completion","created":1729047438,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":2432,"total_tokens":2433,"completion_tokens":1}}
+real	0m0.163s
+user	0m0.009s
+sys	0m0.005s
+sh completion-ad.sh 32329 testdata/completion-stress.sh
+ADDR: http://172.16.254.5:32329/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nAUTH=\"Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJCVS1HUWZvdjk5WnBXckhYbjRGMlZ3U1hXMzBqbTNaY3JFRFVEM1BiaGhBIn0.eyJleHAiOjE3MjY4MTQzNTksImlhdCI6MTcyNjgxMzE1OSwiYXV0aF90aW1lIjoxNzI2ODEzMTUzLCJqdGkiOiJhZGVmZGYxOS0xZjJkLTRiOTgtODI4MS1hOTU3ZjkzNGFjMGEiLCJpc3MiOiJodHRwczovL3pnc20uc2FuZ2Zvci5jb20vcmVhbG1zL2d3IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjMwYTA3NGE3LTM4ZTktNGY0Ny1iZWMwLTRlYjBlYmY3MjE2YSIsInR5cCI6IkJlYXJlciIsImF6cCI6InZzY29kZSIsInNlc3Npb25fc3RhdGUiOiJkYzBjZWNkMi0zZDI1LTQ1NzYtYTYwNC0zNDZjZTg1OTAwMzEiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHBzOi8vemdzbS5zYW5nZm9yLmNvbSJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtZ3ciXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwaG9uZSBlbWFpbCBwcm9maWxlIiwic2lkIjoiZGMwY2VjZDItM2QyNS00NTc2LWE2MDQtMzQ2Y2U4NTkwMDMxIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ6YmMiLCJnaXZlbl9uYW1lIjoiIiwiZmFtaWx5X25hbWUiOiIiLCJlbWFpbCI6InpiY0BzYW5nZm9yLmNvbS5jbiJ9.WjSda_CNkoeMG8EoLtM1RCbc4uyO13ez_Yvy3XngQeuUJTAvgEohM2Dgh1n5PVOiZCp37J7HWDOjYY131i1PcB3_MkBDjQl1j2bCwpuSx70S8-uPt3vhhrFRf6aCNCfV__GjXblBOfjsOO1OJrEQVDRCZFhNso3XUYx5HUerf-Ye2RRP17NlgeIVJ04tIBn_VHHQkKjWOiGAQ71oHsXpslpulTbs8l-ZeoNni99RgFO_maV9LHXy7JVmj3ksg1X9N53Kw3JnWE-do3UCPoaEP9awnYh3QLkkVPUzBy9QPh-FiKaHGJxwJkCpQ-AuqzAopfEqRreBb3OFYjKrcxHhLw\"\nTYPE=\"Content-Type: application/json\"\n\nFAUX_ADDR=\"http://10.200.101.5:30080/v1/completions\"\n\nfor i in {1..10}\ndo\n curl -i $FAUX_ADDR -H \"$AUTH\" -H \"$TYPE\" -X POST -d '{\n \"model\": \"DeepSeek-Coder-V2-Lite-Base\",\n \"prompt\": \"#!/bin/sh\\n\\nAUTH=\\\"Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJCVS1HUWZvdjk5WnBXckhYbjRGMlZ3U1hXMzBqbTNaY3JFRFVEM1BiaGhBIn0.eyJleHAiOjE3MjY3OTkwNjQsImlhdCI6MTcyNjc5Nzg2NCwiYXV0aF90aW1lIjoxNzI2Nzk1MTU3LCJqdGkiOiI1ZTNmNThkNS0zYTg5LTQzYWEtYWQ2ZS00MWM2ZTI4ZGRlYmMiLCJpc3MiOiJodHRwczovL3pnc20uc2FuZ2Zvci5jb20vcmVhbG1zL2d3IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjMwYTA3NGE3LTM4ZTktNGY0Ny1iZWMwLTRlYjBlYmY3MjE2YSIsInR5cCI6IkJlYXJlciIsImF6cCI6InZzY29kZSIsInNlc3Npb25fc3RhdGUiOiIxNzIwZmI2NS03ZmRlLTQ0OGQtYTRmNC03MDQwOTdlNzE3NmEiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHBzOi8vemdzbS5zYW5nZm9yLmNvbSJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtZ3ciXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwaG9uZSBlbWFpbCBwcm9maWxlIiwic2lkIjoiMTcyMGZiNjUtN2ZkZS00NDhkLWE0ZjQtNzA0MDk3ZTcxNzZhIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ6YmMiLCJnaXZlbl9uYW1lIjoiIiwiZmFtaWx5X25hbWUiOiIiLCJlbWFpbCI6InpiY0BzYW5nZm9yLmNvbS5jbiJ9.HgOpfYXNlACy_AYwLp1ztVjMoYtojLwnkpwTpvb1j2KWJpzmRYNCJhkbNmA4MTmPfuZkEJUFX0tMnDP0zmSKCvoYrssVLZiA49xIz7N2kU-zXnwb5vOBjkb_cN4zr2vVve1Wc2zBenNicJkdXBRAYYkyTQ4KkqamchhZ_aDoqGuDxzVMcojMT5sJnPka2XU8Gv-2vtfab2xpIOF9CWaAbd44wBrNeyOwNOa4k3vDcjMsTBPt7hB4kmJIl55XqCLU6S9K7kCDP05J3EpogYSjU4vEtsT5rFP-NUo5RI7eiLN8v4fgCGFWX9Nv4O9PxyRCqVoa2NdhPYk24GptfZtNZQ\\\"\\nTYPE=\\\"Content-Type: application/json\\\"\\n\\nFAUX_ADDR=\\\"http://10.200.101.5:30080/v1/completions\\\"\\nAD_ADDR=\\\"http://172.16.254.5:32322/v1/completions\\\"\\nAIP_ADDR=\\\"http://172.16.254.1:32322/v1/completions\\\"\\n\\ntime curl -i $FAUX_ADDR -H \\\"$AUTH\\\" -H \\\"$TYPE\\\" -X POST \"\n }' &\ndone\n\nwait" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  3872  100   299  100  3573   1583  18918 --:--:-- --:--:-- --:--:-- 19005
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:17 GMT
+server: uvicorn
+content-length: 299
+content-type: application/json
+
+{"id":"cmpl-6b86684b658d483ab817f0607d8ce4d8","object":"text_completion","created":1729047438,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\n","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":2432,"total_tokens":2434,"completion_tokens":2}}
+real	0m0.202s
+user	0m0.007s
+sys	0m0.007s
+testdata/ntc_sms_send.py
+sh completion-ad.sh 32326 testdata/ntc_sms_send.py
+ADDR: http://172.16.254.5:32326/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/usr/bin/env python\r\n# coding: utf-8\r\n# author：钱锴19648(感谢大佬分享)\r\nimport time\r\nimport base64\r\nfrom Crypto.Cipher import AES\r\nimport requests\r\n\r\ndef trace(rsp):\r\n print(\"Request URL:\", rsp.request.url)\r\n print(\"Request Method:\", rsp.request.method)\r\n print(\"Request Headers:\", rsp.request.headers)\r\n print(\"Request Body:\", rsp.request.body)\r\n\r\n # 输出响应的详细信息\r\n print(\"Response Status Code:\", rsp.status_code)\r\n print(\"Response Headers:\", rsp.headers)\r\n print(\"Response Content:\", rsp.text)\r\n \r\ndef get_token():\r\n BS = 16\r\n pad = lambda s: s + (BS - len(s) % BS) access_token chatgpt chatgpt-server-image completion-ad.sh completion-aip.sh completion-faux.sh diff-faux-ad.sh ntc_sms_send.py requirements.txt send-sms.sh set-apisix.sh stress-faux.sh testdata test-websocket.py times-ad.1.txt times-ad.sh times-faux.sh verify-auth.sh websocket.py ws-cli.py chr(BS - len(s) % BS)\r\n # 应用加密Key\r\n my_secret = \"a80982a50d0b4f7a98db6b91fdaf34ae\"\r\n # 偏移量\r\n iv = \"TRYTOCN314402233\"\r\n\r\n # 计算当前时间戳，精确到毫秒\r\n t = time.time()\r\n timestamp = str(int(round(t access_token chatgpt chatgpt-server-image completion-ad.sh completion-aip.sh completion-faux.sh diff-faux-ad.sh ntc_sms_send.py requirements.txt send-sms.sh set-apisix.sh stress-faux.sh testdata test-websocket.py times-ad.1.txt times-ad.sh times-faux.sh verify-auth.sh websocket.py ws-cli.py 1000)))\r\n\r\n # 需要加密的字符串\r\n text = pad('{\"clientId\": \"1724993521440\",\"timesstamp\": %s}' % timestamp).encode()\r\n\r\n cipher = AES.new(my_secret.encode(), AES.MODE_CBC, iv.encode()) # 加密函数 密钥 模式 偏移量\r\n login_code = base64.urlsafe_b64encode(cipher.encrypt(text)).decode('utf-8') # 先加密再重新编码\r\n # url = f\"http://it-gw.sangfor.com/api/api-auth/oauth/get/jwttoken?loginCode={login_code}&clientId=1724993521440\"\r\n url = \"http://it-gw.sangfor.com/api/api-auth/oauth/get/jwttoken?loginCode={}&clientId=1724993521440\".format(login_code)\r\n payload = {}\r\n headers = {}\r\n\r\n response = requests.request(\"POST\", url, headers=headers, data=payload)\r\n trace(response)\r\n return response.json()[\"rows\"][\"access_token\"]\r\n\r\n\r\ndef send_sms(user_list, title, msg):\r\n url = \"http://it-gw.sangfor.com/ntc/sms/sendSms\"\r\n token = get_token()\r\n headers = {\r\n \"authorization\": token,\r\n \"Content-Type\": \"application/json\"\r\n }\r\n\r\n # 把user_list转换成字符串\r\n sendTo = \"\"\r\n for user in user_list:\r\n if sendTo != \"\":\r\n sendTo += \",\"\r\n sendTo += user\r\n content = title + \"\\n\" + msg\r\n data = {\r\n \"systemCode\": \"shenma\",\r\n \"phone\": sendTo,\r\n \"systemCodePrefix\": \"0\",\r\n \"content\": content\r\n }\r\n\r\n response = requests.post(url, headers=headers, json=data, timeout=5)\r\n trace(response)\r\n return response.json()\r\n\r\n# # author：廖磊57452(感谢大佬分享)\r\n# def intranet_mail_send_msg(recipient_list, subject, msg):\r\n# token = get_token()\r\n# url = \"http://it-gw-sit.sangfor.com/ntc/mail/lanSendMail\"\r\n# headers = {\r\n# \"authorization\": token,\r\n# \"Content-Type\": \"application/json\"\r\n# }\r\n\r\n# # 把user_list转换成字符串\r\n# recipient = \"\"\r\n# for element in recipient_list:\r\n# recipient += element\r\n# recipient += \",\"\r\n\r\n# data = {\r\n# \"systemCode\": \"achktest\",\r\n# \"recipient\": recipient,\r\n# \"subject\": subject,\r\n# \"content\": msg,\r\n# \"fromName\": \"自动化测试\",\r\n# }\r\n# response = requests.post(url, headers=headers, json=data)\r\n# print(response.json())\r\n\r\n\r\nif __name__ == '__main__':\r\n # intranet_mail_send_msg(recipient_list=[\"57452@sangfor.com\"], subject=\"新春快乐\", msg=\"新年快乐恭喜发财\")\r\n print(send_sms(user_list=[\"13824366192\"], title=\"323901\", msg=\"此认证码由诸葛神码发送，请勿泄露\"))\r\n\r\nif " }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  4095  100   337  100  3758    447   4995 --:--:-- --:--:-- --:--:--  4990100  4095  100   337  100  3758    447   4994 --:--:-- --:--:-- --:--:--  4990
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:18 GMT
+server: uvicorn
+content-length: 337
+content-type: application/json
+
+{"id":"cmpl-db4478e097ec436db61a4b973d2cd5d9","object":"text_completion","created":1729047439,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"5>500:\r\n    print(\"true\")\r\nelse","logprobs":null,"finish_reason":"length","stop_reason":null}],"usage":{"prompt_tokens":1267,"total_tokens":1283,"completion_tokens":16}}
+real	0m0.766s
+user	0m0.006s
+sys	0m0.009s
+sh completion-ad.sh 32329 testdata/ntc_sms_send.py
+ADDR: http://172.16.254.5:32329/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/usr/bin/env python\r\n# coding: utf-8\r\n# author：钱锴19648(感谢大佬分享)\r\nimport time\r\nimport base64\r\nfrom Crypto.Cipher import AES\r\nimport requests\r\n\r\ndef trace(rsp):\r\n print(\"Request URL:\", rsp.request.url)\r\n print(\"Request Method:\", rsp.request.method)\r\n print(\"Request Headers:\", rsp.request.headers)\r\n print(\"Request Body:\", rsp.request.body)\r\n\r\n # 输出响应的详细信息\r\n print(\"Response Status Code:\", rsp.status_code)\r\n print(\"Response Headers:\", rsp.headers)\r\n print(\"Response Content:\", rsp.text)\r\n \r\ndef get_token():\r\n BS = 16\r\n pad = lambda s: s + (BS - len(s) % BS) access_token chatgpt chatgpt-server-image completion-ad.sh completion-aip.sh completion-faux.sh diff-faux-ad.sh ntc_sms_send.py requirements.txt send-sms.sh set-apisix.sh stress-faux.sh testdata test-websocket.py times-ad.1.txt times-ad.sh times-faux.sh verify-auth.sh websocket.py ws-cli.py chr(BS - len(s) % BS)\r\n # 应用加密Key\r\n my_secret = \"a80982a50d0b4f7a98db6b91fdaf34ae\"\r\n # 偏移量\r\n iv = \"TRYTOCN314402233\"\r\n\r\n # 计算当前时间戳，精确到毫秒\r\n t = time.time()\r\n timestamp = str(int(round(t access_token chatgpt chatgpt-server-image completion-ad.sh completion-aip.sh completion-faux.sh diff-faux-ad.sh ntc_sms_send.py requirements.txt send-sms.sh set-apisix.sh stress-faux.sh testdata test-websocket.py times-ad.1.txt times-ad.sh times-faux.sh verify-auth.sh websocket.py ws-cli.py 1000)))\r\n\r\n # 需要加密的字符串\r\n text = pad('{\"clientId\": \"1724993521440\",\"timesstamp\": %s}' % timestamp).encode()\r\n\r\n cipher = AES.new(my_secret.encode(), AES.MODE_CBC, iv.encode()) # 加密函数 密钥 模式 偏移量\r\n login_code = base64.urlsafe_b64encode(cipher.encrypt(text)).decode('utf-8') # 先加密再重新编码\r\n # url = f\"http://it-gw.sangfor.com/api/api-auth/oauth/get/jwttoken?loginCode={login_code}&clientId=1724993521440\"\r\n url = \"http://it-gw.sangfor.com/api/api-auth/oauth/get/jwttoken?loginCode={}&clientId=1724993521440\".format(login_code)\r\n payload = {}\r\n headers = {}\r\n\r\n response = requests.request(\"POST\", url, headers=headers, data=payload)\r\n trace(response)\r\n return response.json()[\"rows\"][\"access_token\"]\r\n\r\n\r\ndef send_sms(user_list, title, msg):\r\n url = \"http://it-gw.sangfor.com/ntc/sms/sendSms\"\r\n token = get_token()\r\n headers = {\r\n \"authorization\": token,\r\n \"Content-Type\": \"application/json\"\r\n }\r\n\r\n # 把user_list转换成字符串\r\n sendTo = \"\"\r\n for user in user_list:\r\n if sendTo != \"\":\r\n sendTo += \",\"\r\n sendTo += user\r\n content = title + \"\\n\" + msg\r\n data = {\r\n \"systemCode\": \"shenma\",\r\n \"phone\": sendTo,\r\n \"systemCodePrefix\": \"0\",\r\n \"content\": content\r\n }\r\n\r\n response = requests.post(url, headers=headers, json=data, timeout=5)\r\n trace(response)\r\n return response.json()\r\n\r\n# # author：廖磊57452(感谢大佬分享)\r\n# def intranet_mail_send_msg(recipient_list, subject, msg):\r\n# token = get_token()\r\n# url = \"http://it-gw-sit.sangfor.com/ntc/mail/lanSendMail\"\r\n# headers = {\r\n# \"authorization\": token,\r\n# \"Content-Type\": \"application/json\"\r\n# }\r\n\r\n# # 把user_list转换成字符串\r\n# recipient = \"\"\r\n# for element in recipient_list:\r\n# recipient += element\r\n# recipient += \",\"\r\n\r\n# data = {\r\n# \"systemCode\": \"achktest\",\r\n# \"recipient\": recipient,\r\n# \"subject\": subject,\r\n# \"content\": msg,\r\n# \"fromName\": \"自动化测试\",\r\n# }\r\n# response = requests.post(url, headers=headers, json=data)\r\n# print(response.json())\r\n\r\n\r\nif __name__ == '__main__':\r\n # intranet_mail_send_msg(recipient_list=[\"57452@sangfor.com\"], subject=\"新春快乐\", msg=\"新年快乐恭喜发财\")\r\n print(send_sms(user_list=[\"13824366192\"], title=\"323901\", msg=\"此认证码由诸葛神码发送，请勿泄露\"))\r\n\r\nif " }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  4106  100   348  100  3758   1175  12697 --:--:-- --:--:-- --:--:-- 12738
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:18 GMT
+server: uvicorn
+content-length: 348
+content-type: application/json
+
+{"id":"cmpl-8faed449c57041738768b21e51c2782a","object":"text_completion","created":1729047439,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":" __name__ == '__main__':\r\n    # intranet_mail_","logprobs":null,"finish_reason":"length","stop_reason":null}],"usage":{"prompt_tokens":1267,"total_tokens":1283,"completion_tokens":16}}
+real	0m0.309s
+user	0m0.004s
+sys	0m0.009s
+testdata/send-sms.sh
+sh completion-ad.sh 32326 testdata/send-sms.sh
+ADDR: http://172.16.254.5:32326/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\ncurl -i http://it-gw.sangfor.com/ntc/sms/sendSms -X POST -d '{\n \"systemCode\": \"shenma\",\n \"phone\": \"13824366192\",\n \"systemCodePrefix\": \"0\",\n \"content\": \"恭喜发财\"\n}'\n\ncurl " }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   594  100   319  100   275   1124    969 --:--:-- --:--:-- --:--:--  1123100   594  100   319  100   275   1123    968 --:--:-- --:--:-- --:--:--  1123
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:20 GMT
+server: uvicorn
+content-length: 319
+content-type: application/json
+
+{"id":"cmpl-81d8631bc0d9439ea8e0dc743a5f22ee","object":"text_completion","created":1729047440,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":" http://127.0.0.1:9082","logprobs":null,"finish_reason":"length","stop_reason":null}],"usage":{"prompt_tokens":90,"total_tokens":106,"completion_tokens":16}}
+real	0m0.295s
+user	0m0.008s
+sys	0m0.005s
+sh completion-ad.sh 32329 testdata/send-sms.sh
+ADDR: http://172.16.254.5:32329/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\ncurl -i http://it-gw.sangfor.com/ntc/sms/sendSms -X POST -d '{\n \"systemCode\": \"shenma\",\n \"phone\": \"13824366192\",\n \"systemCodePrefix\": \"0\",\n \"content\": \"恭喜发财\"\n}'\n\ncurl " }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   588  100   313  100   275    848    745 --:--:-- --:--:-- --:--:--   850
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:19 GMT
+server: uvicorn
+content-length: 313
+content-type: application/json
+
+{"id":"cmpl-2b581cdea39b4eeaa49e826fc067adba","object":"text_completion","created":1729047440,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"192.168.56.102:8","logprobs":null,"finish_reason":"length","stop_reason":null}],"usage":{"prompt_tokens":90,"total_tokens":106,"completion_tokens":16}}
+real	0m0.380s
+user	0m0.003s
+sys	0m0.010s
+testdata/set-apisix.sh
+sh completion-ad.sh 32326 testdata/set-apisix.sh
+ADDR: http://172.16.254.5:32326/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nAUTH=\"X-API-KEY: edd1c9f034335f136f87ad84b625c8f1\" \nTYPE=\"Content-Type: application/json\"\nAPISIX_ADDR=\"10.200.101.5:30180\"\nKEYCLOAK_ADDR=\"10.200.101.5:30880\"\nSHENMA_ADDR=\"10.200.101.5:30080\"\nSHENMA_IP=\"10.200.101.5\"\n\ncurl -i http://$APISIX_ADDR/apisix/admin/upstreams -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"id\": \"web1\",\n \"nodes\": {\n \"web1.shenma.svc.cluster.local:9081\": 1\n },\n \"type\": \"roundrobin\"\n}'\n\ncurl -i http://$APISIX_ADDR/apisix/admin/upstreams -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"id\": \"web2\",\n \"nodes\": {\n \"web2.shenma.svc.cluster.local:9082\": 1\n },\n \"type\": \"roundrobin\"\n}'\n\ncurl -i http://$APISIX_ADDR/apisix/admin/upstreams -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"id\": \"shenma\",\n \"nodes\": {\n \"web2.shenma.svc.cluster.local:9082\": 1\n },\n \"type\": \"roundrobin\"\n}'\n\ncurl -i http://$APISIX_ADDR/apisix/admin/routes -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"id\": \"web1\",\n \"uri\": \"/web1/*\",\n \"upstream_id\": \"web1\",\n \"plugins\": {\n \"openid-connect\": {\n \"client_id\": \"apisix\",\n \"client_secret\": \"g5cxUb10HB1D0V1ErgVwssKsqg6rWLPj\",\n \"discovery\": \"http://'\"$KEYCLOAK_ADDR\"'/realms/gw/.well-known/openid-configuration\",\n \"introspection_endpoint_auth_method\": \"client_secret_basic\",\n \"bearer_only\": false,\n \"realm\": \"gw\"\n }\n }\n}'\n\ncurl -i http://$APISIX_ADDR/apisix/admin/routes -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"id\": \"web2\",\n \"uri\": \"/web2/*\",\n \"upstream_id\": \"web2\",\n \"plugins\": {\n \"openid-connect\": {\n \"client_id\": \"apisix\",\n \"client_secret\": \"g5cxUb10HB1D0V1ErgVwssKsqg6rWLPj\",\n \"discovery\": \"http://'\"$KEYCLOAK_ADDR\"'/realms/gw/.well-known/openid-configuration\",\n \"introspection_endpoint_auth_method\": \"client_secret_basic\",\n \"bearer_only\": false,\n \"realm\": \"gw\"\n }\n }\n}'\n\ncurl -i http://$APISIX_ADDR/apisix/admin/routes -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"uri\": \"/project-manage/*\",\n \"id\": \"pm1\",\n \"plugins\": {\n \"openid-connect\": {\n \"client_id\": \"apisix\",\n \"client_secret\": \"g5cxUb10HB1D0V1ErgVwssKsqg6rWLPj\",\n \"discovery\": \"http://'\"$KEYCLOAK_ADDR\"'/realms/gw/.well-known/openid-configuration\",\n \"introspection_endpoint_auth_method\": \"client_secret_basic\",\n \"realm\": \"gw\",\n \"bearer_only\": false,\n \"redirect_uri\": \"http://'\"$SHENMA_ADDR\"'/project-manage\",\n \"logout_path\": \"/logout\",\n \"redirect_login\": true\n },\n \"proxy-rewrite\": {\n \"regex_uri\": [\"^/project-manage/(.*)\", \"/$1\"]\n }\n },\n \"upstream\": {\n \"type\": \"roundrobin\",\n \"nodes\": {\n \"10.200.101.5:31000\": 1\n }\n }\n }'\n\ncurl -i http://$APISIX_ADDR/apisix/admin/routes -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"uri\": \"/completions/*\",\n \"id\": \"shenma\",\n \"upstream_id\": \"shenma\",\n \"plugins\": {\n \"limit-req\": {\n \"rate\": 1,\n \"burst\": 0,\n \"rejected_code\": 503,\n \"key\": \"remote_addr\"\n },\n \"openid-connect\": {\n \"client_id\": \"apisix\",\n \"client_secret\": \"g5cxUb10HB1D0V1ErgVwssKsqg6rWLPj\",\n \"discovery\": \"http://'\"$KEYCLOAK_ADDR\"'/realms/gw/.well-known/openid-configuration\",\n \"introspection_endpoint_auth_method\": \"client_secret_basic\",\n \"bearer_only\": false,\n \"realm\": \"gw\",\n \"redirect_uri\": \"http://'\"$SHENMA_ADDR\"'/completions/callback\",\n \"logout_path\": \"/completions/logout\",\n \"redirect_login\": true\n }\n }\n }'" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  4381  100   352  100  4029   1028  11775 --:--:-- --:--:-- --:--:-- 11780
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:20 GMT
+server: uvicorn
+content-length: 352
+content-type: application/json
+
+{"id":"cmpl-e35a512fc69b42f4a97db1a6b09c728c","object":"text_completion","created":1729047440,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\n  echo \"下载Rocker文件\"\ncurl -XGET http://$","logprobs":null,"finish_reason":"length","stop_reason":null}],"usage":{"prompt_tokens":1453,"total_tokens":1469,"completion_tokens":16}}
+real	0m0.355s
+user	0m0.005s
+sys	0m0.008s
+sh completion-ad.sh 32329 testdata/set-apisix.sh
+ADDR: http://172.16.254.5:32329/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/bin/sh\n\nAUTH=\"X-API-KEY: edd1c9f034335f136f87ad84b625c8f1\" \nTYPE=\"Content-Type: application/json\"\nAPISIX_ADDR=\"10.200.101.5:30180\"\nKEYCLOAK_ADDR=\"10.200.101.5:30880\"\nSHENMA_ADDR=\"10.200.101.5:30080\"\nSHENMA_IP=\"10.200.101.5\"\n\ncurl -i http://$APISIX_ADDR/apisix/admin/upstreams -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"id\": \"web1\",\n \"nodes\": {\n \"web1.shenma.svc.cluster.local:9081\": 1\n },\n \"type\": \"roundrobin\"\n}'\n\ncurl -i http://$APISIX_ADDR/apisix/admin/upstreams -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"id\": \"web2\",\n \"nodes\": {\n \"web2.shenma.svc.cluster.local:9082\": 1\n },\n \"type\": \"roundrobin\"\n}'\n\ncurl -i http://$APISIX_ADDR/apisix/admin/upstreams -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"id\": \"shenma\",\n \"nodes\": {\n \"web2.shenma.svc.cluster.local:9082\": 1\n },\n \"type\": \"roundrobin\"\n}'\n\ncurl -i http://$APISIX_ADDR/apisix/admin/routes -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"id\": \"web1\",\n \"uri\": \"/web1/*\",\n \"upstream_id\": \"web1\",\n \"plugins\": {\n \"openid-connect\": {\n \"client_id\": \"apisix\",\n \"client_secret\": \"g5cxUb10HB1D0V1ErgVwssKsqg6rWLPj\",\n \"discovery\": \"http://'\"$KEYCLOAK_ADDR\"'/realms/gw/.well-known/openid-configuration\",\n \"introspection_endpoint_auth_method\": \"client_secret_basic\",\n \"bearer_only\": false,\n \"realm\": \"gw\"\n }\n }\n}'\n\ncurl -i http://$APISIX_ADDR/apisix/admin/routes -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"id\": \"web2\",\n \"uri\": \"/web2/*\",\n \"upstream_id\": \"web2\",\n \"plugins\": {\n \"openid-connect\": {\n \"client_id\": \"apisix\",\n \"client_secret\": \"g5cxUb10HB1D0V1ErgVwssKsqg6rWLPj\",\n \"discovery\": \"http://'\"$KEYCLOAK_ADDR\"'/realms/gw/.well-known/openid-configuration\",\n \"introspection_endpoint_auth_method\": \"client_secret_basic\",\n \"bearer_only\": false,\n \"realm\": \"gw\"\n }\n }\n}'\n\ncurl -i http://$APISIX_ADDR/apisix/admin/routes -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"uri\": \"/project-manage/*\",\n \"id\": \"pm1\",\n \"plugins\": {\n \"openid-connect\": {\n \"client_id\": \"apisix\",\n \"client_secret\": \"g5cxUb10HB1D0V1ErgVwssKsqg6rWLPj\",\n \"discovery\": \"http://'\"$KEYCLOAK_ADDR\"'/realms/gw/.well-known/openid-configuration\",\n \"introspection_endpoint_auth_method\": \"client_secret_basic\",\n \"realm\": \"gw\",\n \"bearer_only\": false,\n \"redirect_uri\": \"http://'\"$SHENMA_ADDR\"'/project-manage\",\n \"logout_path\": \"/logout\",\n \"redirect_login\": true\n },\n \"proxy-rewrite\": {\n \"regex_uri\": [\"^/project-manage/(.*)\", \"/$1\"]\n }\n },\n \"upstream\": {\n \"type\": \"roundrobin\",\n \"nodes\": {\n \"10.200.101.5:31000\": 1\n }\n }\n }'\n\ncurl -i http://$APISIX_ADDR/apisix/admin/routes -H \"$AUTH\" -H \"$TYPE\" -X PUT -d '{\n \"uri\": \"/completions/*\",\n \"id\": \"shenma\",\n \"upstream_id\": \"shenma\",\n \"plugins\": {\n \"limit-req\": {\n \"rate\": 1,\n \"burst\": 0,\n \"rejected_code\": 503,\n \"key\": \"remote_addr\"\n },\n \"openid-connect\": {\n \"client_id\": \"apisix\",\n \"client_secret\": \"g5cxUb10HB1D0V1ErgVwssKsqg6rWLPj\",\n \"discovery\": \"http://'\"$KEYCLOAK_ADDR\"'/realms/gw/.well-known/openid-configuration\",\n \"introspection_endpoint_auth_method\": \"client_secret_basic\",\n \"bearer_only\": false,\n \"realm\": \"gw\",\n \"redirect_uri\": \"http://'\"$SHENMA_ADDR\"'/completions/callback\",\n \"logout_path\": \"/completions/logout\",\n \"redirect_login\": true\n }\n }\n }'" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  4369  100   340  100  4029    584   6931 --:--:-- --:--:-- --:--:--  6922100  4369  100   340  100  4029    584   6929 --:--:-- --:--:-- --:--:--  6922
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:20 GMT
+server: uvicorn
+content-length: 340
+content-type: application/json
+
+{"id":"cmpl-b229e92d995c40c1a1ae1a52f320360e","object":"text_completion","created":1729047441,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\n\n\ncurl -i http://$APISIX_ADDR/apisix","logprobs":null,"finish_reason":"length","stop_reason":null}],"usage":{"prompt_tokens":1453,"total_tokens":1469,"completion_tokens":16}}
+real	0m0.595s
+user	0m0.008s
+sys	0m0.006s
+testdata/test-websocket.py
+sh completion-ad.sh 32326 testdata/test-websocket.py
+ADDR: http://172.16.254.5:32326/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\nimport socketio\nfrom aiohttp import web\n\n# 创建一个 Socket.IO 服务器\nsio = socketio.AsyncServer(cors_allowed_origins='*')\n\n# 创建一个 aiohttp 应用\napp = web.Application()\nsio.attach(app)\n\n# 处理连接事件\n@sio.event\nasync def connect(sid, environ):\n print(f'Client connected: {sid}')\n\n# 处理断开连接事件\n@sio.event\nasync def disconnect(sid):\n print(f'Client disconnected: {sid}')\n\n# 处理自定义事件\n@sio.event\nasync def message(sid, data):\n print(f'Message from {sid}: {data}')\n await sio.send(sid, f'Server received: {data}')\n\n# 启动服务器\nif __name__ == '__main__':\n web.run_app(app, host='127.0.0.1', port=6000)" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  1096  100   295  100   801   2561   6954 --:--:-- --:--:-- --:--:--  6965
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:21 GMT
+server: uvicorn
+content-length: 295
+content-type: application/json
+
+{"id":"cmpl-e004b4799e824b96839f323bb72874af","object":"text_completion","created":1729047441,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":255,"total_tokens":256,"completion_tokens":1}}
+real	0m0.127s
+user	0m0.007s
+sys	0m0.006s
+sh completion-ad.sh 32329 testdata/test-websocket.py
+ADDR: http://172.16.254.5:32329/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\nimport socketio\nfrom aiohttp import web\n\n# 创建一个 Socket.IO 服务器\nsio = socketio.AsyncServer(cors_allowed_origins='*')\n\n# 创建一个 aiohttp 应用\napp = web.Application()\nsio.attach(app)\n\n# 处理连接事件\n@sio.event\nasync def connect(sid, environ):\n print(f'Client connected: {sid}')\n\n# 处理断开连接事件\n@sio.event\nasync def disconnect(sid):\n print(f'Client disconnected: {sid}')\n\n# 处理自定义事件\n@sio.event\nasync def message(sid, data):\n print(f'Message from {sid}: {data}')\n await sio.send(sid, f'Server received: {data}')\n\n# 启动服务器\nif __name__ == '__main__':\n web.run_app(app, host='127.0.0.1', port=6000)" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  1098  100   297  100   801   3421   9227 --:--:-- --:--:-- --:--:--  9313
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:21 GMT
+server: uvicorn
+content-length: 297
+content-type: application/json
+
+{"id":"cmpl-dfa4a14eadfa45d7b3cb4baf9da3c055","object":"text_completion","created":1729047441,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\n","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":255,"total_tokens":257,"completion_tokens":2}}
+real	0m0.099s
+user	0m0.008s
+sys	0m0.006s
+testdata/websocket.py
+sh completion-ad.sh 32326 testdata/websocket.py
+ADDR: http://172.16.254.5:32326/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/usr/bin/env python\r\n# -*- coding: utf-8 -*-\r\nimport socketio\r\nfrom aiohttp import web\r\n\r\n# 创建一个 Socket.IO 服务器\r\nsio = socketio.AsyncServer(cors_allowed_origins='*')\r\n\r\n# 创建一个 aiohttp 应用\r\napp = web.Application()\r\nsio.attach(app)\r\n\r\n# 处理连接事件\r\n@sio.event\r\nasync def connect(sid, environ):\r\n print(f'Client connected: {sid}')\r\n\r\n# 处理断开连接事件\r\n@sio.event\r\nasync def disconnect(sid):\r\n print(f'Client disconnected: {sid}')\r\n\r\n# 处理自定义事件\r\n@sio.event\r\nasync def message(sid, data):\r\n print(f'Message from {sid}: {data}')\r\n await sio.send(sid, f'Server received: {data}')\r\n\r\n# 启动服务器\r\nif __name__ == '__main__':\r\n web.run_app(app, host='0.0.0.0', port=8765)\r\n " }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  1216  100   349  100   867   1055   2621 --:--:-- --:--:-- --:--:--  2619100  1216  100   349  100   867   1054   2620 --:--:-- --:--:-- --:--:--  2619
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:21 GMT
+server: uvicorn
+content-length: 349
+content-type: application/json
+
+{"id":"cmpl-79ed07e6fa4147dcb1e0f4dce4970687","object":"text_completion","created":1729047442,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\r\n# 或者你也可以使用 `sio.connect` 连接","logprobs":null,"finish_reason":"length","stop_reason":null}],"usage":{"prompt_tokens":286,"total_tokens":302,"completion_tokens":16}}
+real	0m0.343s
+user	0m0.006s
+sys	0m0.007s
+sh completion-ad.sh 32329 testdata/websocket.py
+ADDR: http://172.16.254.5:32329/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/usr/bin/env python\r\n# -*- coding: utf-8 -*-\r\nimport socketio\r\nfrom aiohttp import web\r\n\r\n# 创建一个 Socket.IO 服务器\r\nsio = socketio.AsyncServer(cors_allowed_origins='*')\r\n\r\n# 创建一个 aiohttp 应用\r\napp = web.Application()\r\nsio.attach(app)\r\n\r\n# 处理连接事件\r\n@sio.event\r\nasync def connect(sid, environ):\r\n print(f'Client connected: {sid}')\r\n\r\n# 处理断开连接事件\r\n@sio.event\r\nasync def disconnect(sid):\r\n print(f'Client disconnected: {sid}')\r\n\r\n# 处理自定义事件\r\n@sio.event\r\nasync def message(sid, data):\r\n print(f'Message from {sid}: {data}')\r\n await sio.send(sid, f'Server received: {data}')\r\n\r\n# 启动服务器\r\nif __name__ == '__main__':\r\n web.run_app(app, host='0.0.0.0', port=8765)\r\n " }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  1215  100   348  100   867    949   2365 --:--:-- --:--:-- --:--:--  2368
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:21 GMT
+server: uvicorn
+content-length: 348
+content-type: application/json
+
+{"id":"cmpl-712a8e1274d842da9ddaa01a437f420f","object":"text_completion","created":1729047442,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"\r\n\r\n\r\n    # 客户端\r\n    import socketio","logprobs":null,"finish_reason":"length","stop_reason":null}],"usage":{"prompt_tokens":286,"total_tokens":302,"completion_tokens":16}}
+real	0m0.379s
+user	0m0.006s
+sys	0m0.008s
+testdata/ws-cli.py
+sh completion-ad.sh 32326 testdata/ws-cli.py
+ADDR: http://172.16.254.5:32326/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\n\nimport socketio\nsio = socketio.Client()\n\nsio.connect('http://10.200.101.5:30765')\n\n@sio.event\ndef connect():\n print('连接建立成功')\n\n@sio.event\ndef message(data):\n print('收到消息：', data)\n\n@sio.event\ndef disconnect():\n print('连接断开')\n\nsio.wait()" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   696  100   295  100   401   5037   6847 --:--:-- --:--:-- --:--:--  6913
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:22 GMT
+server: uvicorn
+content-length: 295
+content-type: application/json
+
+{"id":"cmpl-56fcc6a3608e4f42b437e865536ede34","object":"text_completion","created":1729047442,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":129,"total_tokens":130,"completion_tokens":1}}
+real	0m0.071s
+user	0m0.008s
+sys	0m0.006s
+sh completion-ad.sh 32329 testdata/ws-cli.py
+ADDR: http://172.16.254.5:32329/v1/completions
+DATA: { "model": "DeepSeek-Coder-V2-Lite-Base", "prompt": "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\n\nimport socketio\nsio = socketio.Client()\n\nsio.connect('http://10.200.101.5:30765')\n\n@sio.event\ndef connect():\n print('连接建立成功')\n\n@sio.event\ndef message(data):\n print('收到消息：', data)\n\n@sio.event\ndef disconnect():\n print('连接断开')\n\nsio.wait()" }
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   696  100   295  100   401   4159   5654 --:--:-- --:--:-- --:--:--  5728
+HTTP/1.1 200 OK
+date: Wed, 16 Oct 2024 02:57:21 GMT
+server: uvicorn
+content-length: 295
+content-type: application/json
+
+{"id":"cmpl-671dadd48b8640ffb9bc6415eb1dc495","object":"text_completion","created":1729047442,"model":"DeepSeek-Coder-V2-Lite-Base","choices":[{"index":0,"text":"","logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":129,"total_tokens":130,"completion_tokens":1}}
+real	0m0.083s
+user	0m0.009s
+sys	0m0.004s

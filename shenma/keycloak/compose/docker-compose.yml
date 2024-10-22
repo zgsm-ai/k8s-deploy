@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: "keycloak"
+      POSTGRES_USER: "keycloak"
+      POSTGRES_PASSWORD: "password"
+    ports:
+      - "5432:5432/tcp"
+    volumes:
+      - pgsql_data:/var/lib/postgresql/data
+    networks:
+      apisix:
+
+  web:
+    image: nginx:1.27.1
+    restart: always
+    volumes:
+      - ./web.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8090:80/tcp"
+    environment:
+      - NGINX_PORT=80
+    networks:
+      apisix:
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:20.0.5
+    command: ["start-dev"]
+    restart: always
+    environment:
+      DB_ADDR: "10.65.178.94"
+      DB_PORT: "5432"
+      DB_VENDOR: "postgres"
+      KEYCLOAK_USER: "admin"
+      KEYCLOAK_PASSWORD: "admin"
+      KEYCLOAK_ADMIN: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "admin"
+    ports:
+      - "8080:8080/tcp"
+    volumes:
+      - keycloak_data:/opt/keycloak/providers
+      - ./keycloak.yaml:/opt/keycloak/conf/keycloak.conf:ro
+    networks:
+      apisix:
+
+networks:
+  apisix:
+    driver: bridge
+
+volumes:
+  pgsql_data:
+    driver: local
+
+  keycloak_data:
+    driver: local

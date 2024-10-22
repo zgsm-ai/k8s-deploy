@@ -1,0 +1,135 @@
+INFO:     2024-10-16 14:24:58,853 - cmpl-AvwxTMWw5ZahSExaBPTvQ8s6bNyf9 start
+INFO:     2024-10-16 14:24:58,854 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:24:58,856 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:24:58,856 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:24:58,936 - cmpl-AvwxTMWw5ZahSExaBPTvQ8s6bNyf9 exist context, return empty choices!
+INFO:     2024-10-16 14:24:58,936 - cmpl-AvwxTMWw5ZahSExaBPTvQ8s6bNyf9 Returned completion in 82.21101760864258 ms
+INFO:     2024-10-16 14:25:02,920 - cmpl-yVMFmV67m10TZ7qBSWBVySYFRGD2j start
+INFO:     2024-10-16 14:25:02,921 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:25:02,922 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:25:02,922 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:25:03,098 - cmpl-yVMFmV67m10TZ7qBSWBVySYFRGD2j exist context, return empty choices!
+INFO:     2024-10-16 14:25:03,098 - cmpl-yVMFmV67m10TZ7qBSWBVySYFRGD2j Returned completion in 177.92391777038574 ms
+INFO:     2024-10-16 14:25:06,378 - cmpl-qQYG1ZIVkiPZzh6ikAGQv18gMVu1J start
+INFO:     2024-10-16 14:25:06,379 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:25:06,381 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:25:06,381 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:25:06,501 - cmpl-qQYG1ZIVkiPZzh6ikAGQv18gMVu1J exist context, return empty choices!
+INFO:     2024-10-16 14:25:06,501 - cmpl-qQYG1ZIVkiPZzh6ikAGQv18gMVu1J Returned completion in 122.2083568572998 ms
+INFO:     2024-10-16 14:25:10,766 - cmpl-fj3R8nFfDkSJighGlvDF26bC58n7J start
+INFO:     2024-10-16 14:25:10,767 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:25:10,768 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:25:10,769 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:25:10,947 - cmpl-fj3R8nFfDkSJighGlvDF26bC58n7J exist context, return empty choices!
+INFO:     2024-10-16 14:25:10,948 - cmpl-fj3R8nFfDkSJighGlvDF26bC58n7J Returned completion in 180.7551383972168 ms
+INFO:     2024-10-16 14:25:47,358 - cmpl-xdCzHMHxHgbEbhAqCt6Y7jST0bqex start
+INFO:     2024-10-16 14:25:47,359 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:25:47,360 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:25:47,360 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:25:47,585 - cmpl-xdCzHMHxHgbEbhAqCt6Y7jST0bqex Returned completion in 226.34506225585938 ms
+INFO:     2024-10-16 14:25:53,572 - cmpl-y1RWRLKRQVFn8BanQKHJHMMg5ipvE start
+INFO:     2024-10-16 14:25:53,572 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:25:53,574 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:25:53,574 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:25:53,861 - cmpl-y1RWRLKRQVFn8BanQKHJHMMg5ipvE exist context, return empty choices!
+INFO:     2024-10-16 14:25:53,861 - cmpl-y1RWRLKRQVFn8BanQKHJHMMg5ipvE Returned completion in 288.4213924407959 ms
+INFO:     2024-10-16 14:25:57,344 - cmpl-VeODdYtvmzhCe2LI75P7XIx58QsYw start
+INFO:     2024-10-16 14:25:57,345 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:25:57,346 - language=shell, is_single_completion=True
+INFO:     2024-10-16 14:25:57,346 - all_stop_words=['\n', '<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:25:57,552 - cmpl-VeODdYtvmzhCe2LI75P7XIx58QsYw exist context, return empty choices!
+INFO:     2024-10-16 14:25:57,552 - cmpl-VeODdYtvmzhCe2LI75P7XIx58QsYw Returned completion in 207.2305679321289 ms
+INFO:     2024-10-16 14:26:06,789 - cmpl-6dC6JCTvCL0rxGixIw4NEnmURuwh1 start
+INFO:     2024-10-16 14:26:06,790 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:26:06,793 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:26:06,793 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:26:09,795 - cmpl-6dC6JCTvCL0rxGixIw4NEnmURuwh1 Returned completion in 3005.3558349609375 ms
+INFO:     2024-10-16 14:26:28,205 - cmpl-t7GFL4A0npXi0ntV93fqDdEEvr3Lb start
+INFO:     2024-10-16 14:26:28,206 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:26:28,207 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:26:28,207 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:26:28,295 - cmpl-t7GFL4A0npXi0ntV93fqDdEEvr3Lb exist context, return empty choices!
+INFO:     2024-10-16 14:26:28,295 - cmpl-t7GFL4A0npXi0ntV93fqDdEEvr3Lb Returned completion in 88.86551856994629 ms
+INFO:     2024-10-16 14:26:46,715 - cmpl-okHagNm4JkJyIjKZm1nE1nJJ2z91m start
+INFO:     2024-10-16 14:26:46,716 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:26:46,721 - language=shell, is_single_completion=True
+INFO:     2024-10-16 14:26:46,721 - all_stop_words=['\n', '<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:26:46,857 - cmpl-okHagNm4JkJyIjKZm1nE1nJJ2z91m exist context, return empty choices!
+INFO:     2024-10-16 14:26:46,857 - cmpl-okHagNm4JkJyIjKZm1nE1nJJ2z91m Returned completion in 141.42346382141113 ms
+INFO:     2024-10-16 14:26:52,663 - cmpl-x8gaRSHNkXK0yynwiwSYsa5jsPLvc start
+INFO:     2024-10-16 14:26:52,664 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:26:52,668 - language=shell, is_single_completion=True
+INFO:     2024-10-16 14:26:52,668 - all_stop_words=['\n', '<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:26:52,790 - cmpl-x8gaRSHNkXK0yynwiwSYsa5jsPLvc exist context, return empty choices!
+INFO:     2024-10-16 14:26:52,790 - cmpl-x8gaRSHNkXK0yynwiwSYsa5jsPLvc Returned completion in 125.99635124206543 ms
+INFO:     2024-10-16 14:26:55,476 - cmpl-P6wqkIzlkkvq6VHFfJ6fGtHm3cHmt start
+INFO:     2024-10-16 14:26:55,476 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:26:55,480 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:26:55,480 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:26:56,613 - cmpl-P6wqkIzlkkvq6VHFfJ6fGtHm3cHmt exist context, return empty choices!
+INFO:     2024-10-16 14:26:56,613 - cmpl-P6wqkIzlkkvq6VHFfJ6fGtHm3cHmt Returned completion in 1136.7716789245605 ms
+INFO:     2024-10-16 14:26:59,185 - cmpl-mgyF2KVfKhx7zt1UTFaz1i1mp2usE start
+INFO:     2024-10-16 14:26:59,185 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:26:59,189 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:26:59,189 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:26:59,330 - cmpl-mgyF2KVfKhx7zt1UTFaz1i1mp2usE exist context, return empty choices!
+INFO:     2024-10-16 14:26:59,330 - cmpl-mgyF2KVfKhx7zt1UTFaz1i1mp2usE Returned completion in 144.64640617370605 ms
+INFO:     2024-10-16 14:27:02,501 - cmpl-NGzHs6Gjeaz8zivX3rhTPWcEvQ55t start
+INFO:     2024-10-16 14:27:02,501 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:27:02,505 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:27:02,505 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:27:02,613 - cmpl-NGzHs6Gjeaz8zivX3rhTPWcEvQ55t exist context, return empty choices!
+INFO:     2024-10-16 14:27:02,613 - cmpl-NGzHs6Gjeaz8zivX3rhTPWcEvQ55t Returned completion in 111.51599884033203 ms
+INFO:     2024-10-16 14:27:09,225 - cmpl-yFzyzo7Ya6Wxn7MKkK9JRVsUzely3 start
+INFO:     2024-10-16 14:27:09,225 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:27:09,232 - language=shell, is_single_completion=True
+INFO:     2024-10-16 14:27:09,232 - all_stop_words=['\n', '<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:27:09,393 - cmpl-yFzyzo7Ya6Wxn7MKkK9JRVsUzely3 exist context, return empty choices!
+INFO:     2024-10-16 14:27:09,394 - cmpl-yFzyzo7Ya6Wxn7MKkK9JRVsUzely3 Returned completion in 168.5473918914795 ms
+INFO:     2024-10-16 14:27:11,705 - cmpl-a34OZGbZGLY7upgfPLR8F8ZueD4WK start
+INFO:     2024-10-16 14:27:11,705 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:27:11,712 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:27:11,712 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:27:11,892 - cmpl-a34OZGbZGLY7upgfPLR8F8ZueD4WK exist context, return empty choices!
+INFO:     2024-10-16 14:27:11,892 - cmpl-a34OZGbZGLY7upgfPLR8F8ZueD4WK Returned completion in 187.28375434875488 ms
+INFO:     2024-10-16 14:27:16,808 - cmpl-qoNH0wdMyIKlsaVbJje6SvAbCgKyf start
+INFO:     2024-10-16 14:27:16,809 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:27:16,814 - language=python, is_single_completion=False
+INFO:     2024-10-16 14:27:16,814 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n', '\n@classmethod', '\n@staticmethod', '\n@property', '\n@abstractmethod', '\n@asyncio.coroutine', '\n@asyncio.coroutine_decorator']
+INFO:     2024-10-16 14:27:18,356 - cmpl-qoNH0wdMyIKlsaVbJje6SvAbCgKyf Returned completion in 1546.8192100524902 ms
+INFO:     2024-10-16 14:27:27,364 - cmpl-61AwBrDNSKwAzE52zg3tf4UqPl71U start
+INFO:     2024-10-16 14:27:27,365 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:27:27,365 - language=shell, is_single_completion=True
+INFO:     2024-10-16 14:27:27,366 - all_stop_words=['\n', '<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:27:27,762 - cmpl-61AwBrDNSKwAzE52zg3tf4UqPl71U Returned completion in 397.4344730377197 ms
+INFO:     2024-10-16 14:27:33,681 - cmpl-t9X97omMuS9f9TbiOLE2g5bICQeJa start
+INFO:     2024-10-16 14:27:33,681 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:27:33,686 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:27:33,687 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:27:36,686 - cmpl-t9X97omMuS9f9TbiOLE2g5bICQeJa Returned completion in 3004.6868324279785 ms
+INFO:     2024-10-16 14:27:44,492 - cmpl-wCzWw8lw3yjvi3CHq8tkc19jm4lg3 start
+INFO:     2024-10-16 14:27:44,493 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:27:44,494 - language=python, is_single_completion=False
+INFO:     2024-10-16 14:27:44,494 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n', '\n@classmethod', '\n@staticmethod', '\n@property', '\n@abstractmethod', '\n@asyncio.coroutine', '\n@asyncio.coroutine_decorator']
+INFO:     2024-10-16 14:27:44,606 - cmpl-wCzWw8lw3yjvi3CHq8tkc19jm4lg3 exist context, return empty choices!
+INFO:     2024-10-16 14:27:44,606 - cmpl-wCzWw8lw3yjvi3CHq8tkc19jm4lg3 Returned completion in 113.34919929504395 ms
+INFO:     2024-10-16 14:27:48,313 - cmpl-akXZP1fsTy6h3HHhjXaLOIrIGXEtE start
+INFO:     2024-10-16 14:27:48,313 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:27:48,315 - language=python, is_single_completion=False
+INFO:     2024-10-16 14:27:48,315 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n', '\n@classmethod', '\n@staticmethod', '\n@property', '\n@abstractmethod', '\n@asyncio.coroutine', '\n@asyncio.coroutine_decorator']
+INFO:     2024-10-16 14:27:48,426 - cmpl-akXZP1fsTy6h3HHhjXaLOIrIGXEtE exist context, return empty choices!
+INFO:     2024-10-16 14:27:48,426 - cmpl-akXZP1fsTy6h3HHhjXaLOIrIGXEtE Returned completion in 113.02566528320312 ms
+INFO:     2024-10-16 14:27:51,119 - cmpl-VDAICAT69uR4leYlT3q1O3ouR7Llp start
+INFO:     2024-10-16 14:27:51,119 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:27:51,120 - language=python, is_single_completion=False
+INFO:     2024-10-16 14:27:51,121 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n', '\n@classmethod', '\n@staticmethod', '\n@property', '\n@abstractmethod', '\n@asyncio.coroutine', '\n@asyncio.coroutine_decorator']
+INFO:     2024-10-16 14:27:52,194 - cmpl-VDAICAT69uR4leYlT3q1O3ouR7Llp exist context, return empty choices!
+INFO:     2024-10-16 14:27:52,195 - cmpl-VDAICAT69uR4leYlT3q1O3ouR7Llp Returned completion in 1075.8600234985352 ms
+INFO:     2024-10-16 14:27:58,961 - cmpl-pkyDwe0AiPgw4Xuk99obAF45tiFDr start
+INFO:     2024-10-16 14:27:58,961 - model=DeepSeek-Coder-V2-Lite-Base, self.FIM_PREFIX=<｜fim▁begin｜>
+INFO:     2024-10-16 14:27:58,966 - language=shell, is_single_completion=False
+INFO:     2024-10-16 14:27:58,967 - all_stop_words=['<｜end▁of▁sentence｜>', '<|EOT|>', '▁<MID>', '\n\n\n', '\n\n']
+INFO:     2024-10-16 14:28:00,420 - 补全流式输出提前终止，内容为: 
+
+INFO:     2024-10-16 14:28:00,421 - cmpl-pkyDwe0AiPgw4Xuk99obAF45tiFDr exist context, return empty choices!
+INFO:     2024-10-16 14:28:00,421 - cmpl-pkyDwe0AiPgw4Xuk99obAF45tiFDr Returned completion in 1460.1881504058838 ms
