@@ -13,7 +13,7 @@ services:
     volumes:
       - pgsql_data:/var/lib/postgresql/data
     networks:
-      apisix:
+      auth0:
 
   web:
     image: nginx:1.27.1
@@ -25,14 +25,14 @@ services:
     environment:
       - NGINX_PORT=80
     networks:
-      apisix:
+      auth0:
 
   keycloak:
     image: quay.io/keycloak/keycloak:20.0.5
-    command: ["start-dev"]
+    command: ["start"]
     restart: always
     environment:
-      DB_ADDR: "10.65.178.94"
+      DB_ADDR: "172.16.0.2"
       DB_PORT: "5432"
       DB_VENDOR: "postgres"
       KEYCLOAK_USER: "admin"
@@ -43,12 +43,12 @@ services:
       - "8080:8080/tcp"
     volumes:
       - keycloak_data:/opt/keycloak/providers
-      - ./keycloak.yaml:/opt/keycloak/conf/keycloak.conf:ro
+      - ./keycloak.conf:/opt/keycloak/conf/keycloak.conf:ro
     networks:
-      apisix:
+      auth0:
 
 networks:
-  apisix:
+  auth0:
     driver: bridge
 
 volumes:
