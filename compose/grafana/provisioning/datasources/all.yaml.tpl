@@ -14,12 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-routes:
-  -
-    uri: /get
-    upstream:
-        nodes:
-            "web1:80": 1
-        type: roundrobin
-#END
+datasources:
+ - access: 'proxy'
+   editable: true
+   is_default: true
+   name: 'apisix'
+   org_id: 1
+   type: 'prometheus'
+   url: 'http://{{ZGSM_BACKEND}}:{{PORT_PROMETHEUS}}'
+   version: 1
+ - name: Elastic
+   type: elasticsearch
+   access: proxy
+   url: http://{{ZGSM_BACKEND}}:{{PORT_ES}}
+   jsonData:
+    index: '[metrics-]YYYY.MM.DD'
+    interval: Daily
+    timeField: '@timestamp'

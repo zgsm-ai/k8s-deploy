@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 apisix:
-  node_listen: 9080              # APISIX listening port
+  node_listen: {{PORT_APISIX_API}}              # APISIX listening port
   enable_ipv6: false
   enable_control: true
   control:
@@ -34,14 +34,14 @@ deployment:
         role: viewer
   etcd:
     host:                           # it's possible to define multiple etcd hosts addresses of the same etcd cluster.
-      - "http://172.16.0.2:2379"          # multiple etcd address
+      - "http://{{ZGSM_BACKEND}}:{{PORT_ETCD}}"          # multiple etcd address
     prefix: "/apisix"               # apisix configurations prefix
     timeout: 30                     # 30 seconds
 plugin_attr:
   prometheus:
     export_addr:
       ip: "0.0.0.0"
-      port: 9091
+      port: {{PORT_APISIX_PROMETHEUS}}
 nginx_config:
   http_end_configuration_snippet: |
     proxy_buffer_size 128k;

@@ -1,14 +1,11 @@
 #!/bin/sh
 
-AUTH="X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" 
-TYPE="Content-Type: application/json"
-APISIX_ADDR="172.16.0.2:9180"
-KEYCLOAK_ADDR="http://172.16.0.2:8080"
+. apisix-conf.sh
 
 curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT  -d '{
     "id": "copilot",
     "nodes": {
-      "172.16.0.2:5001": 1
+      "'"$ZGSM_BACKEND:$PORT_FAUXPILOT"'": 1
     },
     "type": "roundrobin"
   }'
@@ -19,11 +16,11 @@ curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d
     "upstream_id": "copilot",
     "plugins": {
       "openid-connect": {
-        "client_id": "vscode",
-        "client_secret": "jFWyVy9wUKKSkX55TDBt2SuQWl7fDM1l",
-        "discovery": "'"$KEYCLOAK_ADDR"'/realms/gw/.well-known/openid-configuration",
+        "client_id": "'"$KEYCLOAK_CLIENT_ID"'",
+        "client_secret": "'"$KEYCLOAK_CLIENT_SECRET"'",
+        "discovery": "'"$KEYCLOAK_ADDR"'/realms/'"$KEYCLOAK_REALM"'/.well-known/openid-configuration",
         "introspection_endpoint_auth_method": "client_secret_basic",
-        "realm": "gw",
+        "realm": "'"$KEYCLOAK_REALM"'",
         "bearer_only": true,
         "ssl_verify": false
       },

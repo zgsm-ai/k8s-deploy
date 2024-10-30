@@ -3,7 +3,7 @@ conf:
     # host: 127.0.0.1     # the address on which the `Manager API` should listen.
                           # The default value is 0.0.0.0, if want to specify, please enable it.
                           # This value accepts IPv4, IPv6, and hostname.
-    port: 9000            # The port on which the `Manager API` should listen.
+    port: {{PORT_APISIX_DASHBOARD}}            # The port on which the `Manager API` should listen.
 
   # ssl:
   #   host: 127.0.0.1     # the address on which the `Manager API` should listen for HTTPS.
@@ -19,7 +19,7 @@ conf:
     - 0.0.0.0/0
   etcd:
     endpoints:            # supports defining multiple etcd host addresses for an etcd cluster
-      - "http://172.16.0.2:2379"
+      - "http://{{ZGSM_BACKEND}}:{{PORT_ETCD}}"
                           # yamllint disable rule:comments-indentation
                           # etcd basic auth info
     # username: "root"    # ignore etcd username if not enable etcd auth

@@ -9,8 +9,9 @@ services:
     depends_on:
       - etcd
     ports:
-      - "9180:9180/tcp"
-      - "9080:9080/tcp"
+      - "{{PORT_APISIX_API}}:9180/tcp"
+      - "{{PORT_APISIX_ENTRY}}:9080/tcp"
+      - "{{PORT_APISIX_PROMETHEUS}}:{{PORT_APISIX_PROMETHEUS}}/tcp"
     networks:
       - shenma
 
@@ -22,7 +23,7 @@ services:
     depends_on:
       - etcd
     ports:
-      - "9000:9000/tcp"
+      - "{{PORT_APISIX_DASHBOARD}}:{{PORT_APISIX_DASHBOARD}}/tcp"
     networks:
       - shenma
 
@@ -35,10 +36,10 @@ services:
     environment:
       ETCD_ENABLE_V2: "true"
       ALLOW_NONE_AUTHENTICATION: "yes"
-      ETCD_ADVERTISE_CLIENT_URLS: "http://172.16.0.2:2379"
-      ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
+      ETCD_ADVERTISE_CLIENT_URLS: "http://{{ZGSM_BACKEND}}:{{PORT_ETCD}}"
+      ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:{{PORT_ETCD}}"
     ports:
-      - "2379:2379/tcp"
+      - "{{PORT_ETCD}}:{{PORT_ETCD}}/tcp"
     networks:
       - shenma
 
@@ -48,7 +49,7 @@ services:
     volumes:
       - ./redis/data:/data
     ports:
-      - "6379:6379"
+      - "{{PORT_REDIS}}:{{PORT_REDIS}}"
     networks:
       - shenma
 
@@ -62,7 +63,7 @@ services:
     volumes:
       - ./postgres/data:/var/lib/postgresql/data
     ports:
-      - "5432:5432/tcp"
+      - "{{PORT_POSTGRES}}:{{PORT_POSTGRES}}/tcp"
     networks:
       - shenma
 
@@ -71,13 +72,13 @@ services:
     command: ["start-dev"]
     restart: always
     environment:
-      DB_ADDR: "172.16.0.2"
-      DB_PORT: "5432"
+      DB_ADDR: "{{ZGSM_BACKEND}}"
+      DB_PORT: "{{PORT_POSTGRES}}"
       DB_VENDOR: "postgres"
       KEYCLOAK_ADMIN: "admin"
       KEYCLOAK_ADMIN_PASSWORD: "admin"
     ports:
-      - "8080:8080/tcp"
+      - "{{PORT_KEYCLOAK}}:8080/tcp"
     volumes:
       - ./keycloak/providers:/opt/keycloak/providers
       - ./keycloak/keycloak.conf:/opt/keycloak/conf/keycloak.conf:ro
@@ -93,7 +94,7 @@ services:
       - ./portal/data:/var/www
       - ./portal/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - "9081:80/tcp"
+      - "{{PORT_PORTAL}}:80/tcp"
     networks:
       - shenma
 
@@ -103,7 +104,7 @@ services:
     volumes:
       - ./trampoline/data:/opt/trampoline/resources
     ports:
-      - "9082:8080/tcp"
+      - "{{PORT_TRAMPOLINE}}:8080/tcp"
     networks:
       - shenma
 
@@ -122,18 +123,18 @@ services:
       - ./chatgpt/events.py:/server/controllers/socket/events.py
       - ./chatgpt/application_context.py:/server/common/helpers/application_context.py
     ports:
-      - "5000:5000/tcp"
-      - "8765:8765/tcp"
+      - "{{PORT_CHATGPT_API}}:5000/tcp"
+      - "{{PORT_CHATGPT_WS}}:8765/tcp"
     environment:
       - TZ=Asia/Shanghai
       - CACHE_DB=chatgpt
-      - REDIS_URL=redis://172.16.0.2:6379/0
+      - REDIS_URL=redis://{{ZGSM_BACKEND}}:{{PORT_REDIS}}/0
       - SERVE_THREADS=200
       - SERVE_CONNECTION_LIMIT=512
-      - PG_URL=172.16.0.2:5432
+      - PG_URL={{ZGSM_BACKEND}}:{{PORT_POSTGRES}}
       - DB_NAME=chatgpt
-      - DATABASE_URI=postgresext+pool://keycloak:password@172.16.0.2/chatgpt
-      - ES_SERVER=http://172.16.0.2:9200
+      - DATABASE_URI=postgresext+pool://keycloak:password@{{ZGSM_BACKEND}}/chatgpt
+      - ES_SERVER=http://{{ZGSM_BACKEND}}:{{PORT_ES}}
       - ES_PASSWORD=4c6y4g6Z09T2w33pYRNKE3LG
       - DEVOPS_URL=
       - GEVENT_SUPPORT=True
@@ -153,26 +154,26 @@ services:
       - ./fauxpilot/logs:/python-docker/logs
       - ./fauxpilot/common.py:/python-docker/utils/common.py
     ports:
-      - "5001:5000/tcp"
+      - "{{PORT_FAUXPILOT}}:5000/tcp"
     environment:
-      - TZ="Asia/Shanghai"
+      - TZ=Asia/Shanghai
       - THRESHOLD_SCORE=0.3
-      - STR_PATTERN="import +.*|from +.*|from +.* import *.*"
+      - STR_PATTERN=import +.*|from +.*|from +.* import *.*
       - USER_CODE_UPLOAD_DELAY=30
       - MAX_MODEL_COST_TIME=3000
       - CONTEXT_LINES_LIMIT=1000
       - SNIPPET_TOP_N=0
-      - MAX_MODEL_LEN="4000,2000"
+      - MAX_MODEL_LEN=4000,2000
       - MAX_TOKENS=500
       - MULTI_LINE_STREAM_K=6
-      - ENABLE_REDIS="False"
-      - REDIS_HOST="172.16.0.2"
-      - REDIS_PORT=6379
-      - REDIS_DB="0"
+      - ENABLE_REDIS=False
+      - REDIS_HOST={{ZGSM_BACKEND}}
+      - REDIS_PORT={{PORT_REDIS}}
+      - REDIS_DB=0
       - REDIS_PWD=""
-      - MAIN_MODEL_TYPE="openai"
-      - OPENAI_MODEL_HOST="http://172.16.254.5:32080/v1/completions"
-      - OPENAI_MODEL="DeepSeek-Coder-V2-Lite-Base"
+      - MAIN_MODEL_TYPE=openai
+      - OPENAI_MODEL_HOST={{OPENAI_MODEL_HOST}}
+      - OPENAI_MODEL={{OPENAI_MODEL}}
     depends_on:
       - redis
     networks:
@@ -184,7 +185,7 @@ services:
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
-      - "9090:9090"
+      - "{{PORT_PROMETHEUS}}:9090"
     networks:
       - shenma
 
@@ -192,7 +193,7 @@ services:
     image: docker.io/grafana/grafana:11.2.0
     restart: always
     ports:
-      - "3000:3000"
+      - "{{PORT_GRAFANA}}:3000"
     volumes:
       - "./grafana/provisioning:/etc/grafana/provisioning"
       - "./grafana/dashboards:/var/lib/grafana/dashboards"
@@ -214,7 +215,7 @@ services:
         soft: -1
         hard: -1
     ports:
-      - "9200:9200"
+      - "{{PORT_ES}}:9200"
       - "9300:9300"
     volumes:
       - ./es/data:/usr/share/elasticsearch/data

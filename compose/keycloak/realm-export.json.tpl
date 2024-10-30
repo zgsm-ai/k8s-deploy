@@ -255,18 +255,18 @@
       "clientId": "apisix",
       "name": "apisix",
       "description": "神码入口网关apisix",
-      "rootUrl": "https://zgsm.sangfor.com",
+      "rootUrl": "http://{{ZGSM_BACKEND}}:{{PORT_APISIX_ENTRY}}",
       "adminUrl": "",
-      "baseUrl": "https://zgsm.sangfor.com",
+      "baseUrl": "http://{{ZGSM_BACKEND}}:{{PORT_APISIX_ENTRY}}",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": true,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "https://zgsm.sangfor.com/*"
+        "http://{{ZGSM_BACKEND}}:{{PORT_APISIX_ENTRY}}/*"
       ],
       "webOrigins": [
-        "https://zgsm.sangfor.com"
+        "http://{{ZGSM_BACKEND}}:{{PORT_APISIX_ENTRY}}"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -469,10 +469,10 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "https://zgsm.sangfor.com/*"
+        "http://{{ZGSM_BACKEND}}:{{PORT_APISIX_ENTRY}}/*"
       ],
       "webOrigins": [
-        "https://zgsm.sangfor.com"
+        "http://{{ZGSM_BACKEND}}:{{PORT_APISIX_ENTRY}}"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -2045,7 +2045,7 @@
     "actionTokenGeneratedByUserLifespan-idp-verify-account-via-email": "",
     "parRequestUriLifespan": "60",
     "clientSessionMaxLifespan": "0",
-    "frontendUrl": "https://zgsm.sangfor.com",
+    "frontendUrl": "http://{{ZGSM_BACKEND}}:{{PORT_APISIX_ENTRY}}",
     "acr.loa.map": "{}"
   },
   "keycloakVersion": "20.0.5",

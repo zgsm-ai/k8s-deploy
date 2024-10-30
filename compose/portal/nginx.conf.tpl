@@ -28,7 +28,7 @@ http {
             alias login/;
         }
         location /socket.io/ {
-            proxy_pass http://10.74.21.48:8765/;
+            proxy_pass http://{{ZGSM_BACKEND}}:{{PORT_CHATGPT_WS}}/;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header Upgrade $http_upgrade;
