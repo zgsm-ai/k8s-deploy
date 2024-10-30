@@ -64,4 +64,4 @@ spi-phone-default-gw-compatible=true
 #default: 60 * 60; 1 hour
 spi-phone-default-gw-otp-expires=3600
 
-spi-phone-default-gw-message-template={{code}},诸葛神码认证码
+spi-phone-default-gw-message-template=[[code]],诸葛神码认证码
