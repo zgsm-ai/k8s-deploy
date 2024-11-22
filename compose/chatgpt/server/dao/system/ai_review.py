@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+@Author  : 刘鹏z10807
+@Date    : 2023/3/27 11:26
+"""
+
+from dao.base_dao import BaseDao
+from models.system.ai_review import AIReviewMainRecord, AIReviewTaskRecord
+
+
+class AIReviewMainRecordDao(BaseDao):
+    model = AIReviewMainRecord
+
+
+class AIReviewTaskRecordDao(BaseDao):
+    model = AIReviewTaskRecord

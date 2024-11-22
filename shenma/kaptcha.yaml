@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kaptcha
+  labels:
+    app: kaptcha
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kaptcha
+  template:
+    metadata:
+      labels:
+        app: kaptcha
+    spec:
+      containers:
+      - name: kaptcha
+        image: kaptcha-plugin:v0.6.0
+        env:
+        - name: TZ
+          value: "Asia/Shanghai"
+        ports:
+        - containerPort: 9696
+        restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kaptcha
+spec:
+  type: NodePort
+  ports:
+  - port: 9696
+    targetPort: 9696
+    protocol: TCP
+  selector:
+    app: kaptcha

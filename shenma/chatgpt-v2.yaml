@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatgpt
+  labels:
+    app: chatgpt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatgpt
+  template:
+    metadata:
+      labels:
+        app: chatgpt
+    spec:
+      containers:
+      - name: chatgpt
+        image: docker.sangfor.com/containerd/chatgpt/server:1.5.9
+        env:
+        - name: TZ
+          value: "Asia/Shanghai"
+        - name: CACHE_DB
+          value: "chatgpt"
+        - name: REDIS_URL
+          value: "redis://172.16.0.4:6379/0"
+        - name: SERVE_THREADS
+          value: "200"
+        - name: SERVE_CONNECTION_LIMIT
+          value: "512"
+        - name: PG_URL
+          value: "172.16.0.4:5432"
+        - name: DB_NAME
+          value: "chatgpt"
+        - name: DATABASE_URI
+          value: "postgresext+pool://keycloak:password@172.16.0.4/chatgpt"
+        - name: ES_SERVER
+          value: "http://172.16.0.4:9200"
+        - name: ES_PASSWORD
+          value: "4c6y4g6Z09T2w33pYRNKE3LG"
+        - name: DEVOPS_URL
+          value: ""
+        - name: GEVENT_SUPPORT
+          value: "True"
+        - name: NO_COLOR
+          value: "1"
+        - name: DEPLOYMENT_TYPE
+          value: "all"
+        ports:
+        - containerPort: 5000
+        - containerPort: 8765
+        volumeMounts:
+        - name: server-volume
+          mountPath: /server
+        - name: supervisor-volume
+          mountPath: /var/log/supervisor
+        - name: logs-volume
+          mountPath: /server/logs
+      volumes:
+      - name: server-volume
+        hostPath:
+          path: ./chatgpt/server
+      - name: supervisor-volume
+        hostPath:
+          path: ./chatgpt/supervisor
+      - name: logs-volume
+        hostPath:
+          path: ./chatgpt/logs
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatgpt
+spec:
+  type: NodePort
+  ports:
+  - port: 5000
+    targetPort: 5000
+    protocol: TCP
+  - port: 8765
+    targetPort: 8765
+    protocol: TCP
+  selector:
+    app: chatgpt
