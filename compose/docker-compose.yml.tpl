@@ -131,15 +131,6 @@ services:
     networks:
       - shenma
 
-#      - ./chatgpt/supervisor:/var/log/supervisor
-#      - ./chatgpt/local.yml:/server/config/local.yml
-#      - ./chatgpt/agent_chat.py:/server/services/agent_chat.py
-#      - ./chatgpt/analysis_manager.py:/server/third_platform/devops/analysis_manager.py
-#      - ./chatgpt/apiBot.py:/server/bot/apiBot.py
-#      - ./chatgpt/base_es.py:/server/third_platform/es/base_es.py
-#      - ./chatgpt/configuration_service.py:/server/services/system/configuration_service.py
-#      - ./chatgpt/events.py:/server/controllers/socket/events.py
-#      - ./chatgpt/application_context.py:/server/common/helpers/application_context.py
   chatgpt:
     image: docker.sangfor.com/containerd/chatgpt/server:1.5.9
     restart: always
