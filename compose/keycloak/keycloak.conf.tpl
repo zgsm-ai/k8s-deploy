@@ -8,7 +8,6 @@ db-username=keycloak
 db-password=password
 # The full database JDBC URL. If not provided, a default URL is set based on the selected database vendor.
 db-url=jdbc:postgresql://{{ZGSM_BACKEND}}/keycloak
-
 # Observability
 # If the server should expose healthcheck endpoints.
 #health-enabled=true
@@ -63,5 +62,9 @@ spi-phone-default-gw-compatible=true
 #Prevent 2FA from always happening for a period of time
 #default: 60 * 60; 1 hour
 spi-phone-default-gw-otp-expires=3600
-
+# NTC发送的认证码信息模版
 spi-phone-default-gw-message-template=[[code]],诸葛神码认证码
+# redis服务器IP
+spi-phone-default-redis-host={{ZGSM_BACKEND}}
+# redis服务器端口
+spi-phone-default-redis-port={{PORT_REDIS}}

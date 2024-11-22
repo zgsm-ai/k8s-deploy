@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 apisix:
-  node_listen: {{PORT_APISIX_API}}              # APISIX listening port
+  node_listen: {{PORT_APISIX_ENTRY}}              # APISIX listening port
   enable_ipv6: false
   enable_control: true
   control:

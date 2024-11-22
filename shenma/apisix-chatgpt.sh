@@ -34,7 +34,7 @@ curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d
         "key": "remote_addr"
       },
       "limit-count": {
-        "count": 100,
+        "count": 10000,
         "time_window": 86400,
         "rejected_code": 429,
         "key": "remote_addr"

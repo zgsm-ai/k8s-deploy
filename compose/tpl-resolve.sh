@@ -1,11 +1,11 @@
 #!/bin/sh
 
 function usage() {
-    echo "resolve-vars.sh [-f input-filename] [-o output-filename] [-h]"
+    echo "tpl-resolve.sh [-f input-filename] [-o output-filename] [-h]"
     echo "  input-filename: 输入文件名，如果未指定，则处理当前目录下所有.yaml,.yml,.conf文件，包括子目录"
     echo "  output-filename: 输出文件名，如果未指定，则直接修改输入文件"
-    echo "resolve-vars.sh从apisix.conf.sh文件读取配置项"
-    echo "  由{{和}}括起来的变量varname，将.替换为varname的变量值"
+    echo "tpl-resolve.sh从configure.sh文件读取配置项"
+    echo "  将{{和}}括起来的变量定义{{varname}}，替换为变量varname的值"
 }
 
 while getopts "f:o:h" opt
@@ -24,12 +24,17 @@ do
     esac
 done
 
-. ./apisix.conf.sh
+. ./configure.sh
 
+#
+# 处理一个.tpl文件中的变量标记，将变量值决议为实际值
+# @param input_file 输入文件
+# @param output_file 输出文件
+#
 function resolve_file() {
     input_file=$1
     output_file=$2
-    cp -f $input_file $output_file
+    cp -f "$input_file" "$output_file"
     echo generate $input_file to $output_file ...
 
     # 查询所有{{变量}}，并进行值替换
@@ -41,19 +46,22 @@ function resolve_file() {
         echo "$key=>$value"
         # 替换文件内容
         if echo "$value" | grep -vq '#'; then
-            sed -i "s#$i#$value#g" $output_file;
+            sed -i "s#$i#$value#g" "$output_file";
         elif echo "$value" | grep -vq '/'; then
-            sed -i "s/$i/$value/g" $output_file;
+            sed -i "s/$i/$value/g" "$output_file";
         elif echo "$value" | grep -vq ','; then
-            sed -i "s,$i,$value,g" $output_file;
+            sed -i "s,$i,$value,g" "$output_file";
         else
             echo "$value中同时包含特殊字符“#/,”，无法执行替换"
         fi
     done
 }
 
+#
+#   处理某目录下的所有.tpl文件
+#   @param dir 目录路径
+#
 function resolve_dir() {
-    # 目录路径
     dir="$1"
     echo generate $dir ...
 
@@ -73,10 +81,6 @@ function resolve_dir() {
 if [ ""X == "$output"X ]; then
     output="$input"
 fi
-
-# 用户输入参数
-echo input: $input
-echo output: $output
 
 if [ X"" == X"$input" ]; then
     resolve_dir .

@@ -28,8 +28,8 @@ curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d
         "ssl_verify": false
       },
       "limit-req": {
-        "rate": 1,
-        "burst": 1,
+        "rate": 10,
+        "burst": 10,
         "rejected_code": 503,
         "key_type": "var",
         "key": "remote_addr"

@@ -4,6 +4,8 @@ services:
   apisix:
     image: apache/apisix:3.9.1-debian
     restart: always
+    environment:
+      TZ: "Asia/Shanghai"
     volumes:
       - ./apisix/config.yaml:/usr/local/apisix/conf/config.yaml:ro
     depends_on:
@@ -11,13 +13,15 @@ services:
     ports:
       - "{{PORT_APISIX_API}}:9180/tcp"
       - "{{PORT_APISIX_ENTRY}}:9080/tcp"
-      - "{{PORT_APISIX_PROMETHEUS}}:{{PORT_APISIX_PROMETHEUS}}/tcp"
+      - "{{PORT_APISIX_PROMETHEUS}}:9091/tcp"
     networks:
       - shenma
 
   apisix-dashboard:
     image: apache/apisix-dashboard:3.0.0-alpine
     restart: always
+    environment:
+      TZ: "Asia/Shanghai"
     volumes:
       - ./apisix_dashboard/conf.yaml:/usr/local/apisix-dashboard/conf/conf.yaml
     depends_on:
@@ -34,6 +38,7 @@ services:
       - ./etcd/data:/bitnami/etcd/data
     user: "1000:1000"
     environment:
+      TZ: "Asia/Shanghai"
       ETCD_ENABLE_V2: "true"
       ALLOW_NONE_AUTHENTICATION: "yes"
       ETCD_ADVERTISE_CLIENT_URLS: "http://{{ZGSM_BACKEND}}:{{PORT_ETCD}}"
@@ -46,6 +51,8 @@ services:
   redis:
     image: docker.io/redis:7.2.4
     restart: always
+    environment:
+      TZ: "Asia/Shanghai"
     volumes:
       - ./redis/data:/data
     ports:
@@ -57,6 +64,7 @@ services:
     image: postgres:15-alpine
     restart: always
     environment:
+      TZ: "Asia/Shanghai"
       POSTGRES_DB: "keycloak"
       POSTGRES_USER: "keycloak"
       POSTGRES_PASSWORD: "password"
@@ -72,6 +80,7 @@ services:
     command: ["start-dev"]
     restart: always
     environment:
+      TZ: "Asia/Shanghai"
       DB_ADDR: "{{ZGSM_BACKEND}}"
       DB_PORT: "{{PORT_POSTGRES}}"
       DB_VENDOR: "postgres"
@@ -90,6 +99,8 @@ services:
   portal:
     image: nginx:1.27.1
     restart: always
+    environment:
+      TZ: "Asia/Shanghai"
     volumes:
       - ./portal/data:/var/www
       - ./portal/nginx.conf:/etc/nginx/nginx.conf
@@ -101,6 +112,8 @@ services:
   trampoline:
     image: trampoline:1.0.241018
     restart: always
+    environment:
+      TZ: "Asia/Shanghai"
     volumes:
       - ./trampoline/data:/opt/trampoline/resources
     ports:
@@ -108,20 +121,32 @@ services:
     networks:
       - shenma
 
+  kaptcha:
+    image: kaptcha-plugin:v0.6.0
+    restart: always
+    environment:
+      TZ: "Asia/Shanghai"
+    ports:
+      - "9696:9696/tcp"
+    networks:
+      - shenma
+
+#      - ./chatgpt/supervisor:/var/log/supervisor
+#      - ./chatgpt/local.yml:/server/config/local.yml
+#      - ./chatgpt/agent_chat.py:/server/services/agent_chat.py
+#      - ./chatgpt/analysis_manager.py:/server/third_platform/devops/analysis_manager.py
+#      - ./chatgpt/apiBot.py:/server/bot/apiBot.py
+#      - ./chatgpt/base_es.py:/server/third_platform/es/base_es.py
+#      - ./chatgpt/configuration_service.py:/server/services/system/configuration_service.py
+#      - ./chatgpt/events.py:/server/controllers/socket/events.py
+#      - ./chatgpt/application_context.py:/server/common/helpers/application_context.py
   chatgpt:
     image: docker.sangfor.com/containerd/chatgpt/server:1.5.9
     restart: always
     volumes:
-      - ./chatgpt/logs:/server/logs
+      - ./chatgpt/server:/server
       - ./chatgpt/supervisor:/var/log/supervisor
-      - ./chatgpt/local.yml:/server/config/local.yml
-      - ./chatgpt/agent_chat.py:/server/services/agent_chat.py
-      - ./chatgpt/analysis_manager.py:/server/third_platform/devops/analysis_manager.py
-      - ./chatgpt/apiBot.py:/server/bot/apiBot.py
-      - ./chatgpt/base_es.py:/server/third_platform/es/base_es.py
-      - ./chatgpt/configuration_service.py:/server/services/system/configuration_service.py
-      - ./chatgpt/events.py:/server/controllers/socket/events.py
-      - ./chatgpt/application_context.py:/server/common/helpers/application_context.py
+      - ./chatgpt/logs:/server/logs
     ports:
       - "{{PORT_CHATGPT_API}}:5000/tcp"
       - "{{PORT_CHATGPT_WS}}:8765/tcp"
@@ -147,12 +172,13 @@ services:
       - shenma
 
   fauxpilot:
-    image: docker.sangfor.com/moyix/copilot_proxy:1.5.9
+    # image: docker.sangfor.com/moyix/copilot_proxy:1.5.9
+    image: docker.sangfor.com/moyix/copilot_proxy:1.5.15
     command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5000"]
     restart: always
     volumes:
       - ./fauxpilot/logs:/python-docker/logs
-      - ./fauxpilot/common.py:/python-docker/utils/common.py
+      - ./fauxpilot/common-v1.5.15.py:/python-docker/utils/common.py
     ports:
       - "{{PORT_FAUXPILOT}}:5000/tcp"
     environment:
@@ -182,6 +208,8 @@ services:
   prometheus:
     image: quay.io/prometheus/prometheus:v2.54.0
     restart: always
+    environment:
+      TZ: "Asia/Shanghai"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
@@ -192,6 +220,8 @@ services:
   grafana:
     image: docker.io/grafana/grafana:11.2.0
     restart: always
+    environment:
+      TZ: "Asia/Shanghai"
     ports:
       - "{{PORT_GRAFANA}}:3000"
     volumes:
@@ -204,10 +234,12 @@ services:
   es:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.9.0
     environment:
+      - TZ=Asia/Shanghai
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false  # 禁用安全功能
       - xpack.security.http.ssl.enabled=false  # 禁用 HTTPS
+      - xpack.ml.enabled=false
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     user: "1000:1000"
     ulimits:

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. apisix-conf.sh
+. ./configure.sh
 
 curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT  -d '{
     "id": "copilot",

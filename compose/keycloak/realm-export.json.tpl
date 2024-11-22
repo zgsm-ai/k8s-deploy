@@ -1,6 +1,6 @@
 {
   "id": "6792aaf6-cba2-4e57-92b5-e01d53d93c89",
-  "realm": "gw",
+  "realm": "{{KEYCLOAK_CLIENT_ID}}",
   "displayName": "诸葛神码",
   "displayNameHtml": "诸葛神码",
   "notBefore": 0,
@@ -47,7 +47,7 @@
   "failureFactor": 30,
   "defaultRole": {
     "id": "5b44170a-60b4-4048-a623-360620dd1a7c",
-    "name": "default-roles-gw",
+    "name": "default-roles-{{KEYCLOAK_CLIENT_ID}}",
     "description": "${role_default-roles}",
     "composite": true,
     "clientRole": false,
@@ -116,13 +116,13 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/gw/account/",
+      "baseUrl": "/realms/{{KEYCLOAK_CLIENT_ID}}/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/gw/account/*"
+        "/realms/{{KEYCLOAK_CLIENT_ID}}/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -160,13 +160,13 @@
       "clientId": "account-console",
       "name": "${client_account-console}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/gw/account/",
+      "baseUrl": "/realms/{{KEYCLOAK_CLIENT_ID}}/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/gw/account/*"
+        "/realms/{{KEYCLOAK_CLIENT_ID}}/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -396,13 +396,13 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/gw/console/",
+      "baseUrl": "/admin/{{KEYCLOAK_CLIENT_ID}}/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/admin/gw/console/*"
+        "/admin/{{KEYCLOAK_CLIENT_ID}}/console/*"
       ],
       "webOrigins": [
         "+"
@@ -467,7 +467,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": true,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "{{KEYCLOAK_CLIENT_SECRET}}",
       "redirectUris": [
         "http://{{ZGSM_BACKEND}}:{{PORT_APISIX_ENTRY}}/*"
       ],

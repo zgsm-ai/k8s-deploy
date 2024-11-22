@@ -9,6 +9,8 @@ http {
     access_log off;
     real_ip_header X-Real-IP;
     charset utf-8;
+    include /etc/nginx/mime.types;
+    default_type  application/octet-stream;
 
     server {
         listen 80;
@@ -56,26 +58,6 @@ http {
         location ~* \.(jpg|jpeg|gif|ico|woff|woff2|ttf|eot)$ {
             expires 30d;  # 设置缓存过期时间
             add_header Access-Control-Allow-Origin *;  # 允许所有域访问
-        }
-
-        location ~* \.png$ {
-            add_header Content-Type "image/png";                   # 设置内容类型
-        }
-
-        location ~* \.css$ {
-            add_header Content-Type "text/css";                    # 设置内容类型
-        }
-
-        location ~* \.js$ {
-            add_header Content-Type "application/javascript";       # 设置内容类型
-        }
-
-        location ~* \.svg$ {
-            add_header Content-Type image/svg+xml;
-        }
-
-        location ~* \.ico$ {
-            add_header Content-Type "image/x-icon";
         }
     }
 }

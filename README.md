@@ -12,7 +12,10 @@
 
 - 流量转发，ssl卸载： AD
 - 应用分发、流量控制等: apisix
-- 登录认证、授权控制：keycloak
+- 登录认证、授权控制：keycloak,trampoline,kaptcha
+  - 用户管理组件：keycloak
+  - 登录跳板：trampoline
+  - 登录过程使用的验证码服务：kaptcha
 
 ### 服务层
 
@@ -36,6 +39,7 @@
 - grafana
 - prometheus
 - kibana
+- elasticsearch
 
 ## 部署步骤
 

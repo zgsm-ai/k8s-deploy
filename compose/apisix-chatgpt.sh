@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. apisix.conf.sh
+. ./configure.sh
 
 curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT  -d '{
     "id": "chatgpt",
@@ -19,8 +19,8 @@ curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT 
   }'
 
 curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
-    "uris": ["/chat/*", "/api/*", "/answer", "/answer/*"],
-    "id": "chatgpt",
+    "uris": ["/chat/*", "/answer", "/answer/*"],
+    "id": "chatgpt-qa",
     "upstream_id": "chatgpt",
     "plugins": {
       "limit-req": {
@@ -31,7 +31,33 @@ curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d
         "key": "remote_addr"
       },
       "limit-count": {
-        "count": 100,
+        "count": 10000,
+        "time_window": 86400,
+        "rejected_code": 429,
+        "key": "remote_addr"
+      },
+      "file-logger": {
+        "path": "logs/access.log",
+        "include_req_body": true,
+        "include_resp_body": true
+      }
+    }
+  }'
+
+curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
+    "uris": ["/api/*"],
+    "id": "chatgpt-api",
+    "upstream_id": "chatgpt",
+    "plugins": {
+      "limit-req": {
+        "rate": 1,
+        "burst": 1,
+        "rejected_code": 503,
+        "key_type": "var",
+        "key": "remote_addr"
+      },
+      "limit-count": {
+        "count": 10000,
         "time_window": 86400,
         "rejected_code": 429,
         "key": "remote_addr"
@@ -46,7 +72,7 @@ curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d
 
 curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
     "uris": ["/socket.io/*"],
-    "id": "websocket",
+    "id": "chatgpt-ws",
     "upstream_id": "websocket",
     "enable_websocket": true,
     "plugins": {
