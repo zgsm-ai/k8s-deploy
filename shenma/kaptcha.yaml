@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kaptcha
+  namespace: shenma
   labels:
     app: kaptcha
 spec:
@@ -22,15 +23,14 @@ spec:
           value: "Asia/Shanghai"
         ports:
         - containerPort: 9696
-        restartPolicy: Always
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: kaptcha
+  namespace: shenma
 spec:
-  type: NodePort
   ports:
   - port: 9696
     targetPort: 9696

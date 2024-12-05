@@ -1,8 +1,41 @@
 #!/bin/sh
 
-AUTH="X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" 
-TYPE="Content-Type: application/json"
-APISIX_ADDR="10.200.101.5:30180"
+. ./configure.sh
+
+#
+# 四个上游：
+#   keycloak-登录整体逻辑
+#   portal-登录页面资源
+#   trampoline-登录成功跳板
+#   kaptcha-图形验证码
+#
+
+# 定义存放登录相关页面资源的upstream
+curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT  -d '{
+    "id": "portal",
+    "nodes": {
+        "portal-web.shenma.svc.cluster.local:8080": 1
+    },
+    "type": "roundrobin"
+}'
+
+# trampoline: 登录成功跳板(URL: /login/ok),负责拉起vscode
+curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT  -d '{
+    "id": "trampoline",
+    "nodes": {
+        "trampoline.shenma.svc.cluster.local:8080": 1
+    },
+    "type": "roundrobin"
+}'
+
+# 生成图片校验码的服务
+curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT  -d '{
+    "id": "kaptcha",
+    "nodes": {
+        "kaptcha.shenma.svc.cluster.local:9696": 1
+    },
+    "type": "roundrobin"
+}'
 
 # 定义keycloak这个端点
 curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT  -d '{
@@ -15,84 +48,45 @@ curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT 
 
 # 把请求keycloak的请求定向到keycloak端点
 curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
-    "uris": ["/realms/gw/*", "/resources/iodim/*"],
+    "uris": ["/realms/'"$KEYCLOAK_REALM"'/*", "/resources/*"],
     "id": "keycloak",
     "upstream_id": "keycloak"
   }'
 
-# 改写vscode认证请求返回的页面，将其中两个放在cdn上的JS文件重定向到zgsm.sangfor.com，因为这个cdn不稳定，容易失效
+# 登录各页面用到的资源
 curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
-    "uris": ["/realms/gw/protocol/openid-connect/auth"],
-    "id": "keycloak-auth",
-    "upstream_id": "keycloak",
+    "uris": ["/login/css/*", "/login/cdn/*", "/login/img/*", "/login/resources/*"],
+    "id": "keycloak-resources",
+    "upstream_id": "portal"
+  }'
+
+# 登录页需要用到的图片:img/keycloak-bg.png,img/favicon.ico,css/login.css
+curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
+    "uris": ["/resources/kfiww/login/phone/*"],
+    "id": "keycloak-auth-resource",
+    "upstream_id": "portal",
     "plugins": {
-      "response-rewrite": {
-        "filters":[
-          {
-            "regex":"https://cdn.jsdelivr.net/npm/vue/dist",
-            "scope":"global",
-            "replace":"/login/cdn"
-          },
-          {
-            "regex":"https://cdn.jsdelivr.net/npm/axios/dist",
-            "scope":"global",
-            "replace":"/login/cdn"
-          }
-        ]
+      "proxy-rewrite": {
+        "regex_uri": ["^/resources/kfiww/login/phone/(. *)", "/login/$1"]
       }
     }
   }'
 
-# 将上述重定向的js请求转发给portal-web服务，由其返回对应的js文件
+# 将登录成功后的跳板请求转发给trampoline服务
 curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
-    "uris": ["/login/cdn/*", "/login/img/*", "/login/css/*"],
-    "id": "keycloak-login-cdn",
-    "upstream": {
-        "type": "roundrobin",
-        "nodes": {
-            "portal-web.shenma.svc.cluster.local:8080": 1
-        }
-    }
+    "uris": ["/login/ok", "/login/resources/*"],
+    "id": "keycloak-trampoline",
+    "upstream_id": "trampoline"
   }'
 
-# 登录页需要用到的图片:img/keycloak-bg.png,img/favicon.ico
+# 生成验证码
 curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
-    "uris": ["/resources/iodim/login/phone/img/*"],
-    "id": "keycloak-login-img",
-    "upstream": {
-        "type": "roundrobin",
-        "nodes": {
-            "portal-web.shenma.svc.cluster.local:8080": 1
-        }
-    },
+    "uris": ["/realms/'"$KEYCLOAK_REALM"'/captcha/code"],
+    "id": "keycloak-captcha",
+    "upstream_id": "kaptcha",
     "plugins": {
       "proxy-rewrite": {
-        "regex_uri": ["^/resources/iodim/login/phone/img/(. *)", "/login/img/$1"]
-      }
-    }
-  }'
-
-# 登录页的css文件
-curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
-    "uris": ["/resources/iodim/login/phone/css/login.css"],
-    "id": "keycloak-login-css",
-    "upstream": {
-        "type": "roundrobin",
-        "nodes": {
-            "portal-web.shenma.svc.cluster.local:8080": 1
-        }
-    },
-    "plugins": {
-      "proxy-rewrite": {
-        "uri": "/login/css/login.css"
-      },
-      "response-rewrite": {
-        "headers": {
-          "set": {
-            "Content-Type": "text/css;charset=UTF-8",
-            "Cache-Control": "no-cache"
-          }
-        }
+        "uri": "/codeByBase64"
       }
     }
   }'

@@ -2,6 +2,7 @@
 
 . ./configure.sh
 
+# chatgpt的RESTful API端口
 curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT  -d '{
     "id": "chatgpt",
     "nodes": {
@@ -10,6 +11,7 @@ curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT 
     "type": "roundrobin"
   }'
 
+# chatgpt的WebSocket端口
 curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT  -d '{
     "id": "websocket",
     "nodes": {

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: fauxpilot
-        image: docker.sangfor.com/moyix/copilot_proxy:1.5.9
+        image: docker.sangfor.com/moyix/copilot_proxy:1.5.15
         imagePullPolicy: IfNotPresent
         command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5000"]
         ports:
@@ -54,7 +54,7 @@ spec:
         - name: MAIN_MODEL_TYPE
           value: "openai"
         - name: OPENAI_MODEL_HOST
-          value: "http://172.16.254.5:32080/v1/completions"
+          value: "http://172.16.254.5:32081/v1/completions"
         - name: OPENAI_MODEL
           value: "DeepSeek-Coder-V2-Lite-Base"
         volumeMounts:

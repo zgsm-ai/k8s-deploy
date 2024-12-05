@@ -1,9 +1,6 @@
 #!/bin/sh
 
-AUTH="X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" 
-TYPE="Content-Type: application/json"
-APISIX_ADDR="10.200.101.5:30180"
-KEYCLOAK_ADDR="http://zgsm.sangfor.com"
+. ./configure.sh
 
 curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT  -d '{
     "id": "copilot",
@@ -19,11 +16,11 @@ curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d
     "upstream_id": "copilot",
     "plugins": {
       "openid-connect": {
-        "client_id": "vscode",
-        "client_secret": "jFWyVy9wUKKSkX55TDBt2SuQWl7fDM1l",
-        "discovery": "'"$KEYCLOAK_ADDR"'/realms/gw/.well-known/openid-configuration",
+        "client_id": "'"$KEYCLOAK_CLIENT_ID"'",
+        "client_secret": "'"$KEYCLOAK_CLIENT_SECRET"'",
+        "discovery": "'"$KEYCLOAK_ADDR"'/realms/'"$KEYCLOAK_REALM"'/.well-known/openid-configuration",
         "introspection_endpoint_auth_method": "client_secret_basic",
-        "realm": "gw",
+        "realm": "'"$KEYCLOAK_REALM"'",
         "bearer_only": true,
         "ssl_verify": false
       },
@@ -47,16 +44,3 @@ curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d
       }
     }
   }'
-
-# curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
-#     "uris": ["/v1/completions", "/v2/completions", "/copilot_internal/*", "/v2/engines/*", "/v1/engines/*"],
-#     "id": "copilot",
-#     "upstream_id": "copilot",
-#     "plugins": {
-#       "file-logger": {
-#         "path": "logs/access.log",
-#         "include_req_body": true,
-#         "include_resp_body": true
-#       }
-#     }
-#   }'

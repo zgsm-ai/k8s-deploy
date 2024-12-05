@@ -3,10 +3,11 @@
 . ./configure.sh
 
 #
-# 三个上游：
+# 四个上游：
+#   keycloak-登录整体逻辑
 #   portal-登录页面资源
 #   trampoline-登录成功跳板
-#   keycloak-登录整体逻辑
+#   kaptcha-图形验证码
 #
 
 # 定义存放登录相关页面资源的upstream
@@ -78,8 +79,9 @@ curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d
     "upstream_id": "trampoline"
   }'
 
+# 生成验证码
 curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
-    "uris": ["/realms/gw/captcha/code"],
+    "uris": ["/realms/'"$KEYCLOAK_REALM"'/captcha/code"],
     "id": "keycloak-captcha",
     "upstream_id": "kaptcha",
     "plugins": {
