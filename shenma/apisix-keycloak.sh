@@ -62,12 +62,12 @@ curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d
 
 # 登录页需要用到的图片:img/keycloak-bg.png,img/favicon.ico,css/login.css
 curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
-    "uris": ["/resources/kfiww/login/phone/*"],
+    "uris": ["/resources/'"$KEYCLOAK_UI_DOMAIN"'/login/phone/*"],
     "id": "keycloak-auth-resource",
     "upstream_id": "portal",
     "plugins": {
       "proxy-rewrite": {
-        "regex_uri": ["^/resources/kfiww/login/phone/(. *)", "/login/$1"]
+        "regex_uri": ["^/resources/'"$KEYCLOAK_UI_DOMAIN"'/login/phone/(. *)", "/login/$1"]
       }
     }
   }'
