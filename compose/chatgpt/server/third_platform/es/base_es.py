@@ -23,12 +23,12 @@ from common.utils.date_util import DateUtil
 # pylint: disable=no-member
 DOC = "_doc"
 ES_HOST = get_config().get("es_server")
-# ES_PASSWORD = os.environ.get("ES_PASSWORD")
+ES_PASSWORD = os.environ.get("ES_PASSWORD")
 # 设置日志级别，因为在开发的时候，会将查询结果打印出来，碍眼
 logging.getLogger("elasticsearch").setLevel(logging.INFO)
-# print("ES_HOST: ", ES_HOST, "\nES_PASSWORD: ", ES_PASSWORD)
-# es = Elasticsearch([ES_HOST], http_auth=('elastic', ES_PASSWORD))
-es = Elasticsearch(ES_HOST)
+logging.getLogger("elasticsearch").info(f"ES_HOST: {ES_HOST},\nES_PASSWORD: {ES_PASSWORD}")
+
+es = Elasticsearch(ES_HOST) if ES_PASSWORD is None else Elasticsearch([ES_HOST], http_auth=('elastic', ES_PASSWORD))
 PROMPT_INDEX = get_config().get("prompt_es_index", "prompt")
 CODE_COMPELTION_INDEX = get_config().get("code_completion_es_index", "code_completion")
 CODE_COPY_INDEX = get_config().get("code_copy_es_index", "code_copy")

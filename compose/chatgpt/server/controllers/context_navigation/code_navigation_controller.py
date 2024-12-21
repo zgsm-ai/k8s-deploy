@@ -31,8 +31,8 @@ def cache_context():
     data["username"] = user.username if user and user.username else ""
     # 这里内容很大，就不打印了；需要估算下字符数，服务于排查异常
     logger.info(f'接收到sdk的初始上下文，请求内容是：{len(str(data))}，用户：{data["username"]}')
-    random_uuid = CodeNavigationService.cache_context(data)
-    return Result.success(message="获取成功", data=random_uuid)
+    context_uuid = CodeNavigationService.cache_context(data)
+    return Result.success(message="获取成功", data=context_uuid)
 
 
 @code_navigation.route("/get_specified_context", methods=["POST"])

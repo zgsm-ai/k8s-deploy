@@ -40,7 +40,7 @@ class UTPromptESservice(BaseESService):
                 "uuid": code_md5,
                 "display_name": data['display_name'],
                 "username": data.get("username"),
-                "create_at": datetime.now(pytz.timezone('Asia/Shanghai')),
+                "created_at": datetime.now(pytz.timezone('Asia/Shanghai')),
                 "department": department,
 
                 "response": data["response"],

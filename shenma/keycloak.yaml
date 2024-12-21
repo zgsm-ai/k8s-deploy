@@ -154,3 +154,6 @@ data:
     #Prevent 2FA from always happening for a period of time
     #default: 60 * 60; 1 hour
     spi-phone-default-gw-otp-expires=3600
+    #redis for cache captcha
+    spi-captcha-service-default-redis-host=10.200.101.5
+    spi-captcha-service-default-redis-port=30379

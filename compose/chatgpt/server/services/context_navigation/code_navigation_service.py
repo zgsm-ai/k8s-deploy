@@ -22,9 +22,9 @@ class CodeNavigationService(BaseService):
         return:
             存储数据的Redis键
         """
-        random_uuid = str(uuid.uuid4())
+        context_uuid = str(uuid.uuid4())
         # 存储key携带前缀
-        redis_key = ContextNavigationConstant.code_navigation_context_redis_key.format(uuid=random_uuid)
+        redis_key = ContextNavigationConstant.code_navigation_context_redis_key.format(uuid=context_uuid)
         cls.cache(redis_key, data)
         return redis_key
 

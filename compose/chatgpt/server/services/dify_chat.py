@@ -1,79 +1,19 @@
 import json
 import logging
 import time
-from bot.apiBotHelper import Conversation
-from bot.cache import get_redis
-from common.constant import UserBehaviorAction, ActionsConstant
 
+from common.constant import UserBehaviorAction, ActionsConstant
 from services.agents.agent_data_classes import ChatRequestData
 from services.ai_e2e.ai_e2e_case_task import AiE2ECaseTaskService
 from third_platform.dify.dify_manager import DifyManager
-from config import conf
 from services.system.dify_agent_service import DifyAgentService
 from third_platform.es.chat_messages.ide_data_as_service import ide_es_service
+from bot.chat_history import ChatHistory
 
 dify_agent_service = DifyAgentService()
 logger = logging.getLogger(__name__)
 
-
-class ChatBotWithHistory:
-    """
-    带对话历史和上下文信息的对话机器人
-    """
-    def __init__(self):
-        # TODO: 后面考虑换成数据库的持久化存储形式
-        self.conversations = Conversation(get_redis(conf))
-        self.chat_history = []
-
-    def add_ai_message(self, message: str, ai_name: str = "assistant") -> bool:
-        return self._add_message(message, ai_name)
-
-    def add_user_message(self, message: str, user_name: str = "user") -> bool:
-        return self._add_message(message, user_name)
-
-    def _add_message(self, message: str, role_name: str) -> bool:
-        self.chat_history.append({
-            "role": role_name,
-            "content": message
-        })
-        return True
-
-    def make_conversation(self, conversation_id: str) -> None:
-        """
-        Make a conversation
-        """
-        self.conversations.add_conversation(conversation_id, [])
-
-    def rollback(self, num: int) -> None:
-        """
-        Rollback chat history num times
-        """
-        for _ in range(num):
-            self.chat_history.pop()
-
-    def reset(self) -> None:
-        """
-        Reset chat history
-        """
-        self.chat_history = []
-
-    def load_conversation(self, conversation_id) -> None:
-        """
-        Load a conversation from the conversation history
-        """
-        if not self.conversations.is_exist(conversation_id):
-            # Create a new conversation
-            self.make_conversation(conversation_id)
-        self.chat_history = self.conversations.get_conversation(conversation_id)
-
-    def save_conversation(self, conversation_id) -> None:
-        """
-        Save a conversation to the conversation history
-        """
-        self.conversations.add_conversation(conversation_id, self.chat_history)
-
-
-class DifyChatBot(ChatBotWithHistory):
+class DifyChatBot(ChatHistory):
     """
     与dify进行对话
     """
@@ -306,7 +246,7 @@ class DifyChatBot(ChatBotWithHistory):
             # 保存数据
             self.save_conversation(self.conv_id)
             req.update({
-                "finished_at": time.time(),
+                "finish_at": time.time(),
                 "agent_name": agent_data.display_name,
                 "total_tokens": total_tokens,
                 "request_mode": "http"

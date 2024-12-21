@@ -52,7 +52,7 @@ class CodeCopyESservice(BaseESService):
                     "languageId": data['language'].lower(),
                     "code_copy": data['code_copy'],
                     "code_copy_text_lines": len(data['code_copy'].splitlines()),
-                    "create_at": datetime.now(pytz.timezone('Asia/Shanghai')),
+                    "created_at": datetime.now(pytz.timezone('Asia/Shanghai')),
                     "ide": data.get('ide', ''),
                     "ide_version": data.get('ide_version', ''),
                     "ide_real_version": data.get('ide_real_version', ''),

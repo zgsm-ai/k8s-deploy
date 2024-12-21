@@ -38,7 +38,7 @@ class UTCaseESservice(BaseESService):
                 "id": code_md5,
                 "display_name": data['display_name'],
                 "username": data.get("username"),
-                "create_at": datetime.now(pytz.timezone('Asia/Shanghai')),
+                "created_at": datetime.now(pytz.timezone('Asia/Shanghai')),
                 "department": department,
 
                 "timestamp": data.get("timestamp"),

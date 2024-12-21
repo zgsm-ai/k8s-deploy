@@ -5,7 +5,7 @@ from common.constant import DifyAgentConstant, ContextNavigationConstant
 from third_platform.es.chat_messages.ide_data_as_service import ide_es_service
 
 from .dify_chat import agent_chat
-from .agent_data_classes import ChatAgentData
+from .agent_data_classes import ChatRequestData
 
 cache = Cache()
 
@@ -127,11 +127,10 @@ class DifySpecifiedContextHelper(DifyMessageQueueHelper):
         return json_data
 
 
-def agent_chat_with_redis(data: ChatAgentData):
-    # conv_id = data.request_data.conversation_id
-    chat_id = data.request_data.chat_id
-    request_data = data.request_data.to_dict()
-    request_data["created_at"] = time.time()
+def agent_chat_with_redis(data: ChatRequestData):
+    chat_id = data.chat_id
+    request_data = data.to_dict()
+    # request_data["created_at"] = time.time()
     request_data["total_tokens"] = 0
     request_data["total_context"] = ""
 
@@ -150,7 +149,7 @@ def agent_chat_with_redis(data: ChatAgentData):
     def record_send_msg(msg):
         nonlocal request_data
         if msg == DifyAgentConstant.AGENT_CHAT_DONE_MSG:
-            request_data["finished_at"] = time.time()
+            request_data["finish_at"] = time.time()
             es_process_data(request_data)
 
     def send_json_func(json_data):
@@ -185,7 +184,7 @@ def es_process_data(data: dict):
         "response_content": data.get("total_context", ""),
         "total_tokens": data.get("total_tokens", 0),
         "created_at": data.get("created_at", ""),
-        "finished_at": data.get("finished_at", ""),
+        "finish_at": data.get("finish_at", ""),
         "ide": data.get("ide", ""),
         "ide_version": data.get('ide_version', ''),
         "ide_real_version": data.get('ide_real_version', ''),

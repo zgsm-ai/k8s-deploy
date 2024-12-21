@@ -23,7 +23,6 @@ class NormalChatStrategy(ActionStrategy):
         return ConfigurationService.get_model_ide_normal(self.name)
 
     def get_prompt(self, data: ChatRequestData):
-        # prompt = f"## 原始上下文\n {context} \n## 用户问题\n {query} \n  "
         return data.prompt
 
     def make_result(self, data: ChatRequestData, options: ChatbotOptions = None):

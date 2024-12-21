@@ -51,7 +51,7 @@ def get_chatbot_options(data, user, is_ut: bool = False):
     if "context_association" not in data.keys():
         data["context_association"] = data.get("association", True)
     action = data.get('action', 'chat')  # v3接口不传action，默认chat
-    data['model'] = data['current_model'] = get_chat_model(action=action, request_data=data, is_ut=is_ut)
+    data['model'] = get_chat_model(action=action, request_data=data, is_ut=is_ut)
     return ChatbotOptions(data)
 
 
@@ -99,7 +99,7 @@ def request_data_process(data: dict, user: dict) -> dict:
 
     # 选择模型
     action = data.get('action')
-    data['model'] = data['current_model'] = get_chat_model(action=action, request_data=data)
+    data['model'] = get_chat_model(action=action, request_data=data)
     return data
 
 

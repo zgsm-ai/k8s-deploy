@@ -44,7 +44,7 @@ class PlugInESService(BaseESService):
                     "department": department,
                     "second_dept": get_second_dept(department) if department else "未存部门",
                     "id": es_id,
-                    "current_model": data.get("agent_name", "").split("|")[-1] or "",
+                    "model": data.get("agent_name", "").split("|")[-1] or "",
                     "action": data.get("action", ""),
                     "code": data.get("code", ""),
                     "query": data.get("prompt", ""),
@@ -59,7 +59,7 @@ class PlugInESService(BaseESService):
                     "response_content": data.get("response_content", ""),
                     "total_tokens": data.get("total_tokens", 0),
                     "created_at": self.process_time_format(data.get("created_at", "")),
-                    "finished_at": self.process_time_format(data.get("finished_at", "")),
+                    "finish_at": self.process_time_format(data.get("finish_at", "")),
                     "ide": data.get("ide", ""),
                     "ide_version": data.get('ide_version', ''),
                     "ide_real_version": data.get('ide_real_version', ''),
@@ -137,7 +137,7 @@ class PlugInESService(BaseESService):
                 "response_content": es_data.get("response_content", "") + "\n" + update_data.get("response_content",
                                                                                                  ""),
                 "total_tokens": es_data.get("total_tokens", 0) + update_data.get("total_tokens", 0),
-                "finished_at": self.process_time_format(update_data.get("finished_at", ""))
+                "finish_at": self.process_time_format(update_data.get("finish_at", ""))
             }
             res = self.update_by_id(id=es_id, update_data=es_update_data)
             if res.get("_shards", {}).get("successful") == 1:

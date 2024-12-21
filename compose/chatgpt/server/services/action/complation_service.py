@@ -64,7 +64,7 @@ class UserGiveFeedbacks(BaseService):
     @classmethod
     def validate_fields(cls, fields):
         rules = [
-            {'label': 'action', 'type': str, 'optional': False, 'name': 'action'},
+            {'label': 'action', 'type': str, 'optional': True, 'name': 'action'},
             {'label': 'agent_name', 'type': str, 'optional': False, 'name': 'agent_name'},
             {'label': 'message_id', 'type': str, 'optional': True, 'name': '消息id'},
             {'label': 'conversation_id', 'type': str, 'optional': False, 'name': 'ed平台id'},

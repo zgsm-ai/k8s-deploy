@@ -52,7 +52,7 @@ class AIReviewTaskRecordService(BaseService):
             'has_problem': True,
             'conditions': ((AIReviewTaskRecordService.dao.model.review_record_id.in_(ids)),),
             'include_fields': (
-                'id', 'review_type', 'review_state', 'language', 'file_path', 'code_hash', 'current_model',
+                'id', 'review_type', 'review_state', 'language', 'file_path', 'code_hash', 'model',
                 'display_name', 'flag', 'has_problem', 'response_reuse', 'response_text', 'review_record_id',
                 'fail_msg', 'response_extra_text', 'cost_time', 'prompt_tokens', 'total_tokens', 'created_at',
                 'code_start_lineno', 'code_end_lineno')

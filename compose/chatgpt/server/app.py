@@ -24,6 +24,8 @@ from controllers import register_controller, registry_session
 from logger import register_logger
 from common.exception.exceptions import NoLoginError
 
+CHATGPT_VERSION = "1.5.9"
+
 MODELS = [
     {
         "label": "gpt-3.5-turbo", "value": GPTModelConstant.GPT_TURBO, "desc": "gpt-3.5-turbo", "default": True
@@ -46,19 +48,30 @@ WHITE_LIST_PATHS = [
     "/api/inference/v1/embeddings"
 ]
 
+def software_version():
+    """
+    获取软件版本
+    正常情况下软件版本定义在代码中，随着软件代码变更由程序员维护，
+    特殊情况下，系统管理员可以通过环境变量CHATGPT_VERSION定义版本号
+    """
+    if "CHATGPT_VERSION" in os.environ:
+        return os.environ["CHATGPT_VERSION"]
+    else:
+        return CHATGPT_VERSION
 
 def print_logo():
     try:
         print("""
-         ██████╗ ██╗ █████╗ ███╗   ██╗██╗     ██╗██╗   ██╗       █████╗ ██╗
-        ██╔═══██╗██║██╔══██╗████╗  ██║██║     ██║██║   ██║      ██╔══██╗██║
-        ██║   ██║██║███████║██╔██╗ ██║██║     ██║██║   ██║█████╗███████║██║
-        ██║▄▄ ██║██║██╔══██║██║╚██╗██║██║     ██║██║   ██║╚════╝██╔══██║██║
-        ╚██████╔╝██║██║  ██║██║ ╚████║███████╗██║╚██████╔╝      ██║  ██║██║
-         ╚══▀▀═╝ ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝ ╚═════╝       ╚═╝  ╚═╝╚═╝
+    ███████╗██╗  ██╗██╗   ██╗ ██████╗ ███████╗       █████╗ ██╗
+    ╚══███╔╝██║  ██║██║   ██║██╔════╝ ██╔════╝      ██╔══██╗██║
+      ███╔╝ ███████║██║   ██║██║  ███╗█████╗  █████╗███████║██║
+     ███╔╝  ██╔══██║██║   ██║██║   ██║██╔══╝  ╚════╝██╔══██║██║
+    ███████╗██║  ██║╚██████╔╝╚██████╔╝███████╗      ██║  ██║██║
+    ╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚══════╝      ╚═╝  ╚═╝╚═╝
         """)
+        print(f"    version:  {software_version()}")
     except UnicodeEncodeError:
-        print("QIANLIU-AI START")
+        print("ZHUGE-AI START")
 
 
 def create_app():
@@ -148,7 +161,7 @@ def create_app():
             return make_response('Unauthorized', 401)
 
         # 校验请求api权限
-        PermissionChecker.check_api_rule()
+        #PermissionChecker.check_api_rule()
 
     @app.after_request
     def add_header(response):
@@ -266,24 +279,28 @@ def create_app():
         data['host'] = request.headers.get("Host")
         data['display_name'] = user.display_name
         prompt, app_conversation_id = get_vscode_prompt(data)
+        data['prompt'] = prompt
+        data['conversation_id'] = app_conversation_id
+        
         stream = data.get("stream", False)
         # 是否开启上下文管理模式
         context_association = data.get("association", True)
+        # data['context_association'] = context_association
 
         # 区别于应用的对话 id，还有 chat 自身的对话 id、message id
         model = get_chat_model(action=data.get('action', ActionsConstant.CHAT), request_data=data)
-        data['current_model'] = model
+        data['model'] = model
 
         redis = get_redis(conf)
         from bot.apiBot import Chatbot as apiBot
         chatbot = apiBot(redis=redis, model=model)
 
         if stream:
-            response = chatbot.ask_stream(prompt, conversation_id=app_conversation_id, temperature=0,
-                                          context_association=context_association, request_data=data)
+            response = chatbot.ask_stream(prompt, temperature=0, 
+                context_association=context_association, request_data=data)
             return Response(response, mimetype='text/plain')
-        response = chatbot.ask(prompt, conversation_id=app_conversation_id, temperature=0,
-                               context_association=context_association, request_data=data)
+        response = chatbot.ask(prompt, temperature=0, 
+            context_association=context_association, request_data=data)
         return make_response(jsonify(response))
 
     @app.route("/api/test", methods=["POST"])

@@ -13,7 +13,7 @@ from common.exception.exceptions import CustomException
 from common.helpers.application_context import ApplicationContext
 from common.helpers.custom_permission import make_resp_dict_by_action
 from config import conf, CONFIG
-from bot.apiBot import Chatbot as apiBot
+from bot.apiBotHelper import Prompt
 from controllers.response_helper import Result
 from services.model_service import ModelService
 from third_platform.es.chat_messages.prompt_es_service import prompt_es_service
@@ -138,8 +138,8 @@ class AnswerService:
         return raw_prompt.group(1)
 
     def get_messages(self):
-        chatbot = apiBot(redis=self.redis, model=self.model)
-        messages = chatbot.prompt.get_user_req_messages(self.prompt)
+        prompt = Prompt(model=self.model)
+        messages = prompt.get_user_req_messages(self.prompt)
         return messages
 
     def record_data_es(self):
@@ -147,7 +147,7 @@ class AnswerService:
             self.data['path'] = request.path
             self.data['user_agent'] = request.headers.get("User-Agent")
             self.data['host'] = request.headers.get("Host")
-            self.data['current_model'] = self.model
+            self.data['model'] = self.model
             prompt_es_service.insert_prompt(self.data, self.full_response, self.usage)
         except Exception as e:
             logging.error(f"answer record_data_es error: {e}")

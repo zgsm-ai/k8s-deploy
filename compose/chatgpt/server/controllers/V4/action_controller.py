@@ -96,7 +96,7 @@ def get_ads():
 @handle_validate(UserGiveFeedbacks)
 def give_like(fields):
     """
-    用户点赞接口,同时处理didy和es平台
+    用户点赞接口,同时处理dify和es平台
     注意:快捷指令没有点赞功能，因此无message_id
     ---
     tags:
@@ -112,7 +112,7 @@ def give_like(fields):
     if username:
         fields["user"] = username.display_name
 
-    action = fields.pop("action")
+    action = fields.pop("action", "chat")
     if action == ActionsConstant.E2E_CASE_GEN:
         res, status = AiE2ECaseTaskService.user_give_likes(es_id, **fields)
     else:

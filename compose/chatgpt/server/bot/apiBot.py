@@ -16,8 +16,9 @@ import openai
 from openai.types.chat.chat_completion_chunk import ChatCompletionChunk
 from tenacity import RetryError
 
-from bot.apiBotHelper import Prompt, Conversation
 from bot.bot_util import compute_tokens
+from bot.chat_history import ChatHistory, get_history
+from bot.apiBotHelper import Prompt
 from common.constant import GPTModelConstant, PromptConstant, AskStreamConfig, AIReviewConstant, \
     ActionsConstant, GPTConstant, ScribeConstant, ConfigurationConstant
 from common.exception.exceptions import OpenAiRequestError, OperationError, RequestError
@@ -63,13 +64,17 @@ class Chatbot:
     Official ChatGPT API
     """
 
-    def __init__(self, redis, model: str = ENGINE, systems: List[str] = None) -> None:
+    def __init__(self, 
+        history: ChatHistory = None, 
+        prompter: Prompt = None,
+        model: str = ENGINE, 
+    ) -> None:
         """
         Initialize Chatbot with API key (from https://platform.openai.com/account/api-keys)
         """
         self.model = model
-        self.conversations = Conversation(redis)
-        self.prompt = Prompt(systems=systems, model=model)
+        self.history = history
+        self.promper = prompter
         self.continue_count = 0  # 当前续写次数
         self.base_url = CONFIG.app.PEDESTAL_SERVER.get('server_url', "") + '/v1'
         self.api_key = CONFIG.app.PEDESTAL_SERVER.get('api_key', "")
@@ -145,12 +150,11 @@ class Chatbot:
             response['choices'][0]['message']['content'] = content
             return response
 
-    def _get_chat_completion(self,
+    def _post_chat_completions(self,
         messages,
         temperature: float = 0.5,
         stream: bool = False,
         max_tokens: int = None,
-        retry_num: int = None,
         seed: int = None,
         response_format: str = None,
         extra_body: dict = None,
@@ -176,7 +180,7 @@ class Chatbot:
         if max_tokens is not None:
             kwargs['max_tokens'] = max_tokens
         try:
-            logging.info(f"_get_chat_completion(): kwargs: {kwargs}")
+            logging.info(f"_post_chat_completions(): kwargs: {kwargs}")
             chat_completion = self.openai_client.chat.completions.create(**kwargs)
             return chat_completion
         except openai.APIStatusError as e:
@@ -187,9 +191,6 @@ class Chatbot:
     def _process_completion(self,
         user_request: str,
         completion: openai.ChatCompletion,
-        conversation_id: str = None,
-        user: str = None,
-        context_association: bool = True,
         request_data: dict = None,
         prompt_tokens: int = 0,
     ) -> dict:
@@ -208,15 +209,6 @@ class Chatbot:
         if content is None:
             raise Exception("ChatGPT API returned no text")
 
-        # Add to chat history
-        self.prompt.add_to_history(
-            user_request,
-            content,
-            user=user,
-        )
-        if conversation_id and context_association:
-            self.save_conversation(conversation_id)
-
         # 保存提问信息和返回信息到es
         if request_data.get('review_type'):
             # review完成处理
@@ -234,7 +226,7 @@ class Chatbot:
             usage["prompt_tokens"] = prompt_tokens
             # 非流式
             if completion.get('model'):
-                request_data['current_model'] = completion.get('model')
+                request_data['model'] = completion.get('model')
             prompt_es_service.insert_prompt(request_data, content, usage)
         if can_continue \
                 and request_data.get('action') in GPTConstant.ALLOW_CONTINUE_ACTIONS \
@@ -296,11 +288,7 @@ class Chatbot:
         return all_content
 
     def _process_completion_stream(self,
-        user_request: str,
         completion: openai.Stream,
-        conversation_id: str = None,
-        user: str = None,
-        context_association: bool = True,
         request_data: dict = None,
         prompt_tokens: int = 0,
     ) -> str:
@@ -326,7 +314,7 @@ class Chatbot:
                 if response["choices"][0].get("finish_details") is not None:
                     break
                 if response.get('model') and not current_model_is_set:
-                    request_data['current_model'] = response.get('model')
+                    request_data['model'] = response.get('model')
                     current_model_is_set = True
                 # TODO: 要考虑以下其他模型的情况
                 if get_finish_reason(response) == "stop":
@@ -383,10 +371,17 @@ class Chatbot:
                 completion.close()
         if full_response:
             # Add to chat history
-            logging.info(f"start add history， prompt_tokens={prompt_tokens}")
-            self.prompt.add_to_history(user_request, full_response, user)
-            if conversation_id and context_association:
-                self.save_conversation(conversation_id)
+            logging.info(f"full_response， prompt_tokens={prompt_tokens}")
+            # data = {**request_data}
+            # data['response'] = full_response
+            # data['id'] = request_data.get('conversation_id', '')
+            # prompt_es_service.insert(data)
+            usage = {}
+            # 本地计算和返回的prompt_tokens有点差别，这里记录本地计算的prompt_tokens与日志打印的同步
+            usage["prompt_tokens"] = prompt_tokens
+            usage["completion_tokens"] = completion_tokens
+            usage["total_tokens"] = prompt_tokens + completion_tokens
+            prompt_es_service.insert_prompt(request_data, response_content=full_response, usage=usage)
             # 保存提问信息和返回信息到es
             # usage = {"prompt_tokens": prompt_tokens,
             #          "completion_tokens": completion_tokens,
@@ -444,37 +439,43 @@ class Chatbot:
         if not stream:
             return self.ask(
                 user_request=continue_request_data['prompt'],
-                conversation_id=continue_request_data['conversation_id'],
                 request_data=continue_request_data,
                 temperature=0
             )
         else:
             return self.ask_stream(user_request=continue_request_data['prompt'],
-                                   conversation_id=continue_request_data['conversation_id'],
                                    request_data=continue_request_data,
                                    temperature=0)
+
+    def construct_messages(self, new_prompt: str, context_association: bool = True):
+        """
+        根据会话历史，构造消息列表messages
+        """
+        prompter = self.promper 
+        if prompter is None:
+            prompter = Prompt()
+        history = self.history
+        if history is not None:
+            history = get_history()
+        return prompter.construct_messages(history.chat_history, new_prompt, context_association)
 
     def ask(self,
         user_request: str,
         temperature: float = 0.5,
-        conversation_id: str = None,
-        user: str = None,
         context_association: bool = True,
         request_data: dict = None,
     ) -> dict:
         """
         Send a request to ChatGPT and return the response
         """
-        if conversation_id:
-            self.load_conversation(conversation_id)
         try:
             before_time = int(time.time())
 
             # 聊天场景换 gpt3.5 的 chat 模型
-            messages, prompt_tokens = self.prompt.get_chat_messages(user_request, context_association)
+            messages, prompt_tokens = self.construct_messages(user_request, context_association)
             logging.info(
                 f"start ask chat_completion with model={self.model},"
-                f" conversation_id={conversation_id}, prompt_tokens={prompt_tokens}")
+                f" conversation_id={request_data.get('conversation_id')}, prompt_tokens={prompt_tokens}")
 
             # 是否需要mock 会话数据
             if conf.get('mock_complation'):
@@ -483,12 +484,10 @@ class Chatbot:
                 completion = self.mock_complation(model=self.model, content=PromptConstant.TOKENS_OVER_LENGTH)
             else:
                 max_tokens = request_data.get('max_tokens')
-                retry_num = request_data.get('retry_num')
-                completion = self._get_chat_completion(
+                completion = self._post_chat_completions(
                     messages=messages,
                     temperature=temperature,
                     max_tokens=max_tokens,
-                    retry_num=retry_num,
                     seed=request_data.get('seed'),
                     response_format=request_data.get('response_format'),
                     extra_body=dict(username=request_data.get("display_name", "")),
@@ -496,24 +495,22 @@ class Chatbot:
 
             after_time = int(time.time())
             logging.info(f"finish ask, get completion time is {after_time - before_time}s, with model={self.model} "
-                         f"conversation_id={conversation_id}, prompt_tokens={prompt_tokens}")
-            return self._process_completion(user_request, completion, conversation_id=conversation_id, user=user,
-                                            context_association=context_association, request_data=request_data,
+                         f"conversation_id={request_data.get('conversation_id')}, prompt_tokens={prompt_tokens}")
+            return self._process_completion(user_request, completion,
+                                            request_data=request_data,
                                             prompt_tokens=prompt_tokens)
         except openai.InternalServerError as e:
             logging.error(f"unfinish ask,with model={self.model} "
-                          f"conversation_id={conversation_id}, prompt_tokens={prompt_tokens}")
+                          f"conversation_id={request_data.get('conversation_id')}, prompt_tokens={prompt_tokens}")
             raise OperationError(e)
         except Exception as e:
             logging.error(f"unfinish ask,with model={self.model} "
-                          f"conversation_id={conversation_id}, prompt_tokens={prompt_tokens}")
+                          f"conversation_id={request_data.get('conversation_id')}, prompt_tokens={prompt_tokens}")
             raise RequestError(e)
 
     def ask_stream(self,
         user_request: str,
         temperature: float = 0.5,
-        conversation_id: str = None,
-        user: str = None,
         context_association: bool = True,
         request_data: dict = None,
     ) -> str:
@@ -522,14 +519,9 @@ class Chatbot:
         """
         try:
             before_time = int(time.time())
-            if conversation_id:
-                self.load_conversation(conversation_id)
 
             # 聊天场景换 gpt3.5 的 chat 模型
-            messages, prompt_tokens = self.prompt.get_chat_messages(user_request, context_association)
-            logging.info(
-                f"start ask_stream chat_completion, conversation_id={conversation_id}, "
-                f"prompt_tokens={prompt_tokens}")
+            messages, prompt_tokens = self.construct_messages(user_request, context_association)
             # 是否需要mock 会话数据
             if conf.get('mock_complation'):
                 completion = self.mock_complation(stream=True)
@@ -538,70 +530,28 @@ class Chatbot:
                                                   model=self.model,
                                                   content=PromptConstant.TOKENS_OVER_LENGTH)
             else:
-                max_tokens = request_data.get('max_tokens')
-                retry_num = request_data.get('retry_num')
-                completion = self._get_chat_completion(
+                completion = self._post_chat_completions(
                     messages=messages,
                     temperature=temperature,
                     stream=True,
-                    max_tokens=max_tokens,
-                    retry_num=retry_num,
+                    max_tokens=request_data.get('max_tokens'),
                     seed=request_data.get('seed'),
                     response_format=request_data.get('response_format'),
                     extra_body=dict(username=request_data.get("display_name", "")),
                 )
 
-            # prompt = self.prompt.construct_prompt(user_request, user=user)
             after_time = int(time.time())
-            logging.info(f"finish ask_stream, get completion time is {after_time - before_time}s,"
-                         f" conversation_id={conversation_id}, prompt_tokens={prompt_tokens}")
+            logging.info(f"Chatbot.ask_stream() finished: completion time is {after_time - before_time}s,"
+                         f" conversation_id={request_data.get('conversation_id')}, prompt_tokens={prompt_tokens}")
             return self._process_completion_stream(
-                user_request=user_request,
                 completion=completion,
-                conversation_id=conversation_id,
-                user=user,
-                context_association=context_association,
                 request_data=request_data,
                 prompt_tokens=prompt_tokens,
             )
         except RetryError:
-            logging.error(f"unfinish ask_stream,with model={self.model} "
-                          f"conversation_id={conversation_id}, prompt_tokens={prompt_tokens}")
+            logging.error(f"Chatbot.ask_stream() unfinish: with model={self.model} "
+                          f"conversation_id={request_data.get('conversation_id')}, prompt_tokens={prompt_tokens}")
             raise OpenAiRequestError()
-
-    def make_conversation(self, conversation_id: str) -> None:
-        """
-        Make a conversation
-        """
-        self.conversations.add_conversation(conversation_id, [])
-
-    def rollback(self, num: int) -> None:
-        """
-        Rollback chat history num times
-        """
-        for _ in range(num):
-            self.prompt.chat_history.pop()
-
-    def reset(self) -> None:
-        """
-        Reset chat history
-        """
-        self.prompt.chat_history = []
-
-    def load_conversation(self, conversation_id) -> None:
-        """
-        Load a conversation from the conversation history
-        """
-        if not self.conversations.is_exist(conversation_id):
-            # Create a new conversation
-            self.make_conversation(conversation_id)
-        self.prompt.chat_history = self.conversations.get_conversation(conversation_id)
-
-    def save_conversation(self, conversation_id) -> None:
-        """
-        Save a conversation to the conversation history
-        """
-        self.conversations.add_conversation(conversation_id, self.prompt.chat_history)
 
     @staticmethod
     def get_req_model(model: str):

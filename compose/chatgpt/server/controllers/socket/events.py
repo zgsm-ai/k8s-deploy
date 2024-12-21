@@ -3,6 +3,7 @@ import logging
 import asyncio
 import socketio
 import time
+import json
 
 from common.helpers.application_context import ApplicationContext
 from services.agents.dify_chat_async import DifyMessageQueueHelper as dify_queue_helper
@@ -56,7 +57,10 @@ class ChatNamespace(socketio.AsyncNamespace):
             # 拒绝连接
             logger.error('当前用户不存在，拒绝连接')
             return False
-        logger.info(f'Client connected({sid}): {current_user.display_name}')
+        logger.info(f"Client connected({sid}): {current_user}")
+        safe_environ = {k: v for k, v in environ.items() if isinstance(v, (str, int, float))}
+        logger.info(f"env: {safe_environ or '{}'}")
+        logger.info(f"auth: {auth or '{}'}")
 
     def on_disconnect(self, sid):
         logout_user_in_socket(sid)

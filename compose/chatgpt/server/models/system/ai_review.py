@@ -45,7 +45,7 @@ class AIReviewTaskRecord(BaseModel):
                             verbose_name='类型')
     review_state = CharField(default=AIReviewConstant.ReviewState.INIT, choices=REVIEW_STATE_CHOICES, verbose_name='状态')
     flag = CharField(default='', choices=FLAG_CHOICES, verbose_name='标记')
-    current_model = CharField(default='', verbose_name='模型')
+    model = CharField(default='', verbose_name='模型')
     code_hash = CharField(index=True, default='', verbose_name='代码hash')  # file_path + code
     code_start_lineno = IntegerField(null=True, verbose_name='代码块开始行')
     code_end_lineno = IntegerField(null=True, verbose_name='代码块结束行')

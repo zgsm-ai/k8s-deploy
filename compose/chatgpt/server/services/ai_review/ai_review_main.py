@@ -146,7 +146,7 @@ class ReviewMainService:
             reuse_review_data = AIReviewTaskRecordService.get_exist_review_task(search_kw)
             if reuse_review_data:
                 review_task['response_reuse'] = True
-                review_task['current_model'] = reuse_review_data.current_model
+                review_task['model'] = reuse_review_data.model
                 review_task['review_state'] = reuse_review_data.review_state
                 review_task['has_problem'] = reuse_review_data.has_problem
                 review_task['response_text'] = reuse_review_data.response_text

@@ -114,7 +114,7 @@ class ScribeDialogueStrategy(ScribeDialogueBase, ActionStrategy):
     def process_options_and_data(data, model, code):
         """处理参数 data options"""
         raw_data = data.raw_data.copy()
-        raw_data['model'] = raw_data['current_model'] = model
+        raw_data['model'] = model
         raw_data['code'] = code
         raw_data['stream'] = False
         new_data = make_cls_with_dict(ChatRequestData, raw_data)

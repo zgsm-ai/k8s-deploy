@@ -18,7 +18,7 @@ class PromptFieldHandler(BaseFieldHandler):
         super(PromptFieldHandler, self).__init__()
 
     def get_field_type(self, field_key):
-        if field_key == "create_at":
+        if field_key == "created_at":
             return "datetime"
 
 

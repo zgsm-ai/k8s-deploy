@@ -99,7 +99,7 @@ class ReviewService(BaseService):
             response_text = data.get('response_text', '')
             kwargs['review_state'] = AIReviewConstant.ReviewState.SUCCESS
             kwargs['response_text'] = response_text
-            kwargs['current_model'] = data.get('current_model', '')
+            kwargs['model'] = data.get('model', '')
             kwargs['prompt_tokens'] = data.get('prompt_tokens', '')
             kwargs['total_tokens'] = data.get('total_tokens', '')
 

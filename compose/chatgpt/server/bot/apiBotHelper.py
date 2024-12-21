@@ -43,41 +43,7 @@ class Prompt:
         self.end = end
         base_prompt = os.environ.get("CUSTOM_BASE_PROMPT") or get_default_base_prompt()
         self.base_prompt = systems or [base_prompt]
-        # Track chat history
-        self.chat_history: list = []
         self.model = model
-
-    def add_to_chat_history(self, chat: str) -> None:
-        """
-        Add chat to chat history for next prompt
-        """
-        self.chat_history.append(chat)
-
-    def add_to_history(self,
-        user_request: str,
-        response: str,
-        user: str = None,
-    ) -> None:
-        """
-        Add request/response to chat history for next prompt
-        """
-        self.add_to_chat_history({
-            'role': (user or self.username),
-            'content': user_request
-        })
-        self.add_to_chat_history({
-            'role': (self.ainame),
-            'content': response
-        })
-        # self.add_to_chat_history(
-        #     (user or self.username)
-        #     + ": "
-        #     + user_request
-        #     + "\n\n\n"
-        #     + "{}: ".format(self.ainame)
-        #     + response
-        #     + "{}\n".format(self.end),
-        # )
 
     @staticmethod
     def num_tokens_from_messages(messages):
@@ -122,23 +88,36 @@ class Prompt:
             messages = [{"role": "assistant", "content": PromptConstant.TOKENS_OVER_LENGTH}]
         return messages
 
-    def history(self, custom_history: list = None, user=None) -> str:
-        """
-        Return chat history
-        """
-        history_list = [item for item in (custom_history or self.chat_history)]
-        return history_list
-
-    def get_chat_messages(self, new_prompt: str, context_association: bool = True):
+    def construct_messages(self, history_list: list, new_prompt: str, context_association: bool = True):
         """
         构造发送给LLM的消息列表
+
+        参数:
+        - history_list (list): 聊天历史列表，包含对话历史信息。
+        - new_prompt (str): 用户输入的新提示信息。
+        - context_association (bool): 是否关联上下文信息。默认为True。
+
+        返回:
+        - tuple: 包含两个元素的元组，第一个元素是构造好的消息列表，第二个元素是消息列表的token数量。
+
+        功能描述:
+        1. 初始化一个空的消息列表。
+        2. 将基础提示信息（base_prompt）添加到消息列表中。
+        3. 如果context_association为True，则将聊天历史中的上下文信息添加到消息列表中。
+        4. 将用户输入的新提示信息添加到消息列表中。
+        5. 调用cut_messages方法对消息列表进行裁剪。
+        6. 调用num_tokens_from_messages方法计算消息列表的token数量。
+        7. 返回构造好的消息列表及其token数量。
+
+        注意:
+        - 在添加上下文信息时，仅处理了用户和助手的消息，其他角色的消息可能需要进一步处理。
         """
         messages = []
         for system in self.base_prompt:
             messages.append({"role": "system", "content": system})
         if context_association:
             # 添加上下文
-            for message in self.chat_history:
+            for message in history_list:
                 # FIXME: 可能有其他场景
                 if message["role"] == self.username or message["role"] == 'user':
                     messages.append({"role": "user", "content": message['content']})
@@ -153,43 +132,14 @@ class Prompt:
         messages = []
         for system in self.base_prompt:
             messages.append({"role": "system", "content": system})
-
         messages.append({"role": "user", "content": new_prompt})
-
         return messages
-
-    def construct_prompt(
-            self,
-            new_prompt: str,
-            custom_history: list = None,
-            user: str = None,
-    ):
-        """
-        Construct prompt based on chat history and request
-        """
-        prompt = ("\n".join(self.base_prompt)
-                  + self.history(custom_history=custom_history, user=user)
-                  + (user or self.username)
-                  + ": "
-                  + new_prompt
-                  + "\n{}:".format(self.ainame)
-                  )
-        # Check if prompt over 4000*4 characters
-        max_tokens = get_prompt_max_tokens(self.model)
-        prompt_tokens = compute_tokens(prompt)
-        if prompt_tokens > max_tokens:
-            # Remove oldest chat
-            if len(self.chat_history) == 0:
-                return prompt, prompt_tokens
-            self.chat_history.pop(0)
-            # Construct prompt again
-            prompt, _ = self.construct_prompt(new_prompt, custom_history, user)
-        return prompt, prompt_tokens
 
 
 class Conversation:
     """
-    For handling multiple conversations
+    对话管理器: 可管理多轮对话
+    注：对话数据缓存在redis中，借助redis，可以把整个诸葛神码服务的所有对话缓存起来，方便后续使用
     """
 
     def __init__(self, redis) -> None:
@@ -208,7 +158,6 @@ class Conversation:
         """
         Retrieves the history list from the conversations dict with the id as the key
         """
-        # return self.conversations[key]
         return self.cache.get(key)
 
     def remove_conversation(self, key: str) -> None:

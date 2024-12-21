@@ -1,22 +1,8 @@
 from dataclasses import dataclass
 from typing import Dict, List
 from common.constant import GPTModelConstant, ActionsConstant
-
-        # # 查询信息
-        # self.action: str = data.get("action", ActionsConstant.CHAT)
-        # self.language: str = data.get('language', '')
-        # self.comment_language: str = data.get("comment_language", "Chinese")
-        # self.custom_instructions: str = data.get('custom_instructions', '')
-        # self.query: str = data.get('query', '')
-        # self.code: str = data.get('code', '')
-        # self.prompt: str = data.get('prompt', '')
-        # self.conversation_id: str = data.get('conversation_id', '')
-        # # 请求信息
-        # self.path: str = data.get("path", "")
-        # self.user_agent: str = data.get("user_agent", "")
-        # self.host: str = data.get("host", "")
-        # self.display_name: str = data.get("display_name", "")
-        # self.api_info = data.get("api_info", {})
+from datetime import datetime
+import pytz
 
 @dataclass
 class ChatRequestData:
@@ -50,6 +36,10 @@ class ChatRequestData:
     host: str = ""
     # 用户名
     display_name: str = ""
+    # 请求创建时间
+    created_at: str = ""
+    # 请求结束时间
+    finish_at: str = ""
 
     def __post_init__(self):
         """
@@ -63,42 +53,14 @@ class ChatRequestData:
             self.action = ActionsConstant.CHAT
         if not self.comment_language:
             self.comment_language = 'Chinese'
+        if not self.created_at:
+            self.created_at = datetime.now(pytz.timezone('Asia/Shanghai'))
 
     def to_dict(self):
         """
         把请求数据转成字典
         """
         return self.__dict__
-
-
-@dataclass
-class ChatAgentData:
-    user_display_name: str = None
-    request_data: ChatRequestData = None
-
-# class RequestData:
-#     def __init__(self, data: Dict[str, any] = None):
-#         if not data:
-#             data = {}
-#         # self.raw_data = data
-#         # 查询信息
-#         self.action: str = data.get("action", ActionsConstant.CHAT)
-#         self.language: str = data.get('language', '')
-#         self.comment_language: str = data.get("comment_language", "Chinese")
-#         self.custom_instructions: str = data.get('custom_instructions', '')
-#         self.query: str = data.get('query', '')
-#         self.code: str = data.get('code', '')
-#         self.prompt: str = data.get('prompt', '')
-#         self.conversation_id: str = data.get('conversation_id', '')
-#         # 请求信息
-#         self.path: str = data.get("path", "")
-#         self.user_agent: str = data.get("user_agent", "")
-#         self.host: str = data.get("host", "")
-#         self.display_name: str = data.get("display_name", "")
-#         self.api_info = data.get("api_info", {})
-
-#     def to_dict(self):
-#         return self.__dict__
 
 def make_cls_with_dict(cls, dict_data):
     """
