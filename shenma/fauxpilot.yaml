@@ -62,14 +62,14 @@ spec:
           mountPath: /python-docker/logs
         - name: fauxpilot-common-py
           mountPath: /python-docker/utils/common.py
-          subPath: fauxpilot-common.py
+          subPath: common-v1.5.15.py
       volumes:
       - name: fauxpilot-logs
         persistentVolumeClaim:
           claimName: fauxpilot-logs
       - name: fauxpilot-common-py
         configMap:
-          name: fauxpilot-common-py
+          name: fauxpilot-common-1515-py
 ---
 apiVersion: v1
 kind: Service
