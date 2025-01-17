@@ -64,7 +64,7 @@ class DifyAgent(ConversableAgent):
             "role": "user",
             # 需要解成 json 字符串
             "user_context": json.dumps(sender.user_context),
-            "user": sender.user_display_name
+            "user": sender.username
         })
         try:
             return super().generate_oai_reply(

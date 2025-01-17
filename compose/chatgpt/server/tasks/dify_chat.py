@@ -14,7 +14,7 @@ wrapped_logger = SocketLoggerWrapper(logger)
 @celery_app.task(queue=DifyAgentConstant.DIFY_CHAT_CELERY_QUEUE,
                  soft_time_limit=DifyAgentConstant.CELERY_TASK_TIMEOUT)
 @handle_db
-def execute_dify_chat_async(sid: str, user_display_name: str, request_data: dict):
+def execute_dify_chat_async(sid: str, request_data: dict):
     # wrapped_logger日志封装了sid，必须前置
     with wrapped_logger.set_sid(sid):
         # 取出uuid从redis中获取上下文缓存数据
@@ -25,5 +25,4 @@ def execute_dify_chat_async(sid: str, user_display_name: str, request_data: dict
         request_data["context"] = context
 
         req = make_cls_with_dict(ChatRequestData, request_data)
-        req.display_name = user_display_name
         agent_chat_with_redis(req)

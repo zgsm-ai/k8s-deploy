@@ -31,11 +31,7 @@ class CodeCompeltionESservice(BaseESService):
         self._doc = DOC
 
     def insert_code_completion(self, data):
-
         try:
-            work_id = get_work_id_by_display_name(data.get("display_name", ''))
-            department = analysis_service.get_user_multilevel_dept(work_id)
-
             isset = es.exists(index=self.index, id=data['response_id'])
             if not isset:
                 obj_dict = {
@@ -51,7 +47,6 @@ class CodeCompeltionESservice(BaseESService):
                     "ide": data.get('ide', ''),
                     "ide_version": data.get('ide_version', ''),
                     "ide_real_version": data.get('ide_real_version', ''),
-                    "department": department,
                     "actual_completions_text": data.get('actual_completions_text', ''),
                     "show_time": data.get('show_time', 0),
                 }

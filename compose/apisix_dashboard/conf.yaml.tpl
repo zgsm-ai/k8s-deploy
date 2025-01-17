@@ -59,9 +59,9 @@ authentication:
   expire_time: 3600     # jwt token expire time, in second
   users:                # yamllint enable rule:comments-indentation
     - username: admin   # username and password for login `manager api`
-      password: admin
+      password: {{PASSWORD_APISIX_DASHBOARD}}
     - username: user
-      password: user
+      password: "iLC~Jhb$IzI1N@iJ#Gci"
 
 oidc:
   enabled: false

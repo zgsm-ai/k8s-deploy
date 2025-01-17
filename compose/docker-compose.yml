@@ -122,7 +122,7 @@ services:
       - shenma
 
   kaptcha:
-    image: kaptcha-plugin:v0.6.0
+    image: kaptcha-generator:v0.6.0
     restart: always
     environment:
       TZ: "Asia/Shanghai"
@@ -141,6 +141,7 @@ services:
     ports:
       - "5000:5000/tcp"
       - "8765:8765/tcp"
+      - "5555:5555/tcp"
     environment:
       - TZ=Asia/Shanghai
       - CACHE_DB=chatgpt
@@ -189,7 +190,7 @@ services:
       - REDIS_DB=0
       - REDIS_PWD=""
       - MAIN_MODEL_TYPE=openai
-      - OPENAI_MODEL_HOST=http://172.16.254.5:32080/v1/completions
+      - OPENAI_MODEL_HOST=http://172.16.254.5:32081/v1/completions
       - OPENAI_MODEL=DeepSeek-Coder-V2-Lite-Base
     depends_on:
       - redis
@@ -231,6 +232,7 @@ services:
       - xpack.security.enabled=false  # 禁用安全功能
       - xpack.security.http.ssl.enabled=false  # 禁用 HTTPS
       - xpack.ml.enabled=false
+      - ELASTIC_PASSWORD=4c6y4g6Z09T2w33pYRNKE3LG
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     user: "1000:1000"
     ulimits:
@@ -242,6 +244,20 @@ services:
       - "9300:9300"
     volumes:
       - ./es/data:/usr/share/elasticsearch/data
+    networks:
+      - shenma
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.9.0
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://172.16.0.4:9200  # 指向 Elasticsearch
+      - ELASTICSEARCH_USERNAME=elastic  # Elasticsearch 用户名
+      - ELASTICSEARCH_PASSWORD=4c6y4g6Z09T2w33pYRNKE3LG  # Elasticsearch 密码
+    ports:
+      - "5601:5601"  # Kibana 端口
+    depends_on:
+      - es
     networks:
       - shenma
 

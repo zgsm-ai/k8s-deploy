@@ -50,7 +50,7 @@ class CompletionService(BaseService):
             {'label': 'system_prompt', 'type': list, 'optional': True, 'name': '系统预设'},
             {'label': 'prompt', 'type': str, 'name': 'prompt'},
             {'label': 'stream', 'type': bool, 'optional': True, 'name': '是否流式响应'},
-            {'label': 'conversation_id', 'type': str, 'optional': True, 'name': '上下文id'},
+            {'label': 'conversation_id', 'type': str, 'optional': True, 'name': '对话流id'},
             {'label': 'context_association', 'type': bool, 'optional': True, 'name': '是否开启上下文'},
             {'label': 'max_tokens', 'type': int, 'optional': True},
             {'label': 'response_format', 'type': str, 'optional': True},
@@ -67,7 +67,7 @@ class UserGiveFeedbacks(BaseService):
             {'label': 'action', 'type': str, 'optional': True, 'name': 'action'},
             {'label': 'agent_name', 'type': str, 'optional': False, 'name': 'agent_name'},
             {'label': 'message_id', 'type': str, 'optional': True, 'name': '消息id'},
-            {'label': 'conversation_id', 'type': str, 'optional': False, 'name': 'ed平台id'},
+            {'label': 'conversation_id', 'type': str, 'optional': False, 'name': '对话流id'},
             {'label': 'rating', 'type': str, 'optional': True, 'name': '用户反馈'}
         ]
         return cls._validate(fields, rules)

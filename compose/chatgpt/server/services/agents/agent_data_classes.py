@@ -35,6 +35,10 @@ class ChatRequestData:
     # 用户所在的主机
     host: str = ""
     # 用户名
+    username: str = ""
+    # 用户邮箱
+    email: str = ""
+    # 用户显示名称
     display_name: str = ""
     # 请求创建时间
     created_at: str = ""

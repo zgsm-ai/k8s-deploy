@@ -132,7 +132,7 @@ class PermissionChecker:
         def has_permission(*args, **kwargs):
             user_agent = request.headers.get('user-agent')
             ide_version = request.headers.get('ide-version')
-            ide_type = request.headers.get('Ide')
+            ide_type = request.headers.get('ide')
             limit_version = get_editor_limit_version(ide_type)
             # --智能问答(智能问答, 解释代码)
             # 提醒升级场景 插件版本低于configuration的vscode_version,jbt_version

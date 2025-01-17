@@ -49,6 +49,24 @@ class UsersService(BaseService):
             'avatar_color': avatar_color
         }
         return cls.get_or_create_v2(**search_kw, defaults=defaults)
+    
+    @classmethod
+    def create_zgsm_user(cls, username, display_name, host_ip, token):
+        """
+        创建诸葛神码的用户
+        """
+        avatar_color = generate_random_avatar_color()
+        search_kw = {
+            'username': username
+        }
+        defaults = {
+            **search_kw,
+            'avatar_color': avatar_color,
+            'display_name': display_name,
+            "description": host_ip,
+            'api_key': token
+        }
+        return cls.get_or_create_v2(**search_kw, defaults=defaults)
 
     @classmethod
     def create_eolinker_user(cls, username, display_name):

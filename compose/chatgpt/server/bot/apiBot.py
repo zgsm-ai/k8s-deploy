@@ -370,36 +370,13 @@ class Chatbot:
                 logging.info(f"close completion generator, prompt_tokens={prompt_tokens}")
                 completion.close()
         if full_response:
-            # Add to chat history
             logging.info(f"full_response， prompt_tokens={prompt_tokens}")
-            # data = {**request_data}
-            # data['response'] = full_response
-            # data['id'] = request_data.get('conversation_id', '')
-            # prompt_es_service.insert(data)
             usage = {}
             # 本地计算和返回的prompt_tokens有点差别，这里记录本地计算的prompt_tokens与日志打印的同步
             usage["prompt_tokens"] = prompt_tokens
             usage["completion_tokens"] = completion_tokens
             usage["total_tokens"] = prompt_tokens + completion_tokens
             prompt_es_service.insert_prompt(request_data, response_content=full_response, usage=usage)
-            # 保存提问信息和返回信息到es
-            # usage = {"prompt_tokens": prompt_tokens,
-            #          "completion_tokens": completion_tokens,
-            #          "total_tokens": prompt_tokens + completion_tokens}
-            # if request_data.get('review_type'):
-            #     # review完成处理
-            #     request_data['response_text'] = full_response
-            #     request_data['prompt_tokens'] = usage.get('prompt_tokens', '')
-            #     request_data['total_tokens'] = usage.get('total_tokens', '')
-            #     ReviewService.review_done_handler(data=request_data)
-            #     # 返回+额外信息
-            #     yield f'{AIReviewConstant.STREAM_SEPARATOR}{request_data.get("code_task_id")}'
-            # else:
-            #     # web2.0 GENERATE_CODE_BY_FORM 接口 记录prompt到ES
-            #     if request_data.get('action') == ActionsConstant.GENERATE_CODE_BY_FORM:
-            #         request_data['prompt'] = user_request
-            #     # 流式
-            #     prompt_es_service.insert_prompt(request_data, full_response, usage)
         else:
             logging.warning(f"full_response is empty, skip add history， prompt_tokens={prompt_tokens}")
 

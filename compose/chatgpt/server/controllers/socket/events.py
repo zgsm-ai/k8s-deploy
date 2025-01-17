@@ -4,6 +4,7 @@ import asyncio
 import socketio
 import time
 import json
+import jwt
 
 from common.helpers.application_context import ApplicationContext
 from services.agents.dify_chat_async import DifyMessageQueueHelper as dify_queue_helper
@@ -14,10 +15,38 @@ logger = logging.getLogger(LoggerNameContant.SOCKET_SERVER)
 
 socket_pool = {}
 
+def get_username_by_token(token: str): 
+    decoded = jwt.decode(token, options={"verify_signature": False})
+    return decoded.get("preferred_username")
 
 def get_current_user(auth):
     from services.system.users_service import UsersService
-    user = UsersService.create_test_user()
+    # vscode-zgsm-v1.1.9之前版本只有'api-key'，没有username和display_name
+    # vscode-zgsm-v1.1.10版本连'api-key'都没有
+    user = None
+    token = auth.get("token") if auth.get("token") else auth.get("api-key")
+    if token:
+        user = UsersService.get_user_by_api_key(token)
+        if user:
+            return user
+    # 第一次使用，数据库还找不到记录
+    username = auth.get("username")
+    if not username:
+        if token:
+            #  已经通过用户系统的认证，获得了token
+            username = get_username_by_token(token)
+        else:
+            #  没token，也没username，创建一个test用户顶着用，当是匿名登录
+            user = UsersService.create_test_user()
+            ApplicationContext.update_session_user(user)
+            return user
+    display_name = auth.get("display_name", "")
+    host_ip = auth.get("host_ip", "")
+    user = UsersService.create_zgsm_user(username, display_name, host_ip, token)
+    if not user:
+        raise NoLoginError()
+    ApplicationContext.update_session_user(user)
+    # 兼容旧版
     # api_key = auth.get("api-key")
     # if api_key:
     #     user = UsersService.get_user_by_api_key(api_key)
@@ -57,7 +86,7 @@ class ChatNamespace(socketio.AsyncNamespace):
             # 拒绝连接
             logger.error('当前用户不存在，拒绝连接')
             return False
-        logger.info(f"Client connected({sid}): {current_user}")
+        logger.info(f"Client connected({sid}): {current_user.__dict__}")
         safe_environ = {k: v for k, v in environ.items() if isinstance(v, (str, int, float))}
         logger.info(f"env: {safe_environ or '{}'}")
         logger.info(f"auth: {auth or '{}'}")
@@ -105,11 +134,11 @@ class ChatNamespace(socketio.AsyncNamespace):
         request_data["ide"] = socket_pool.get(sid, {}).get("auth", {}).get('ide', '')
         request_data["ide_version"] = socket_pool.get(sid, {}).get("auth", {}).get('ide-version', '')
         request_data["ide_real_version"] = socket_pool.get(sid, {}).get("auth", {}).get('ide-real-version', '')
-        request_data["username"] = current_user.display_name
+        request_data["username"] = current_user.username
+        request_data["display_name"] = current_user.display_name
         request_data["chat_id"] = chat_id
         execute_dify_chat_async.delay(
             sid=sid,
-            user_display_name=current_user.display_name,
             request_data=request_data
         )
 

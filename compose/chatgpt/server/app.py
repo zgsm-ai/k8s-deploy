@@ -170,7 +170,7 @@ def create_app():
         response.headers['Access-Control-Allow-Methods'] = 'POST, GET, PATCH, DELETE, PUT'
         response.headers['Access-Control-Max-Age'] = '3600'
         response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept,' \
-                                                           'Api-Key, ide, ide-version, ide-real-version, User-Agent, ' \
+                                                           'Api-Key, ide, ide-version, ide-real-version, host-ip, User-Agent, ' \
                                                            'Model, Authorization, Cookie'
         response.headers['Access-Control-Expose-Headers'] = 'resp_id, mock_stream'
         return response

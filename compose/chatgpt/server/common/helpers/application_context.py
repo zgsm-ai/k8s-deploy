@@ -15,16 +15,34 @@ logger = logging.getLogger(__name__)
 
 
 class ApplicationContext:
-
+    """
+    上下文,用在RESTAPI中,用于管理与服务交互的用户信息
+    """
     @classmethod
     def get_session(cls):
         return session
 
+    # @classmethod
+    # def get_current(cls, raise_not_found_exception=True):
+    #     from services.system.users_service import UsersService
+    #     user = UsersService.create_test_user()
+    #     return user
     @classmethod
     def get_current(cls, raise_not_found_exception=True):
+        user = cls._get_for_api_key()
+        if user:
+            return user
         from services.system.users_service import UsersService
-        user = UsersService.create_test_user()
-        return user
+        username = cls.get_current_username()
+        if not username:
+            username = cls.get_username_by_authorization()
+        current_user = UsersService().get_by_username(username)
+        if not current_user and raise_not_found_exception:
+            # 放头部会出现循环导入 导致异常
+            from common.exception.exceptions import NoLoginError
+            raise NoLoginError()
+        else:
+            return current_user
 
     @classmethod
     def _get_for_api_key(cls):

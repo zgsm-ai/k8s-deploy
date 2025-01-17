@@ -34,6 +34,7 @@ def register_controller(app=None):
     from controllers.llm.llm import llm
     from controllers.llm.model import model
     from controllers.ai_e2e.ai_e2e_case_task_controller import e2e_case_task
+    from controllers.feedback.action_controller import feedbacks
 
     app.register_blueprint(e2e_case_task, url_prefix='/api/e2e_case_task')
     app.register_blueprint(sessions, url_prefix='/api/sessions')
@@ -52,6 +53,7 @@ def register_controller(app=None):
     app.register_blueprint(ut_case, url_prefix="/api/ut")
     app.register_blueprint(code_navigation, url_prefix="/api/code_navigation")
     app.register_blueprint(api_test, url_prefix="/api/api_test")
+    app.register_blueprint(feedbacks, url_prefix="/api/feedbacks")
 
     @app.before_request
     def check_request():

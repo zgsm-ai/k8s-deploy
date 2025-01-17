@@ -67,7 +67,7 @@ services:
       TZ: "Asia/Shanghai"
       POSTGRES_DB: "keycloak"
       POSTGRES_USER: "keycloak"
-      POSTGRES_PASSWORD: "password"
+      POSTGRES_PASSWORD: "{{PASSWORD_POSTGRES}}"
     volumes:
       - ./postgres/data:/var/lib/postgresql/data
     ports:
@@ -85,7 +85,7 @@ services:
       DB_PORT: "{{PORT_POSTGRES}}"
       DB_VENDOR: "postgres"
       KEYCLOAK_ADMIN: "admin"
-      KEYCLOAK_ADMIN_PASSWORD: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "{{PASSWORD_KEYCLOAK}}"
     ports:
       - "{{PORT_KEYCLOAK}}:8080/tcp"
     volumes:
@@ -122,7 +122,7 @@ services:
       - shenma
 
   kaptcha:
-    image: kaptcha-plugin:v0.6.0
+    image: kaptcha-generator:v0.6.0
     restart: always
     environment:
       TZ: "Asia/Shanghai"
@@ -141,6 +141,7 @@ services:
     ports:
       - "{{PORT_CHATGPT_API}}:5000/tcp"
       - "{{PORT_CHATGPT_WS}}:8765/tcp"
+      - "5555:5555/tcp"
     environment:
       - TZ=Asia/Shanghai
       - CACHE_DB=chatgpt
@@ -149,9 +150,9 @@ services:
       - SERVE_CONNECTION_LIMIT=512
       - PG_URL={{ZGSM_BACKEND}}:{{PORT_POSTGRES}}
       - DB_NAME=chatgpt
-      - DATABASE_URI=postgresext+pool://keycloak:password@{{ZGSM_BACKEND}}/chatgpt
+      - DATABASE_URI=postgresext+pool://keycloak:{{PASSWORD_POSTGRES}}@{{ZGSM_BACKEND}}/chatgpt
       - ES_SERVER=http://{{ZGSM_BACKEND}}:{{PORT_ES}}
-      - ES_PASSWORD=4c6y4g6Z09T2w33pYRNKE3LG
+      - ES_PASSWORD={{PASSWORD_ELASTIC}}
       - DEVOPS_URL=
       - GEVENT_SUPPORT=True
       - NO_COLOR=1
@@ -187,7 +188,7 @@ services:
       - REDIS_HOST={{ZGSM_BACKEND}}
       - REDIS_PORT={{PORT_REDIS}}
       - REDIS_DB=0
-      - REDIS_PWD=""
+      - REDIS_PWD="{{PASSWORD_REDIS}}"
       - MAIN_MODEL_TYPE=openai
       - OPENAI_MODEL_HOST={{OPENAI_MODEL_HOST}}
       - OPENAI_MODEL={{OPENAI_MODEL}}
@@ -231,6 +232,7 @@ services:
       - xpack.security.enabled=false  # 禁用安全功能
       - xpack.security.http.ssl.enabled=false  # 禁用 HTTPS
       - xpack.ml.enabled=false
+      - "ELASTIC_PASSWORD={{PASSWORD_ELASTIC}}"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     user: "1000:1000"
     ulimits:
@@ -242,6 +244,20 @@ services:
       - "9300:9300"
     volumes:
       - ./es/data:/usr/share/elasticsearch/data
+    networks:
+      - shenma
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.9.0
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://{{ZGSM_BACKEND}}:{{PORT_ES}}  # 指向 Elasticsearch
+      - ELASTICSEARCH_USERNAME=elastic  # Elasticsearch 用户名
+      - ELASTICSEARCH_PASSWORD={{PASSWORD_ELASTIC}}  # Elasticsearch 密码
+    ports:
+      - "5601:5601"  # Kibana 端口
+    depends_on:
+      - es
     networks:
       - shenma
 

@@ -66,8 +66,7 @@ class BaseESService:
             if obj_dict.get('id'):
                 es.index(index=self.index, id=obj_dict['id'], refresh=True, body=obj_dict, doc_type=self._doc)
             else:
-                es.index(
-                    index=self.index, refresh=True, body=obj_dict, doc_type=self._doc)
+                es.index(index=self.index, refresh=True, body=obj_dict, doc_type=self._doc)
         except Exception as err:
             self.logger.error(f"添加es:{self.index}索引出现异常:{str(err)},obj:{obj_dict}")
             raise EsIndexError()

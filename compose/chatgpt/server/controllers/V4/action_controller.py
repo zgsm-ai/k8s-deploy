@@ -65,11 +65,11 @@ def chat_agent():
     conv_id = fields.pop("conversation_id")
     action = fields.pop('action')
     code = fields.pop("code", "")
-    username = ApplicationContext.get_current()
-    if username:
-        fields["user"] = username.display_name
-        request_data = get_request_ide_data(request_data, username)
-    logging.info(f"接收到chat_agent，action: {action}, conv_id: {conv_id}, username: {fields.get('user')}")
+    user = ApplicationContext.get_current()
+    if user:
+        fields["user"] = user.display_name
+        request_data = get_request_ide_data(request_data, user)
+    logging.info(f"接收到chat_agent，action: {action}, conv_id: {conv_id}, user: {fields.get('user')}")
     chat_agent = DifyChatBot(conv_id)
     result = chat_agent.dispatch_execution_agent(code, action, request_data, **fields)
     return Response(result, mimetype='text/event-stream', headers={
@@ -108,9 +108,9 @@ def give_like(fields):
     """
     es_id = fields.pop("conversation_id")
     name = fields.pop("agent_name")
-    username = ApplicationContext.get_current()
-    if username:
-        fields["user"] = username.display_name
+    user = ApplicationContext.get_current()
+    if user:
+        fields["user"] = user.display_name
 
     action = fields.pop("action", "chat")
     if action == ActionsConstant.E2E_CASE_GEN:

@@ -27,7 +27,6 @@ def get_beta_keys():
     # 例如：gpt-4,custom-prompt
     return beta_keys.split(",")
 
-
 def get_request_data(data, user):
     data['path'] = request.path
     data['user_agent'] = request.headers.get("User-Agent")
@@ -131,9 +130,11 @@ def get_request_ide_data(data, user) -> dict:
     """
     data['user_agent'] = request.headers.get("User-Agent")
     data['host'] = request.headers.get("Host")
+    data['host_ip'] = request.headers.get("host-ip", "")
     data['ide'] = request.headers.get('ide', '')
     data['ide_version'] = request.headers.get('ide-version', '')
     data['ide_real_version'] = request.headers.get('ide-real-version', '')
     data["path"] = request.url or "/chat_agent"
-    data['username'] = user.display_name
+    data['username'] = user.username
+    data['display_name'] = user.display_name
     return data

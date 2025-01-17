@@ -57,6 +57,9 @@ spec:
           mountPath: /var/log/supervisor
         - name: server-volume
           mountPath: /server
+        - name: config-volume
+          mountPath: /server/config/local.yml
+          subPath: local.yml
       volumes:
       - name: logs-volume
         persistentVolumeClaim:
@@ -67,6 +70,9 @@ spec:
       - name: server-volume
         persistentVolumeClaim:
           claimName: chatgpt-server
+      - name: config-volume
+        configMap:
+          name: chatgpt-config
 ---
 apiVersion: v1
 kind: Service
@@ -119,5 +125,18 @@ spec:
   resources:
     requests:
       storage: 1Gi
-
-
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chatgpt-config
+  namespace: shenma
+data:
+  local.yml: |
+    app:
+      PEDESTAL_SERVER:
+        server_url: "https://api.deepseek.com"
+        api_key: "sk-e0d345b888b6445faef8c583b454141d"
+    celery:
+      broker_url: "redis://redis:6379/0"
+      result_backend: "redis://redis:6379/1"

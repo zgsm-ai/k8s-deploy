@@ -23,7 +23,7 @@ def agent_chat(req: ChatRequestData, send_json_func, send_msg_func):
         if req.prompt:
             with IOStream.set_default(iostream):
                 chatbot = AgentChatBot(req.conversation_id, req.chat_id)
-                chatbot.chat_stream(req, req.context, user=req.display_name)
+                chatbot.chat_stream(req, req.context, username=req.username)
     except Exception:
         # 将详细信息打印出来
         traceback.print_exc()

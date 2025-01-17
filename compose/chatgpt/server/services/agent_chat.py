@@ -26,7 +26,7 @@ class AgentChatBot:
         # 对话历史管理器
         self.history = history if history else get_history()
 
-    def chat_stream(self, req: ChatRequestData, context: str, user=None):
+    def chat_stream(self, req: ChatRequestData, context: str, username=None):
         """
         流式对话，单角色对话
         """
@@ -35,10 +35,10 @@ class AgentChatBot:
         # # 增加conversation id用于过程中上下文的获取
         # context["conversation_id"] = self.conv_id
         # context["chat_id"] = self.chat_id
-        self._chat_normal(req, context, user=user)
+        self._chat_normal(req, context, username=username)
         self.history.save_conversation(self.conv_id)
 
-    def _get_advise(self, req: ChatRequestData, context: dict, user=None):
+    def _get_advise(self, req: ChatRequestData, context: dict, username=None):
         """
         获取LLM建议的下一步操作列表，该操作是针对本轮对话的后续常见操作
         """
@@ -46,7 +46,8 @@ class AgentChatBot:
         data = {
             # "context": json.dumps(context),
             "context": context,
-            "display_name": user,
+            "username": username,
+            "display_name": username,
             "conversation_id": self.conv_id,
             "chat_id": self.chat_id,
             "language": req.language,
@@ -69,14 +70,14 @@ class AgentChatBot:
         except json.decoder.JSONDecodeError:
             iostream.print_agent_advise([{"title": "继续", "prompt": "继续"}])
 
-    def _chat_normal(self, req: ChatRequestData, context: dict, user=None):
+    def _chat_normal(self, req: ChatRequestData, context: dict, username=None):
         """
         普通对话，无代码上下文
 
         Args:
             query (str): 用户输入的查询。
             context (dict): 用户的上下文信息。
-            user (optional): 当前用户信息。
+            username (optional): 当前用户信息。
 
         Returns:
             None
@@ -86,7 +87,8 @@ class AgentChatBot:
         data = {
             # "context": json.dumps(context),
             "context": context,
-            "display_name": user,
+            "username": username,
+            "display_name": username,
             "conversation_id": self.conv_id,
             "chat_id": self.chat_id,
             "language": req.language,
@@ -113,7 +115,7 @@ class AgentChatBot:
                     sender="诸葛神码",
                     sender_icon=None
                 )
-        self._get_advise(req, context, user)
+        self._get_advise(req, context, username)
         # 为保障后续的一问一答的正常运行，在这里构造历史完整会话流
         self.history.add_user_message(req.prompt)
         self.history.add_ai_message(full_data)

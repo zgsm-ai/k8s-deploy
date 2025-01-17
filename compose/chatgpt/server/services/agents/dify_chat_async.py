@@ -48,21 +48,21 @@ class DifyMessageQueueHelper:
         return cache.deserialize(data)
 
     @classmethod
-    def _make_queue_key(cls, conv_id):
-        return f"{DifyAgentConstant.DIFY_CHAT_CELERY_QUEUE}:{conv_id}"
+    def _make_queue_key(cls, mq_id):
+        return f"{DifyAgentConstant.DIFY_CHAT_CELERY_QUEUE}:{mq_id}"
 
     @classmethod
-    def push_json_data(cls, conv_id, json_data, cursor: CursorObj = None):
+    def push_json_data(cls, mq_id, json_data, cursor: CursorObj = None):
         if cursor:
             cursor.offset += 1
             json_data["offset"] = cursor.offset
-        cls._push_data(cls._make_queue_key(conv_id), f"json:{json.dumps(json_data)}")
+        cls._push_data(cls._make_queue_key(mq_id), f"json:{json.dumps(json_data)}")
 
     @classmethod
-    def push_msg(cls, conv_id, msg, cursor: CursorObj = None):
+    def push_msg(cls, mq_id, msg, cursor: CursorObj = None):
         if cursor:
             cursor.offset += 1
-        cls._push_data(cls._make_queue_key(conv_id), f"msg:{msg}")
+        cls._push_data(cls._make_queue_key(mq_id), f"msg:{msg}")
 
     @classmethod
     def handle_data(cls, data):
@@ -78,13 +78,13 @@ class DifyMessageQueueHelper:
             return msg
 
     @classmethod
-    def pop_data(cls, conv_id):
-        data = cls._pop_data(cls._make_queue_key(conv_id))
+    def pop_data(cls, mq_id):
+        data = cls._pop_data(cls._make_queue_key(mq_id))
         return cls.handle_data(data)
 
     @classmethod
-    def get_data_by_offset(cls, conv_id, offset):
-        data = cache.connection.lindex(cls._make_queue_key(conv_id), offset)
+    def get_data_by_offset(cls, mq_id, offset):
+        data = cache.connection.lindex(cls._make_queue_key(mq_id), offset)
         if data:
             return cls.handle_data(cache.deserialize(data))
         else:
@@ -95,8 +95,8 @@ class DifySpecifiedContextHelper(DifyMessageQueueHelper):
     """这个类服务于过程中上下文的获取，业务逻辑的不同，需要复用队列的一些方法"""
 
     @classmethod
-    def _make_queue_key(cls, conv_id):
-        redis_key = ContextNavigationConstant.get_local_context_redis_key.format(uuid=conv_id)
+    def _make_queue_key(cls, mq_id):
+        redis_key = ContextNavigationConstant.get_local_context_redis_key.format(uuid=mq_id)
         return redis_key
 
     @classmethod
@@ -119,8 +119,8 @@ class DifySpecifiedContextHelper(DifyMessageQueueHelper):
             return data
 
     @classmethod
-    def blpop_data(cls, conv_id):
-        data = cls._blpop_data(cls._make_queue_key(conv_id))
+    def blpop_data(cls, mq_id):
+        data = cls._blpop_data(cls._make_queue_key(mq_id))
         if not data:
             return dict()
         json_data = json.loads(data[5:])
@@ -153,11 +153,11 @@ def agent_chat_with_redis(data: ChatRequestData):
             es_process_data(request_data)
 
     def send_json_func(json_data):
-        # record_send_data(json_data)
+        record_send_data(json_data)
         DifyMessageQueueHelper.push_json_data(chat_id, json_data, cursor)
 
     def send_msg_func(msg):
-        # record_send_msg(msg)
+        record_send_msg(msg)
         DifyMessageQueueHelper.push_msg(chat_id, msg, cursor)
 
     agent_chat(data, send_json_func, send_msg_func)

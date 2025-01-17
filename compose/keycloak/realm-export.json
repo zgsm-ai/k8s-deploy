@@ -1,6 +1,6 @@
 {
   "id": "6792aaf6-cba2-4e57-92b5-e01d53d93c89",
-  "realm": "vscode",
+  "realm": "gw",
   "displayName": "诸葛神码",
   "displayNameHtml": "诸葛神码",
   "notBefore": 0,
@@ -47,7 +47,7 @@
   "failureFactor": 30,
   "defaultRole": {
     "id": "5b44170a-60b4-4048-a623-360620dd1a7c",
-    "name": "default-roles-vscode",
+    "name": "default-roles-gw",
     "description": "${role_default-roles}",
     "composite": true,
     "clientRole": false,
@@ -116,13 +116,13 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/vscode/account/",
+      "baseUrl": "/realms/gw/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/vscode/account/*"
+        "/realms/gw/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -160,13 +160,13 @@
       "clientId": "account-console",
       "name": "${client_account-console}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/vscode/account/",
+      "baseUrl": "/realms/gw/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/vscode/account/*"
+        "/realms/gw/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -396,13 +396,13 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/vscode/console/",
+      "baseUrl": "/admin/gw/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/admin/vscode/console/*"
+        "/admin/gw/console/*"
       ],
       "webOrigins": [
         "+"

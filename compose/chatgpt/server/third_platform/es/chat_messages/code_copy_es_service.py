@@ -36,10 +36,7 @@ class CodeCopyESservice(BaseESService):
         return md5_hash.hexdigest()
 
     def insert_code_completion(self, data):
-
         try:
-            work_id = get_work_id_by_display_name(data.get("display_name", ''))
-            department = analysis_service.get_user_multilevel_dept(work_id)
             # 同一个用户的 同一段代码 同一个动作
             action = data.get('action', '')
             code_md5 = self.calculate_md5(data['display_name'] + data['code_copy'] + action)
@@ -56,7 +53,6 @@ class CodeCopyESservice(BaseESService):
                     "ide": data.get('ide', ''),
                     "ide_version": data.get('ide_version', ''),
                     "ide_real_version": data.get('ide_real_version', ''),
-                    "department": department,
                     "action": action,
                     "is_select": data.get('is_select', False)
                 }

@@ -8,6 +8,7 @@ from common.handlers.prompt_field_handler import prompt_field_handler
 from common.utils.util import get_work_id_by_display_name, code_get_line_and_language, get_second_dept
 from third_platform.es.base_es import es, IDE_DATA_INDEX, DOC, BaseESService
 from third_platform.services.analysis_service import analysis_service
+from common.constant import UserBehaviorAction, ActionsConstant
 
 
 class PlugInESService(BaseESService):
@@ -28,21 +29,18 @@ class PlugInESService(BaseESService):
         """
         try:
             es_id = data.get("conversation_id", "")
-            work_id = get_work_id_by_display_name(data.get("username", ''))
-            department = analysis_service.get_user_multilevel_dept(work_id)
+            # 计算大模型生成代码的总行数
             data["code_total_lines"], code_languages = code_get_line_and_language(data.get("response_content", ""))
             # 区分于快捷指令和智能问答
             if data.get("request_mode", "http") == "websocket":
                 data["language"] = code_languages
             if es.exists(index=self.index, id=es_id):
-                # 会话id存在,走更新追加
-                self.insert_update_es_data(es_id, update_data=data)
+                # 会话id存在,走数据合并
+                self.merge_data(es_id, update_data=data)
             else:
                 # 不存在,走插入的逻辑
                 obj_dict = {
                     "username": data.get("username", ''),
-                    "department": department,
-                    "second_dept": get_second_dept(department) if department else "未存部门",
                     "id": es_id,
                     "model": data.get("agent_name", "").split("|")[-1] or "",
                     "action": data.get("action", ""),
@@ -118,7 +116,7 @@ class PlugInESService(BaseESService):
         else:
             return False
 
-    def insert_update_es_data(self, es_id: str, update_data: dict):
+    def merge_data(self, es_id: str, update_data: dict):
         """
         插入数据时，当前会话id已经存在，走更新追加的逻辑
         es_id:id,唯一id
@@ -144,6 +142,46 @@ class PlugInESService(BaseESService):
                 self.logger.info(f"es_id:{es_id}更新成功!")
             else:
                 self.logger.error("更新数据失败!")
+        except Exception as err:
+            self.logger.error(f"es更新ide_data数据失败，失败日志： {str(err)}")
+
+    def user_evaluate(self, name: str, es_id: str, **fields):
+        """
+        用户点赞处理，同时更新es平台和dify平台
+        message_id:dify平台消息id
+        action:每个agent对应的事件
+        es_id:es平台对应的id
+        """
+        status = 200
+        # 更新es平台的字段
+        es_result = self.update_es_feedbacks(es_id, 'feedbacks', fields.get('rating', ''))
+        es_updata = self.get_es_data(es_id)
+        # 将用户点赞作为本次会话有效
+        if es_updata and fields.get("rating", "") == "like" and es_updata.get("accept_num", 0) == 0:
+            self.update_es_feedbacks(es_id, 'accept_num', 1)
+        return es_result, status
+
+    def user_behavior(self, es_id: str, accept_num: int, behavior: str) -> dict:
+        """
+        处理用户采纳结果,用户每一次的交互行为都要记录下来
+        注意:一次会话可能有多次请求，多次请求可能包含多次交互
+        es_id:es平台id
+        accept_num:用户采纳行数
+        """
+        try:
+            es_data = self.get_es_data(es_id)
+            if es_data and behavior in UserBehaviorAction.user_behavior:
+                user_behavior = UserBehaviorAction.behavior_keys.get(f"{behavior}")
+                update_data = {
+                    "accept_num": es_data["accept_num"] + accept_num,
+                    f"{user_behavior}": es_data.get(user_behavior, 1) + 1
+                }
+                res = self.update_by_id(es_id, update_data)
+                if res.get("_shards", {}).get("successful") == 1:
+                    return {"es_status": "Successful"}
+                else:
+                    self.logger.error(f"es更新ide_data数据失败，失败日志： {str(res)}")
+                    return {"es_status": "Failed"}
         except Exception as err:
             self.logger.error(f"es更新ide_data数据失败，失败日志： {str(err)}")
 
