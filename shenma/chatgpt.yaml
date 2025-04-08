@@ -93,39 +93,4 @@ spec:
     targetPort: 8765
   selector:
     app: chatgpt
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: chatgpt-logs
-  namespace: shenma
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: chatgpt-supervisor
-  namespace: shenma
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: chatgpt-server
-  namespace: shenma
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
+

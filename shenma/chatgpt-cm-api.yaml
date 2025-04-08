@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chatgpt-config
+  namespace: shenma
+data:
+  custom.yml: |
+    app:
+      PEDESTAL_SERVER:
+        server_url: "https://api.deepseek.com"
+        api_key: "sk-f97d231c3e4a4d7f959e79543c0c99dc" 
+    celery:
+      broker_url: "redis://redis:6379/0"
+      result_backend: "redis://redis:6379/1"
