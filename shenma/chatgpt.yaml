@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
       - name: chatgpt
-        image: docker.sangfor.com/containerd/chatgpt/server:1.5.9
+        image: docker.sangfor.com/containerd/chat-server:1.2.0
         imagePullPolicy: IfNotPresent
-        # command: ["gunicorn", "app:app", "-w", "4", "-b", "0.0.0.0:5000"]
+        command: ["/sbin/entrypoint.sh", "app:start"]
         ports:
         - containerPort: 5000
         - containerPort: 8765
@@ -39,7 +39,7 @@ spec:
         - name: DATABASE_URI
           value: "postgresext+pool://keycloak:password@postgres/chatgpt"
         - name: ES_SERVER
-          value: "http://quickstart-es-http:9200"
+          value: "http://elasticsearch:9200"
         - name: ES_PASSWORD
           value: "4c6y4g6Z09T2w33pYRNKE3LG"
         - name: DEVOPS_URL
@@ -50,66 +50,33 @@ spec:
           value: "1"
         - name: DEPLOYMENT_TYPE
           value: "all"
+        - name: CUSTOM_CONFIG_FILE
+          value: /custom.yml
+        - name: DEFAULT_MODEL_NAME
+          value: deepseek-chat
         volumeMounts:
-        - name: chatgpt-logs
+        - name: logs-volume
           mountPath: /server/logs
-        - name: chatgpt-logs-supervisor
+        - name: supervisor-volume
           mountPath: /var/log/supervisor
-        - name: chatgpt-config
-          mountPath: /server/config/local.yml
-          subPath: local.yml
-        - name: chatgpt-agent-chat-py
-          mountPath: /server/services/agent_chat.py
-          subPath: agent_chat.py
-        - name: chatgpt-analysis-manager-py
-          mountPath: /server/third_platform/devops/analysis_manager.py
-          subPath: analysis_manager.py
-        - name: chatgpt-apibot-py
-          mountPath: /server/bot/apiBot.py
-          subPath: apiBot.py
-        - name: chatgpt-base-es-py
-          mountPath: /server/third_platform/es/base_es.py
-          subPath: base_es.py
-        - name: chatgpt-configuration-service-py
-          mountPath: /server/services/system/configuration_service.py
-          subPath: configuration_service.py
-        - name: chatgpt-events-py
-          mountPath: /server/controllers/socket/events.py
-          subPath: events.py
-        - name: chatgpt-appctx-py
-          mountPath: /server/common/helpers/application_context.py
-          subPath: application_context.py
+        - name: server-volume
+          mountPath: /server
+        - name: config-volume
+          mountPath: /custom.yml
+          subPath: custom.yml
       volumes:
-      - name: chatgpt-logs
+      - name: logs-volume
         persistentVolumeClaim:
           claimName: chatgpt-logs
-      - name: chatgpt-logs-supervisor
+      - name: supervisor-volume
         persistentVolumeClaim:
-          claimName: chatgpt-logs-supervisor
-      - name: chatgpt-config
+          claimName: chatgpt-supervisor
+      - name: server-volume
+        persistentVolumeClaim:
+          claimName: chatgpt-server
+      - name: config-volume
         configMap:
           name: chatgpt-config
-      - name: chatgpt-agent-chat-py
-        configMap:
-          name: chatgpt-agent-chat-py
-      - name: chatgpt-analysis-manager-py
-        configMap:
-          name: chatgpt-analysis-manager-py
-      - name: chatgpt-apibot-py
-        configMap:
-          name: chatgpt-apibot-py
-      - name: chatgpt-base-es-py
-        configMap:
-          name: chatgpt-base-es-py
-      - name: chatgpt-configuration-service-py
-        configMap:
-          name: chatgpt-configuration-service-py
-      - name: chatgpt-events-py
-        configMap:
-          name: chatgpt-events-py
-      - name: chatgpt-appctx-py
-        configMap:
-          name: chatgpt-appctx-py
 ---
 apiVersion: v1
 kind: Service
@@ -117,16 +84,13 @@ metadata:
   name: chatgpt
   namespace: shenma
 spec:
-  type: NodePort
   ports:
   - name: entry
     port: 5000
     targetPort: 5000
-    nodePort: 30500
   - name: other
     port: 8765
     targetPort: 8765
-    nodePort: 30765
   selector:
     app: chatgpt
 ---
@@ -145,7 +109,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: chatgpt-logs-supervisor
+  name: chatgpt-supervisor
   namespace: shenma
 spec:
   accessModes:
@@ -155,17 +119,13 @@ spec:
       storage: 1Gi
 ---
 apiVersion: v1
-kind: ConfigMap
+kind: PersistentVolumeClaim
 metadata:
-  name: chatgpt-config
+  name: chatgpt-server
   namespace: shenma
-data:
-  local.yml: |
-    app:
-      PEDESTAL_SERVER:
-        server_url: "https://api.deepseek.com"
-        api_key: "sk-e0d345b888b6445faef8c583b454141d"
-    celery:
-      broker_url: "redis://redis:6379/0"
-      result_backend: "redis://redis:6379/1"
-
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
