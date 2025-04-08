@@ -1,0 +1,3 @@
+#!/bin/sh
+
+curl http://10.200.0.57:20100/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MzZjYTMzNzQ5NGU0Y2RjYTc2ZDNkOTRjODM1MDU2ZiIsIm1ldGhvZHMiOiJQT1NUIiwiaWF0IjoiMTc0Mjk1MTQwNyIsImV4cCI6IjE3NDI5NTUwMDcifQ.PtkLqXGPfFd01r_N8LG7EOtJhfWKby3H6e5KNuPodBYEqjJd80Xp-Lf9uyrzp8G1AScPZGbEzmNAXJQfyjNEvI4rxwGL-olWfhBtJb5uzc8UdzjvSUEDDZNEPV88BbKJm0an-CPA-4QSesuDzwKN_I6SvgL7SXHXKbsnXKsUKc_qkAM7zcBFGIqZIw1dPcxt3hMqror9eNDC09IjeeSHQMUlJ-sYF7sXf6my0tJXiAblKxxLrHyNvAihkpRxiY93-U29uO3riPzspqLT80YJzJN8iTYEH2B3KAMyo7ybZp59DfQRjn11iFDSoig4dpjeNkix70-UomJmmgtvFdHosg" -d '{"model": "gpt-3.5-turbo", "messages": [{"role": "user", "content": "Say this is a test!"}], "temperature": 0.7 }'
