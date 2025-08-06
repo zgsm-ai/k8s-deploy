@@ -2,16 +2,16 @@
 
 . ./configure.sh
 
-# chatgpt的RESTful API端口
+# chatgpt RESTful API port
 curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT  -d '{
-    "id": "chatgpt",
-    "nodes": {
-      "chatgpt.shenma.svc.cluster.local:5000": 1
-    },
-    "type": "roundrobin"
-  }'
+   "id": "chatgpt",
+   "nodes": {
+     "chatgpt.shenma.svc.cluster.local:5000": 1
+   },
+   "type": "roundrobin"
+ }'
 
-# chatgpt的WebSocket端口
+# chatgpt WebSocket port
 curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT  -d '{
     "id": "websocket",
     "nodes": {
@@ -21,48 +21,24 @@ curl -i http://$APISIX_ADDR/apisix/admin/upstreams -H "$AUTH" -H "$TYPE" -X PUT 
   }'
 
 curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
-    "uris": ["/chat/*", "/answer", "/answer/*"],
-    "id": "chatgpt-qa",
-    "upstream_id": "chatgpt",
-    "plugins": {
-      "limit-req": {
-        "rate": 1,
-        "burst": 1,
-        "rejected_code": 503,
-        "key_type": "var",
-        "key": "remote_addr"
-      },
-      "limit-count": {
-        "count": 10000,
-        "time_window": 86400,
-        "rejected_code": 429,
-        "key": "remote_addr"
-      },
-      "file-logger": {
-        "path": "logs/access.log",
-        "include_req_body": true,
-        "include_resp_body": true
-      }
-    }
-  }'
-
-curl -i  http://$APISIX_ADDR/apisix/admin/routes -H "$AUTH" -H "$TYPE" -X PUT -d '{
     "uris": ["/api/*"],
     "id": "chatgpt-api",
+    "name": "chatgpt-api",
     "upstream_id": "chatgpt",
     "plugins": {
       "limit-req": {
         "rate": 1,
         "burst": 1,
         "rejected_code": 503,
-        "key_type": "var",
-        "key": "remote_addr"
+        "key_type": "var_combination",
+        "key": "$remote_addr $http_x_forwarded_for"
       },
       "limit-count": {
         "count": 10000,
         "time_window": 86400,
         "rejected_code": 429,
-        "key": "remote_addr"
+        "key_type": "var_combination",
+        "key": "$remote_addr $http_x_forwarded_for"
       },
       "file-logger": {
         "path": "logs/access.log",

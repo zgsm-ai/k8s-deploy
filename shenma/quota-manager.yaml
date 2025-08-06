@@ -1,0 +1,113 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: quota-manager-config
+  namespace: shenma
+data:
+  conf.yaml: |
+    database:
+      host: "postgres"
+      port: 5432
+      user: "keycloak"
+      password: "password"
+      dbname: "quota_manager"
+      sslmode: "disable"
+
+    auth_database:
+      host: "postgres"
+      port: 5432
+      user: "keycloak"
+      password: "password"
+      dbname: "auth"
+      sslmode: "disable"
+
+    aigateway:
+      host: "higress-gateway"
+      port: 80
+      admin_path: "/v1/chat/completions/quota"
+      auth_header: "x-admin-key"
+      auth_value: "12345678"
+
+    server:
+      port: 8080
+      mode: "release"
+      token_header: "authorization"
+
+    scheduler:
+      scan_interval: "0 * * * * *" # Scan every hour
+
+    voucher:
+      signing_key: "e8a3b2d1c0f9e7d6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b6c5d4e3f2"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quota-manager
+  namespace: shenma
+  labels:
+    app: quota-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quota-manager
+  template:
+    metadata:
+      labels:
+        app: quota-manager
+    spec:
+      containers:
+      - name: quota-manager
+        image: crpi-j8wrd0nl8l9v42wd.cn-shenzhen.personal.cr.aliyuncs.com/shenma-ai/quota-manager:1.0.0
+        command:
+          - /app/quota-manager
+          - -c
+          - /app/conf/conf.yaml
+        ports:
+        - containerPort: 8080
+          name: http
+        env:
+          - name: TZ
+            value: Asia/Shanghai
+          - name: INDEX_NODE
+            value: "0"
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        resources:
+          requests:
+            cpu: "4"
+            memory: 8Gi
+          limits:
+            cpu: "8"
+            memory: 16Gi
+        volumeMounts:
+        - name: logs
+          mountPath: /app/logs
+        - name: app-conf
+          mountPath: /app/conf
+      volumes:
+        - name: logs
+          emptyDir:
+            sizeLimit: 5Gi
+        - name: app-conf
+          configMap:
+            name: quota-manager-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quota-manager-svc
+  namespace: shenma
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
+  selector:
+    app: quota-manager

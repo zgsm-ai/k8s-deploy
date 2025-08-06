@@ -8,8 +8,8 @@ for file in $FILES; do
   if [[ -f "$file" ]]; then
     for i in {1..10}
     do
-      echo sh completion-faux.sh $file
-      sh completion-faux.sh $file &
+      echo sh completion-faux.sh -f $file
+      sh completion-faux.sh -f $file &
     done
   fi
 done
